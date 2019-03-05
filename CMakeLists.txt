@@ -4,20 +4,43 @@
 # License: MIT License. Contributions welcome.
 
 cmake_minimum_required (VERSION 3.6)
+
 set(PROJ "rcMainBoard")
 project (${PROJ})
 
+set(ARM_NONE_EABI_TOOLCHAIN_PATH "/usr")
 
 # For diagnostic tools like rtags.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-set(CMAKE_C_COMPILER "arm-none-eabi-gcc")
+# configure cmake to use the arm-none-eabi-gcc
+set(CMAKE_C_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc")
+set(CMAKE_CXX_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-c++")
+set(CMAKE_ASM_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc")
 
 
-set(CMAKE_C_FLAGS "-O0 -g -Wall -ffunction-sections -fdata-sections")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSTM32F407xx -mcpu=cortex-m4 -mthumb")
-set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mno-thumb-interwork -mfpu=fpv4-sp-d16 -mfloat-abi=hard")
-set(CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_SOURCE_DIR}/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
+# language standard/version settings
+set(CMAKE_C_STANDARD 99)
+set(CMAKE_CXX_STANDARD 98)
+
+set(CPU_FLAGS "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mno-thumb-interwork ")
+add_definitions(-DSTM32F407xx -DUSE_HAL_DRIVER)
+
+set(COMMON_FLAGS "-O0 -g -Wall -mthumb -ffunction-sections -fdata-sections ${CPU_FLAGS}")
+
+# compiler/assambler/linker flags
+set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
+set(CMAKE_CXX_FLAGS "${COMMON_FLAGS}")
+set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
+
+
+
+
+
+
+
+
+
 
 
 

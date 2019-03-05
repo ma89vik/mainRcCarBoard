@@ -82,6 +82,6 @@ add_custom_target(flash
 # Run OpenOCD as a GDB host.
 add_custom_target(gdbhost
   openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
-  -f target/stm32f0x.cfg -c "init" -c "reset halt"
+  -f target/stm32f4x.cfg -c "init" -c "reset halt"
   DEPENDS ${PROJ}.elf
   COMMENT "Running OpenOCD as a GDB host.")
