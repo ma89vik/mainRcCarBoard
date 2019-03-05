@@ -13,11 +13,13 @@ set(HAL_DIR ${CMAKE_SOURCE_DIR}/board/Drivers/STM32F4xx_HAL_Driver)
 set(RTOS_DIR ${CMAKE_SOURCE_DIR}/board/Middlewares/Third_Party/FreeRTOS/Source)
 
 # Look here for header files.
-include_directories(${CMAKE_SOURCE_DIR}/Inc)
+include_directories(${CMAKE_SOURCE_DIR}/board/Inc)
 include_directories(${CMSIS_DIR}/Include)
 include_directories(${DEVICE_DIR}/Include)
 include_directories(${HAL_DIR}/Inc)
 include_directories(${RTOS_DIR}/include)
+include_directories(${RTOS_DIR}/CMSIS_RTOS)
+include_directories(${RTOS_DIR}/portable/GCC/ARM_CM4F)
 
 
 # The linker flag --gc-section keeps unused object code here from being linked.
@@ -27,22 +29,27 @@ add_executable(${PROJ}.elf
   ${SOURCE_DIR}/stm32f4xx_it.c
   ${SOURCE_DIR}/stm32f4xx_hal_msp.c
   ${SOURCE_DIR}/stm32f4xx_hal_timebase_tim.c
-  ${DEVICE_DIR}/system_stm32f4xx.c
-  ${CMSIS_DIR}/startup_stm32f407xx.s
-  ${HAL_DIR}/Src/stm32f0xx_hal.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_cortex.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_dma.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_flash.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_flash_ex.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_gpio.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_i2c.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_i2c_ex.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_pwr.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_pwr_ex.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_rcc.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_rcc_ex.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_tim.c
-  ${HAL_DIR}/Src/stm32f0xx_hal_tim_ex.c
+  ${DEVICE_DIR}/Source/Templates/system_stm32f4xx.c
+  ${DEVICE_DIR}/Source/Templates/gcc/startup_stm32f407xx.s
+  ${HAL_DIR}/Src/stm32f4xx_hal.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_exti.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_cortex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_dma.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_dma_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_flash.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_flash_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_gpio.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_i2s.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_i2s_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_i2c.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_i2c_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_uart.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_pwr.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_pwr_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_rcc.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_rcc_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_tim.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_tim_ex.c
   ${RTOS_DIR}/croutine.c 
   ${RTOS_DIR}/event_groups.c 
   ${RTOS_DIR}/list.c 

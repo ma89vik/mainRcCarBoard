@@ -17,10 +17,8 @@ set(CMAKE_C_COMPILER "arm-none-eabi-gcc")
 set(CMAKE_C_FLAGS "-O0 -g -Wall -ffunction-sections -fdata-sections")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -DSTM32F407xx -mcpu=cortex-m4 -mthumb")
 set(CMAKE_C_FLAGS "${CMAKE_C_FLAGS} -mno-thumb-interwork -mfpu=fpv4-sp-d16 -mfloat-abi=hard")
-set(CMAKE_EXE_LINKER_FLAGS "-T${CMAKE_SOURCE_DIR}STM32F407VGTx_FLASH.ld -Wl,--gc-section")
+set(CMAKE_EXE_LINKER_FLAGS "-T ${CMAKE_SOURCE_DIR}/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
 
-# Some trickery to get CMake to deal with our assembler code.
-set_property(SOURCE ${DEVICE_DIR}/Source/Templates/gcc/startup_stm32f042x6.s PROPERTY LANGUAGE C)
 
 
 add_subdirectory(board)
