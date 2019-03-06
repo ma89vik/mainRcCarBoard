@@ -29,9 +29,16 @@ add_executable(${PROJ}.elf
   ${SOURCE_DIR}/stm32f4xx_it.c
   ${SOURCE_DIR}/stm32f4xx_hal_msp.c
   ${SOURCE_DIR}/stm32f4xx_hal_timebase_tim.c
+  ${SOURCE_DIR}/gpio.c
+  ${SOURCE_DIR}/crc.c
+  ${SOURCE_DIR}/i2c.c
+  ${SOURCE_DIR}/spi.c
+  ${SOURCE_DIR}/tim.c
+  ${SOURCE_DIR}/usart.c
   ${DEVICE_DIR}/Source/Templates/system_stm32f4xx.c
   ${DEVICE_DIR}/Source/Templates/gcc/startup_stm32f407xx.s
   ${HAL_DIR}/Src/stm32f4xx_hal.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_crc.c
   ${HAL_DIR}/Src/stm32f4xx_hal_exti.c
   ${HAL_DIR}/Src/stm32f4xx_hal_cortex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_dma.c
@@ -39,8 +46,6 @@ add_executable(${PROJ}.elf
   ${HAL_DIR}/Src/stm32f4xx_hal_flash.c
   ${HAL_DIR}/Src/stm32f4xx_hal_flash_ex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_gpio.c
-  ${HAL_DIR}/Src/stm32f4xx_hal_i2s.c
-  ${HAL_DIR}/Src/stm32f4xx_hal_i2s_ex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_i2c.c
   ${HAL_DIR}/Src/stm32f4xx_hal_i2c_ex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_uart.c
@@ -48,6 +53,7 @@ add_executable(${PROJ}.elf
   ${HAL_DIR}/Src/stm32f4xx_hal_pwr_ex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_rcc.c
   ${HAL_DIR}/Src/stm32f4xx_hal_rcc_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_spi.c
   ${HAL_DIR}/Src/stm32f4xx_hal_tim.c
   ${HAL_DIR}/Src/stm32f4xx_hal_tim_ex.c
   ${RTOS_DIR}/croutine.c 
