@@ -33,15 +33,47 @@ set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS}")
 set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
 
-
-
-
-
-
-
-
-
-
-
-
+add_subdirectory(app)
 add_subdirectory(board)
+
+
+list(APPEND SOURCE_FILES
+    ${BOARD_SOURCE_FILES}
+    ${APP_SOURCE_FILES}
+)
+
+list(APPEND INC_FILES
+    ${BOARD_INC_FILES}
+    ${APP_INC_FILES}
+)
+
+
+include_directories(${INC_FILES})
+
+ # Some trickery to get CMake to deal with our assembler code.
+set_property(SOURCE ${CMAKE_SOURCE_DIR}/board/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.s PROPERTY LANGUAGE C)
+
+add_executable(${PROJ}.elf ${SOURCE_FILES})
+
+
+
+# Generate assembly listing.
+add_custom_command(
+  TARGET ${PROJ}.elf
+  COMMAND "arm-none-eabi-objdump"
+  ARGS "-S" "${PROJ}.elf" ">>" "${PROJ}.lst")
+
+# Flash firmware to target.
+add_custom_target(flash
+  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
+  -f target/stm32f4x.cfg -c "init" -c "reset halt"
+  -c "flash write_image erase ${PROJ}.elf" -c "reset run" -c "shutdown"
+  DEPENDS ${PROJ}.elf
+  COMMENT "Flashing target hardware")
+
+# Run OpenOCD as a GDB host.
+add_custom_target(gdbhost
+  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
+  -f target/stm32f4x.cfg -c "init" -c "reset halt"
+  DEPENDS ${PROJ}.elf
+  COMMENT "Running OpenOCD as a GDB host.")

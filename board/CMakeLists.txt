@@ -13,17 +13,20 @@ set(HAL_DIR ${CMAKE_SOURCE_DIR}/board/Drivers/STM32F4xx_HAL_Driver)
 set(RTOS_DIR ${CMAKE_SOURCE_DIR}/board/Middlewares/Third_Party/FreeRTOS/Source)
 
 # Look here for header files.
-include_directories(${CMAKE_SOURCE_DIR}/board/Inc)
-include_directories(${CMSIS_DIR}/Include)
-include_directories(${DEVICE_DIR}/Include)
-include_directories(${HAL_DIR}/Inc)
-include_directories(${RTOS_DIR}/include)
-include_directories(${RTOS_DIR}/CMSIS_RTOS)
-include_directories(${RTOS_DIR}/portable/GCC/ARM_CM4F)
+
+list(APPEND BOARD_INC_FILES
+  ${CMAKE_SOURCE_DIR}/board/Inc
+  ${CMSIS_DIR}/Include
+  ${DEVICE_DIR}/Include
+  ${HAL_DIR}/Inc
+  ${RTOS_DIR}/include
+  ${RTOS_DIR}/CMSIS_RTOS
+  ${RTOS_DIR}/portable/GCC/ARM_CM4F
+  ${CMAKE_SOURCE_DIR}/app/include
+)
 
 
-# The linker flag --gc-section keeps unused object code here from being linked.
-add_executable(${PROJ}.elf
+list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/main.c
   ${SOURCE_DIR}/freertos.c
   ${SOURCE_DIR}/stm32f4xx_it.c
@@ -67,27 +70,9 @@ add_executable(${PROJ}.elf
   ${RTOS_DIR}/portable/MemMang/heap_4.c 
   ${RTOS_DIR}/portable/GCC/ARM_CM4F/port.c  
   )
+set(BOARD_SOURCE_FILES ${BOARD_SOURCE_FILES} PARENT_SCOPE)
+set(BOARD_INC_FILES ${BOARD_INC_FILES} PARENT_SCOPE)
 
- # Some trickery to get CMake to deal with our assembler code.
-set_property(SOURCE ${DEVICE_DIR}/Source/Templates/gcc/startup_stm32f407xx.s PROPERTY LANGUAGE C)
+
   
-# Generate assembly listing.
-add_custom_command(
-  TARGET ${PROJ}.elf
-  COMMAND "arm-none-eabi-objdump"
-  ARGS "-S" "${PROJ}.elf" ">>" "${PROJ}.lst")
 
-# Flash firmware to target.
-add_custom_target(flash
-  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
-  -f target/stm32f4x.cfg -c "init" -c "reset halt"
-  -c "flash write_image erase ${PROJ}.elf" -c "reset run" -c "shutdown"
-  DEPENDS ${PROJ}.elf
-  COMMENT "Flashing target hardware")
-
-# Run OpenOCD as a GDB host.
-add_custom_target(gdbhost
-  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
-  -f target/stm32f4x.cfg -c "init" -c "reset halt"
-  DEPENDS ${PROJ}.elf
-  COMMENT "Running OpenOCD as a GDB host.")
