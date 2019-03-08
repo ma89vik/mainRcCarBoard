@@ -50,6 +50,7 @@ list(APPEND INC_FILES
 
 include_directories(${INC_FILES})
 
+
  # Some trickery to get CMake to deal with our assembler code.
 set_property(SOURCE ${CMAKE_SOURCE_DIR}/board/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.s PROPERTY LANGUAGE C)
 

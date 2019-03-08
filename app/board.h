@@ -2,9 +2,9 @@
 #define BOARD_H__
 
 #include "serial_device.h"
-#include "serial_nrf52.h"
+#include "serial_stm32_hal_rtos.h"
 
-#include "nrfx_timer.h"
+
 
 #define SERVO_PWM_CH 30
 #define MOTOR_PWM_CH 31

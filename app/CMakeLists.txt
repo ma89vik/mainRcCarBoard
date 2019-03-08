@@ -6,19 +6,25 @@
 
 
 
-set(APP_SOURCE_DIR ${CMAKE_SOURCE_DIR}/app/src)
-set(APP_INC_DIR ${CMAKE_SOURCE_DIR}/app/src)
-set(APP_TEST_DIR ${CMAKE_SOURCE_DIR}/app/test)
+set(APP_DIR ${CMAKE_SOURCE_DIR}/app)
 
 # Look here for header files.
 
 
 file(GLOB_RECURSE SRC
-  ${APP_SOURCE_DIR}/*.c
+  ${APP_DIR}/*.c
 )
 
+
 list(APPEND APP_INC_FILES
-  ${APP_INC_DIR}
+  ${APP_DIR}
+  ${APP_DIR}/Device
+  ${APP_DIR}/Device/I2c
+  ${APP_DIR}/Device/Serial
+  ${APP_DIR}/LinearBuffer
+  ${APP_DIR}/RingBuffer
+  ${APP_DIR}/Log
+  ${APP_DIR}/IMU
 )
 
 list(APPEND APP_SOURCE_FILES
