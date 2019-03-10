@@ -6,8 +6,8 @@
 
 
 
-#define SERVO_PWM_CH 30
-#define MOTOR_PWM_CH 31
+#define SERVO_PWM_CH TIM_CHANNEL_1 //PC6
+#define MOTOR_PWM_CH TIM_CHANNEL_2 //PB5
 
 #define TWI_SCL_M 3 //!< Master SCL pin.
 #define TWI_SDA_M 4 //!< Master SDA pin.

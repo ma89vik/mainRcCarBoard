@@ -16,7 +16,7 @@
 
 static enum MsgType { LOC = 1 };
 static enum MsgParseResult {
-    SUCCESS,
+    OK,
     IN_PROGRESS,
     INVALID_FORMAT,
     NO_DELIMITER,

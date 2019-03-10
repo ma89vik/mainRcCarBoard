@@ -31,7 +31,7 @@ set(COMMON_FLAGS "-O0 -g -Wall -mthumb -ffunction-sections -fdata-sections ${CPU
 # compiler/assambler/linker flags
 set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
 set(CMAKE_CXX_FLAGS "${COMMON_FLAGS}")
-set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
+set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/board/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
 
 add_subdirectory(app)
 add_subdirectory(board)
@@ -52,7 +52,7 @@ include_directories(${INC_FILES})
 
 
  # Some trickery to get CMake to deal with our assembler code.
-set_property(SOURCE ${CMAKE_SOURCE_DIR}/board/Drivers/CMSIS/Device/ST/STM32F4xx/Source/Templates/gcc/startup_stm32f407xx.s PROPERTY LANGUAGE C)
+set_property(SOURCE ${CMAKE_SOURCE_DIR}/board/startup_stm32f407xx.s PROPERTY LANGUAGE C)
 
 add_executable(${PROJ}.elf ${SOURCE_FILES})
 

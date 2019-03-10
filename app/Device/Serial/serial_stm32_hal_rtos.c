@@ -33,6 +33,10 @@ SerialResult_t stm32_hal_rtos_serial_write(Device_t *dev, uint8_t bytes, uint16_
 }
 int16_t stm32_hal_rtos_serial_read(Device_t *dev, uint8_t *result)
 {
+    SerialDriverData_t *serData = (SerialDriverData_t *)(dev->driverData);
+    
+    HAL_UART_Receive_IT(serData->uartHandle, result, 1);
+    
     if (1)
     {
         return 1;

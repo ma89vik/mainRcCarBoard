@@ -18,6 +18,7 @@ file(GLOB_RECURSE SRC
 
 list(APPEND APP_INC_FILES
   ${APP_DIR}
+  ${APP_DIR}/Control
   ${APP_DIR}/Device
   ${APP_DIR}/Device/I2c
   ${APP_DIR}/Device/Serial

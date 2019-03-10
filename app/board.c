@@ -6,7 +6,7 @@ static SerialConfig_t serialConfigGps = {
 };
 
 static SerialDriverData_t serialDriverDataGps = {
-
+    .uartHandle = &huart3, 
 };
 
 Device_t deviceGps = {

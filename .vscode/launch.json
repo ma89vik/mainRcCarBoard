@@ -1,0 +1,45 @@
+{
+    // Use IntelliSense to learn about possible attributes.
+    // Hover to view descriptions of existing attributes.
+    // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "cwd": "${workspaceRoot}",
+            "executable": "./build/rcMainBoard.elf",
+            "name": "Debug Microcontroller",
+            "request": "launch",
+            "type": "cortex-debug",
+            "servertype": "openocd",
+            "configFiles": [
+                "stm32f4discovery.cfg"
+            ]
+        },
+        {
+            "name": "(gdb) Launch",
+            "type": "cppdbg",
+            "request": "launch",
+            "program": "build/rcMainBoard.elf",
+            "cwd": "${workspaceFolder}",
+            "MIMode": "gdb",
+            "miDebuggerPath": "/usr/bin/arm-none-eabi-gdb",
+            "targetArchitecture": "arm",
+     
+            "stopAtEntry": true,
+            "miDebuggerServerAddress": "localhost:3333",
+            //"debugServerPath": "/usr/bin/JLinkGDBServer",
+            //"debugServerArgs": " -device nRF52832_xxAA -if SWD -speed 1000 -noir",
+            "serverStarted": "Connected to target",
+           "logging": {
+               "engineLogging": true,
+               "exceptions": true,
+               "moduleLoad": true,
+               "programOutput": true,
+               "trace": true,
+               "traceResponse": true
+           }
+        }
+
+
+    ]
+}

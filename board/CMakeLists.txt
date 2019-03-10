@@ -38,8 +38,8 @@ list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/spi.c
   ${SOURCE_DIR}/tim.c
   ${SOURCE_DIR}/usart.c
-  ${DEVICE_DIR}/Source/Templates/system_stm32f4xx.c
-  ${DEVICE_DIR}/Source/Templates/gcc/startup_stm32f407xx.s
+  ${SOURCE_DIR}/system_stm32f4xx.c
+  ${CMAKE_SOURCE_DIR}/board/startup_stm32f407xx.s
   ${HAL_DIR}/Src/stm32f4xx_hal.c
   ${HAL_DIR}/Src/stm32f4xx_hal_crc.c
   ${HAL_DIR}/Src/stm32f4xx_hal_exti.c

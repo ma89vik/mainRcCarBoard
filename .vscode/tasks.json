@@ -43,5 +43,15 @@
             
             "problemMatcher": []
         }
+        {
+            "label": "gdbhost",
+             "type": "shell",
+             "command": "make gdbhost",
+             "options": {
+                 "cwd": "${workspaceFolder}/build"
+             },
+             
+             "problemMatcher": []
+         }
     ]
 }
