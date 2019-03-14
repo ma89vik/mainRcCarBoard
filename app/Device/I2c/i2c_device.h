@@ -19,14 +19,14 @@ typedef enum I2cResult
 
 typedef struct I2cConfig
 {
-    I2cResult_t (*init)(Device_t *dev);
+    I2cResult_t (*init)(Device_t *dev);   
 
 } I2cConfig_t;
 
 typedef struct I2cApi
 {
-    I2cResult_t (*i2c_write)(uint8_t address, uint8_t *p_data, size_t length);
-    I2cResult_t (*i2c_read)(uint8_t address, uint8_t *p_data, size_t length);
+    I2cResult_t (*i2c_write)(Device_t *dev, uint8_t address, uint8_t *p_data, size_t length);
+    I2cResult_t (*i2c_read)(Device_t *dev, uint8_t address, uint8_t *p_data, size_t length);
 } I2cApi_t;
 
 static inline I2cResult_t i2c_init(Device_t *dev)
@@ -52,7 +52,7 @@ static inline I2cResult_t i2c_write(Device_t *dev, uint8_t address,
 
     if (api->i2c_write)
     {
-        return api->i2c_write(address, p_data, length);
+        return api->i2c_write(dev, address, p_data, length);
     }
 
     return I2C_ERR_INSTANCE;
@@ -71,7 +71,7 @@ static inline I2cResult_t i2c_read(Device_t *dev, uint8_t address,
 
     if (api->i2c_read)
     {
-        return api->i2c_read(address, p_data, length);
+        return api->i2c_read(dev, address, p_data, length);
     }
 
     return I2C_ERR_INSTANCE;

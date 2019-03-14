@@ -22,6 +22,7 @@ static enum MsgParseResult {
     NO_DELIMITER,
     UNPARSED_TYPE
 };
+
 static enum fieldGPRMC {
     TIME = 1,
     STATUS,
@@ -113,7 +114,7 @@ static enum MsgParseResult parseMsg()
     return IN_PROGRESS;
 }
 
-static void decode_GPRMC(char *payload, uint16_t len)
+static enum MsgParseResult decode_GPRMC(uint8_t *payload, uint16_t len)
 {
     char *msgField;
     enum fieldGPRMC index = 1;
@@ -129,7 +130,7 @@ static void decode_GPRMC(char *payload, uint16_t len)
             if (msgField[0] == 'V')
             {
                 // navigation receiver warning, dont update location
-                return;
+                return UNPARSED_TYPE;
             }
             break;
 
@@ -146,6 +147,7 @@ static void decode_GPRMC(char *payload, uint16_t len)
         }
         index++;
     }
+    return OK;
 }
 
 static enum MsgParseResult parse_NMEA()
@@ -168,7 +170,8 @@ static enum MsgParseResult parse_NMEA()
     {
         LOG_DEBUG("found GPRMC");
         // Strip away type and decde payload
-        decode_GPRMC(&(msg_buf.buffer[i]), msgLen - i);
+        return decode_GPRMC(&(msg_buf.buffer[i]), msgLen - i);
+        
     }
     else
     {

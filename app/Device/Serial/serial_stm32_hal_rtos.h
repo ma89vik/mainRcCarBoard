@@ -10,6 +10,7 @@
 typedef struct Stm32HalRtosSerialDriverData
 {
     UART_HandleTypeDef *uartHandle;
+    RingBuffer_t inbox;
 } SerialDriverData_t;
 
 SerialResult_t stm32_hal_rtos_serial_init(Device_t *dev);

@@ -1,5 +1,6 @@
 #include "board.h"
 #include "serial_stm32_hal_rtos.h"
+#include "i2c_stm32_hal.h"
 
 static SerialConfig_t serialConfigGps = {
     .init = stm32_hal_rtos_serial_init,
@@ -14,14 +15,17 @@ Device_t deviceGps = {
     .driverData = &serialDriverDataGps,
 };
 
-// I2C bus for OpenMV and IMU
-/*static I2cConfig_t i2cConfig = {
-    .init = nrf52_i2c_init,
+// I2C bus for IMU
+static I2cConfig_t i2cConfig = {
+    .init = stm32_i2c_init,
 };
 
-static I2cDriverData_t i2cDriverData;
+static I2cDriverData_t i2cDriverData = {
+    .i2cHandle = &hi2c1,
+    .timeoutMs = 100,
+};
 
 Device_t deviceI2c = {
     .driverConfig = &i2cConfig,
     .driverData = &i2cDriverData,
-};*/
+};
