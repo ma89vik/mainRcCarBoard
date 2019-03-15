@@ -1,9 +1,9 @@
 #include "board.h"
-#include "serial_stm32_hal_rtos.h"
+#include "serial_stm32_hal.h"
 #include "i2c_stm32_hal.h"
 
 static SerialConfig_t serialConfigGps = {
-    .init = stm32_hal_rtos_serial_init,
+    .init = stm32_hal_serial_init,
 };
 
 static SerialDriverData_t serialDriverDataGps = {

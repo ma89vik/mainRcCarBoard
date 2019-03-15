@@ -2,7 +2,7 @@
 #define BOARD_H__
 
 #include "serial_device.h"
-#include "serial_stm32_hal_rtos.h"
+#include "serial_stm32_hal.h"
 
 
 
@@ -22,6 +22,9 @@
 
 // Hardware timers
 #define DIST_SENS_TIMER_ID 0
+
+// Number of USARTS used on the board
+#define NUM_SERIAL 2
 
 extern Device_t deviceGps;
 extern Device_t deviceI2c;
