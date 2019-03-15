@@ -1,4 +1,4 @@
-#include "i2c_stm32.h"
+#include "i2c_stm32_hal.h"
 #include "board.h"
 #include "device.h"
 #include "i2c_device.h"

@@ -40,23 +40,7 @@ static enum fieldGPRMC {
 static LinearBuffer_t msg_buf;
 static uint8_t buf[GPS_MSG_MAX_LEN];
 
-typedef struct GpsLocations
-{
-    // Locations as integers for use in calculations
-    uint16_t latDeg;
-    uint16_t northMin;
-    uint16_t northSec;
-    uint16_t longDeg;
-    uint16_t westMin;
-    uint16_t westSec;
 
-    // Location as strings
-    char latitude[LOC_STR_MAX_LEN];
-    char longitude[LOC_STR_MAX_LEN];
-
-    bool valid;
-
-} GpsLocation;
 
 static GpsLocation currentLocation;
 static enum MsgParseResult parseMsg();
