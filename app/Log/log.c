@@ -18,21 +18,21 @@ LogResult_t log_init(LogConfig_t *logConfig)
     return LOG_OK;
 }
 
-void log_log(int level, const char *fmt, ...)
+void log_string(uint8_t level, const char *string)
 {
 
-    va_list args;
     uint8_t ret;
     char buf[21];
-    va_start(args, fmt);
     // Add log level to the message
     log.outbox[0] = level;
 
-    strncpy(&log.outbox[1], fmt, LOG_MSG_MAX_LEN - 1);
+    uint8_t len = strnlen(string, LOG_MSG_MAX_LEN - 1);
+
+    strncpy(&log.outbox[1], string, LOG_MSG_MAX_LEN - 1);
+
     if (log.logApi)
     {
-        log.logApi->write(&log, fmt, &args);
+        log.logApi->write_string(&log, log.outbox, len);
     }
 
-    va_end(args);
 }

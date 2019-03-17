@@ -17,6 +17,7 @@ list(APPEND APP_SOURCE_FILES
   ${APP_DIR}/IMU/mpu9250.c
   ${APP_DIR}/LinearBuffer/linear_buffer.c
   ${APP_DIR}/Log/log.c
+  ${APP_DIR}/Log/usb_log.c
   ${APP_DIR}/Observer/observer.c
   ${APP_DIR}/RingBuffer/ring_buffer.c
 

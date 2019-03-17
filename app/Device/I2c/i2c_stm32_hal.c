@@ -39,7 +39,10 @@ I2cResult_t stm32_i2c_write(Device_t* dev, uint8_t address, uint8_t *p_data, siz
     I2cDriverData_t *i2cData = (I2cDriverData_t *)(dev->driverData);
     I2cConfig_t *i2cConfig = (I2cConfig_t *)(dev->driverConfig);
 
-    status = HAL_I2C_Master_Transmit(i2cData->i2cHandle, address, p_data, length, i2cData->timeoutMs);
+    //HAL requires I2C address to be shifted to the left
+    uint16_t i2cAddress = address << 1;
+
+    status = HAL_I2C_Master_Transmit(i2cData->i2cHandle, i2cAddress, p_data, length, i2cData->timeoutMs);
     
     if (status == HAL_OK)
     {
@@ -53,7 +56,7 @@ I2cResult_t stm32_i2c_write(Device_t* dev, uint8_t address, uint8_t *p_data, siz
     }
     else
     {
-        LOG_ERROR("I2C tx err: %d\n", status);
+        LOG_ERROR("I2C tx err: %d\n");
         return I2C_ERR_TX;
     }
 }
@@ -65,7 +68,9 @@ I2cResult_t stm32_i2c_read(Device_t* dev,uint8_t address, uint8_t *p_data, size_
     I2cDriverData_t *i2cData = (I2cDriverData_t *)(dev->driverData);
     I2cConfig_t *i2cConfig = (I2cConfig_t *)(dev->driverConfig);
 
-    status = HAL_I2C_Master_Receive(i2cData->i2cHandle, address, p_data, length, i2cData->timeoutMs);
+    //HAL requires I2C address to be shifted to the left
+    uint16_t i2cAddress = address << 1;
+    status = HAL_I2C_Master_Receive(i2cData->i2cHandle, i2cAddress, p_data, length, i2cData->timeoutMs);
     
     if (status == HAL_OK)
     {
@@ -79,7 +84,7 @@ I2cResult_t stm32_i2c_read(Device_t* dev,uint8_t address, uint8_t *p_data, size_
     }
     else
     {
-        LOG_ERROR("I2C tx err: %d\n", status);
+        LOG_ERROR("I2C tx err: %d\n");
         return I2C_ERR_TX;
     }
 }

@@ -4,6 +4,7 @@
 #include "serial_device.h"
 #include "usart.h"
 #include "ring_buffer.h"
+#include "log.h"
 
 //Needed for converting from handle to device when we get HAL interrupt
 static int serialIndex = 0;
@@ -12,7 +13,7 @@ static SerialDriverData_t* serialData[NUM_SERIAL] = {0};
 static uint8_t handleToIndex(UART_HandleTypeDef* huart);
 
 SerialApi_t stm32_hal_serial_api = {
-    .serial_read_byte = stm32_hal_serial_read,
+    .serial_read_byte = stm32_hal_serial_read_byte,
     .serial_write = stm32_hal_serial_write,
 };
 
@@ -46,6 +47,7 @@ SerialResult_t stm32_hal_serial_init(Device_t *dev)
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
     uint8_t idx = handleToIndex(huart);
+
     ring_buffer_put( &(serialData[idx]->inbox), serialData[idx]->rxData );
 
 }
@@ -62,26 +64,28 @@ SerialResult_t stm32_hal_serial_write(Device_t *dev, uint8_t bytes, uint16_t len
 
     return 0;
 }
-int16_t stm32_hal_serial_read(Device_t *dev, uint8_t *result)
+SerialResult_t stm32_hal_serial_read(Device_t *dev, uint8_t *result)
 {
     SerialDriverData_t *serData = (SerialDriverData_t *)(dev->driverData);
     
 
 }
 
-bool stm32_hal_serial_read_byte(Device_t *dev, uint8_t *result)
+SerialResult_t stm32_hal_serial_read_byte(Device_t *dev, uint8_t *result)
 {
     SerialDriverData_t *serData = (SerialDriverData_t *)(dev->driverData);
     
     int8_t err = ring_buffer_get(&serData->inbox, result);
     
+
+    
     if (err == 0)
     {
-        return true;
+        return SERIAL_OK;
     }
     else
     {
-        return false;
+        return SERIAL_READ_ERR;
     }
 }
 

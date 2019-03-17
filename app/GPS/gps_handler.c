@@ -60,6 +60,7 @@ void gps_update()
     if (parseMsg())
     {
         // Handle message
+        
     }
 }
 
@@ -71,8 +72,9 @@ static enum MsgParseResult parseMsg()
     // "$GPRMC,220516,A,5133.82,N,00042.24,W,173.8,231.8,130694,004.2,W*70\x0A";
     // int16_t bytesToRead = strlen(test)+1;
 
-    while (serial_read_byte(&deviceGps, &byte))
+    while (serial_read_byte(&deviceGps, &byte) == SERIAL_OK)
     {
+    
         // Check if end of msg
         if (byte == DELIMITER)
         {
@@ -131,6 +133,9 @@ static enum MsgParseResult decode_GPRMC(uint8_t *payload, uint16_t len)
         }
         index++;
     }
+    LOG_DEBUG("GPS: ");
+    LOG_DEBUG(currentLocation.latitude);
+     LOG_DEBUG(currentLocation.longitude);
     return OK;
 }
 

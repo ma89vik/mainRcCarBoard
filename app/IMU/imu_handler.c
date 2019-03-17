@@ -7,9 +7,13 @@
 #include "imu_handler.h"
 #include "log.h"
 #include "mpu9250.h"
+#include "i2c_device.h"
+#include "board.h"
 
 void imu_init()
 {
+    i2c_init(&deviceI2c);
+    
     // Initialize accel, gyro and magnetometer, MPU9250 needs to be init first
     if (!mpu9250_init())
     {

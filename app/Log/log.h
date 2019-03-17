@@ -45,7 +45,7 @@ typedef struct
 struct LogApi
 {
     // All interface functions goes here
-    LogResult_t (*write)(Log_t *log, const char *sFormat, va_list *pParamList);
+    LogResult_t (*write_string)(Log_t *log, const char *string, uint8_t len);    
     LogResult_t (*ready)(Log_t *log);
 };
 
@@ -57,35 +57,35 @@ struct LogConfig
 LogResult_t log_init(LogConfig_t *logConfig);
 
 #if LOG_LEVEL >= DEBUG_LEVEL
-#define LOG_DEBUG(...) log_log(DEBUG_LEVEL, __VA_ARGS__)
+#define LOG_DEBUG(...) log_string(DEBUG_LEVEL, __VA_ARGS__)
 #else
 #define LOG_DEBUG(...)
 #endif
 
 #if LOG_LEVEL >= INFO_LEVEL
-#define LOG_INFO(...) log_log(INFO_LEVEL, __VA_ARGS__)
+#define LOG_INFO(...) log_string(INFO_LEVEL, __VA_ARGS__)
 #else
 #define LOG_INFO(...)
 #endif
 
 #if LOG_LEVEL >= WARN_LEVEL
-#define LOG_WARN(...) log_log(WARN_LEVEL, __VA_ARGS__)
+#define LOG_WARN(...) log_string(WARN_LEVEL, __VA_ARGS__)
 #else
 #define LOG_WARN(...)
 #endif
 
 #if LOG_LEVEL >= ERROR_LEVEL
-#define LOG_ERROR(...) log_log(ERROR_LEVEL, __VA_ARGS__)
+#define LOG_ERROR(...) log_string(ERROR_LEVEL, __VA_ARGS__)
 #else
 #define LOG_ERROR(...)
 #endif
 
 #if LOG_LEVEL >= CRIT_LEVEL
-#define LOG_CRIT(...) log_log(CRIT_LEVEL, __VA_ARGS__)
+#define LOG_CRIT(...) log_string(CRIT_LEVEL, __VA_ARGS__)
 #else
 #define LOG_CRIT(...)
 #endif
 
-void log_log(int level, const char *fmt, ...);
+void log_string(uint8_t level, const char *string);
 
 #endif

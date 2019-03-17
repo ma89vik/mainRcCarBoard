@@ -11,6 +11,8 @@ set(CMSIS_DIR ${CMAKE_SOURCE_DIR}/board/Drivers/CMSIS)
 set(DEVICE_DIR ${CMAKE_SOURCE_DIR}/board/Drivers/CMSIS/Device/ST/STM32F4xx)
 set(HAL_DIR ${CMAKE_SOURCE_DIR}/board/Drivers/STM32F4xx_HAL_Driver)
 set(RTOS_DIR ${CMAKE_SOURCE_DIR}/board/Middlewares/Third_Party/FreeRTOS/Source)
+set(USB_DIR ${CMAKE_SOURCE_DIR}/board/Middlewares/ST/STM32_USB_Device_Library)
+
 
 # Look here for header files.
 
@@ -23,6 +25,8 @@ list(APPEND BOARD_INC_FILES
   ${RTOS_DIR}/CMSIS_RTOS
   ${RTOS_DIR}/portable/GCC/ARM_CM4F
   ${CMAKE_SOURCE_DIR}/app/include
+  ${USB_DIR}/Class/CDC/Inc
+  ${USB_DIR}/Core/Inc
 )
 
 
@@ -34,10 +38,15 @@ list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/stm32f4xx_hal_timebase_tim.c
   ${SOURCE_DIR}/gpio.c
   ${SOURCE_DIR}/crc.c
+  ${SOURCE_DIR}/dma.c
   ${SOURCE_DIR}/i2c.c
   ${SOURCE_DIR}/spi.c
   ${SOURCE_DIR}/tim.c
   ${SOURCE_DIR}/usart.c
+  ${SOURCE_DIR}/usb_device.c
+  ${SOURCE_DIR}/usbd_cdc_if.c
+  ${SOURCE_DIR}/usbd_conf.c
+  ${SOURCE_DIR}/usbd_desc.c
   ${SOURCE_DIR}/system_stm32f4xx.c
   ${CMAKE_SOURCE_DIR}/board/startup_stm32f407xx.s
   ${HAL_DIR}/Src/stm32f4xx_hal.c
@@ -51,6 +60,8 @@ list(APPEND BOARD_SOURCE_FILES
   ${HAL_DIR}/Src/stm32f4xx_hal_gpio.c
   ${HAL_DIR}/Src/stm32f4xx_hal_i2c.c
   ${HAL_DIR}/Src/stm32f4xx_hal_i2c_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_pcd_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_pcd.c
   ${HAL_DIR}/Src/stm32f4xx_hal_uart.c
   ${HAL_DIR}/Src/stm32f4xx_hal_pwr.c
   ${HAL_DIR}/Src/stm32f4xx_hal_pwr_ex.c
@@ -59,6 +70,7 @@ list(APPEND BOARD_SOURCE_FILES
   ${HAL_DIR}/Src/stm32f4xx_hal_spi.c
   ${HAL_DIR}/Src/stm32f4xx_hal_tim.c
   ${HAL_DIR}/Src/stm32f4xx_hal_tim_ex.c
+  ${HAL_DIR}/Src/stm32f4xx_ll_usb.c
   ${RTOS_DIR}/croutine.c 
   ${RTOS_DIR}/event_groups.c 
   ${RTOS_DIR}/list.c 
@@ -69,6 +81,10 @@ list(APPEND BOARD_SOURCE_FILES
   ${RTOS_DIR}/CMSIS_RTOS/cmsis_os.c 
   ${RTOS_DIR}/portable/MemMang/heap_4.c 
   ${RTOS_DIR}/portable/GCC/ARM_CM4F/port.c  
+  ${USB_DIR}/Class/CDC/Src/usbd_cdc.c
+  ${USB_DIR}/Core/Src/usbd_core.c
+  ${USB_DIR}/Core/Src/usbd_ctlreq.c
+  ${USB_DIR}/Core/Src/usbd_ioreq.c
   )
 set(BOARD_SOURCE_FILES ${BOARD_SOURCE_FILES} PARENT_SCOPE)
 set(BOARD_INC_FILES ${BOARD_INC_FILES} PARENT_SCOPE)

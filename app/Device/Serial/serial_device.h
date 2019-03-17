@@ -11,6 +11,8 @@ typedef enum SerialResult
     SERIAL_OK,
     SERIAL_ERR_INSTANCE,
     SERIAL_ERR_CONFIG,
+    SERIAL_READ_ERR,
+    SERIAL_WRITE_ERR,
 } SerialResult_t;
 
 typedef struct SerialConfig
@@ -24,7 +26,7 @@ typedef struct SerialConfig
 
 typedef struct SerialApi
 {
-    int16_t (*serial_read_byte)(Device_t *dev, uint8_t *result);
+    SerialResult_t (*serial_read_byte)(Device_t *dev, uint8_t *result);
     SerialResult_t (*serial_write)(Device_t *dev, uint8_t *bytes, uint16_t len);
 } SerialApi_t;
 
@@ -57,7 +59,7 @@ static inline SerialResult_t serial_write(Device_t *dev, uint8_t *bytes,
     return SERIAL_ERR_INSTANCE;
 }
 
-static inline int16_t serial_read_byte(Device_t *dev, uint8_t *result)
+static inline SerialResult_t serial_read_byte(Device_t *dev, uint8_t *result)
 {
     if (!dev)
     {

@@ -25,7 +25,7 @@ if(${BUILD_TYPE} STREQUAL "MCU")
   set(CMAKE_CXX_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-c++")
   set(CMAKE_ASM_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc")
 
-  set(CPU_FLAGS "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb")
+  set(CPU_FLAGS "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb -specs=nosys.specs")
   add_definitions(-DSTM32F407xx -DUSE_HAL_DRIVER)
 
   set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/board/STM32F407VGTx_FLASH.ld -Wl,--gc-section")

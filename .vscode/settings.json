@@ -1,5 +1,8 @@
 {
     "files.associations": {
-        "freertos.h": "c"
+        "freertos.h": "c",
+        "board.h": "c",
+        "observer.h": "c",
+        "usbd_cdc_if.h": "c"
     }
 }
