@@ -21,8 +21,7 @@ LogResult_t log_init(LogConfig_t *logConfig)
 void log_string(uint8_t level, const char *string)
 {
 
-    uint8_t ret;
-    char buf[21];
+    uint8_t ret;  
     // Add log level to the message
     log.outbox[0] = level;
 
@@ -32,7 +31,7 @@ void log_string(uint8_t level, const char *string)
 
     if (log.logApi)
     {
-        log.logApi->write_string(&log, log.outbox, len);
+        log.logApi->write_string(&log, log.outbox, len+1);
     }
 
 }

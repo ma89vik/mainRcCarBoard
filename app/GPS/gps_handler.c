@@ -132,10 +132,11 @@ static enum MsgParseResult decode_GPRMC(uint8_t *payload, uint16_t len)
             break;
         }
         index++;
-    }
-    LOG_DEBUG("GPS: ");
+    }  
+    currentLocation.latitude[14] = '\0';
+    currentLocation.longitude[14] = '\0';
     LOG_DEBUG(currentLocation.latitude);
-     LOG_DEBUG(currentLocation.longitude);
+    LOG_DEBUG(currentLocation.longitude);
     return OK;
 }
 
@@ -157,8 +158,7 @@ static enum MsgParseResult parse_NMEA()
 
     if (!strncmp(type, "GPRMC", 5))
     {
-        LOG_DEBUG("found GPRMC");
-        // Strip away type and decde payload
+            // Strip away type and decde payload
         return decode_GPRMC(&(msg_buf.buffer[i]), msgLen - i);
         
     }

@@ -29,11 +29,11 @@
 #include "usart.h"
 #include "usb_device.h"
 #include "gpio.h"
-#include "usbd_cdc_if.h"
-#include "app_main.h"
+
+
 /* Private includes ----------------------------------------------------------*/
 /* USER CODE BEGIN Includes */
-
+#include "app_main.h"
 /* USER CODE END Includes */
 
 /* Private typedef -----------------------------------------------------------*/
@@ -107,11 +107,12 @@ int main(void)
   MX_TIM2_Init();
   MX_TIM3_Init();
   /* USER CODE BEGIN 2 */
-
+ 
   /* USER CODE END 2 */
-  app_main();
+
   /* Call init function for freertos objects (in freertos.c) */
   MX_FREERTOS_Init();
+  app_main();
   /* Start scheduler */
   osKernelStart();
   
@@ -122,7 +123,6 @@ int main(void)
   while (1)
   {
     /* USER CODE END WHILE */
-
 
     /* USER CODE BEGIN 3 */
   }

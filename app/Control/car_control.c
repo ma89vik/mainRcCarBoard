@@ -104,12 +104,14 @@ void vCarControlTask( void * pvParameters)
      
     /// Initialise xLastExecutionTime so the first call to vTaskDelayUntil() works correctly
     xLastExecutionTime = xTaskGetTickCount();
-    car_control_init();
+    //car_control_init();
    
     
     while(1)
     {
+        xLastExecutionTime = xTaskGetTickCount();
+        LOG_DEBUG("Car task\r\n");
        
-        vTaskDelayUntil( &xLastExecutionTime, 1000 );
+       // vTaskDelayUntil( &xLastExecutionTime, 1000 );
     }
 }
