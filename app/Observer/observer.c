@@ -14,7 +14,7 @@ bool observer_init()
 }
 
 
-v_observer_task(void *pvParameters)
+void v_observer_task(void *pvParameters)
 {
     observer_init();
 

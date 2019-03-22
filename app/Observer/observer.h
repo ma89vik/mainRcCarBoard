@@ -11,6 +11,6 @@ typedef struct ObserverData {
 
 ObserverData_t get_observer_data();
 
-v_observer_task(void *pvParameters);
+void v_observer_task(void *pvParameters);
 
 #endif
