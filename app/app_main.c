@@ -35,6 +35,6 @@ void app_main()
 
     xTaskCreate( v_observer_task, (signed char*)"Observer", configMINIMAL_STACK_SIZE, NULL, OBSERVER_TASK_PRIORITY , NULL );
 
-    xTaskCreate( v_log_task, (signed char*)"Logger", configMINIMAL_STACK_SIZE, NULL, LOG_TASK_PRIORITY , NULL );
+    xTaskCreate( v_log_task, (signed char*)"Logger", 256, NULL, LOG_TASK_PRIORITY , NULL );
     
 }
