@@ -112,6 +112,6 @@ void vCarControlTask( void * pvParameters)
         xLastExecutionTime = xTaskGetTickCount();
         LOG_DEBUG("Car task\r\n");
        
-        vTaskDelayUntil( &xLastExecutionTime, 1000 );
+        vTaskDelayUntil( &xLastExecutionTime, 500 );
     }
 }

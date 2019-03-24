@@ -26,13 +26,17 @@ void v_observer_task(void *pvParameters)
     while(1)
     {
         xLastExecutionTime = xTaskGetTickCount();
-        LOG_DEBUG("Obs tart\r\n");
+        
+        LOG_DEBUG("Obs");
+
         //Read latest sensor data from IMU and GPS
         //heading = read_compass_heading();
         //myPrintf(heading, result);
-        //LOG_DEBUG("test\n");
-        //gps_update();
-        //vTaskDelayUntil( &xLastExecutionTime, 1000 );
+        
+        gps_update();
+
+
+        vTaskDelayUntil( &xLastExecutionTime, 1000 );
     }
 
 }

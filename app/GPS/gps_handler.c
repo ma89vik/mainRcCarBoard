@@ -74,6 +74,7 @@ static enum MsgParseResult parseMsg()
 
     while (serial_read_byte(&deviceGps, &byte) == SERIAL_OK)
     {
+        LOG_DEBUG(byte);
     
         // Check if end of msg
         if (byte == DELIMITER)
@@ -135,7 +136,9 @@ static enum MsgParseResult decode_GPRMC(uint8_t *payload, uint16_t len)
     }  
     currentLocation.latitude[14] = '\0';
     currentLocation.longitude[14] = '\0';
+    LOG_DEBUG("Lat: ");
     LOG_DEBUG(currentLocation.latitude);
+    LOG_DEBUG("Lng: ");
     LOG_DEBUG(currentLocation.longitude);
     return OK;
 }

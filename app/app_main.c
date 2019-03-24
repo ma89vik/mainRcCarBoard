@@ -31,7 +31,7 @@ void app_main()
    log_init(&logConfig);
 
 
-    xTaskCreate( vCarControlTask, (signed char*)"Car Control", configMINIMAL_STACK_SIZE, NULL, CAR_CONTROL_TASK_PRIORITY , NULL );
+    //xTaskCreate( vCarControlTask, (signed char*)"Car Control", configMINIMAL_STACK_SIZE, NULL, CAR_CONTROL_TASK_PRIORITY , NULL );
 
     xTaskCreate( v_observer_task, (signed char*)"Observer", configMINIMAL_STACK_SIZE, NULL, OBSERVER_TASK_PRIORITY , NULL );
 

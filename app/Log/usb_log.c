@@ -73,7 +73,7 @@ void v_log_task(void *pvParameters)
         
         int i = 0;
         char c;
-        while( !ring_buffer_empty && i<100)
+        while( !ring_buffer_empty(&outbox) && i<100)
         {
                 if (xLogMutex != NULL)
                 {
@@ -94,7 +94,7 @@ void v_log_task(void *pvParameters)
         CDC_Transmit_FS(outData, i);
 
         
-        vTaskDelayUntil( &xLastExecutionTime, 1000 );
+        vTaskDelayUntil( &xLastExecutionTime, 300 );
     }
 
 }
