@@ -1,5 +1,5 @@
 #ifndef USB_LOG_H_
-#define RTT_LOG_H_
+#define USB_LOG_H_
 
 #include "log.h"
 #include <stdarg.h>

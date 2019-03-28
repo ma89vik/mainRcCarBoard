@@ -24,5 +24,7 @@ int ring_buffer_init(RingBuffer_t *const ringBuffer, uint8_t *const buffer,
 int ring_buffer_get(RingBuffer_t *const buffer, uint8_t *dataOut);
 int ring_buffer_put(RingBuffer_t *const buffer, uint8_t dataIn);
 bool ring_buffer_empty(RingBuffer_t *const ringBuffer);
+bool ring_buffer_full(RingBuffer_t *const ringBuffer);
+uint16_t ring_buffer_length(RingBuffer_t *const ringBuffer);
 
 #endif /* RING_BUFFER_H_ */

@@ -33,7 +33,7 @@ int ring_buffer_init(RingBuffer_t *const ringBuffer, uint8_t *const buffer,
     return err;
 }
 
-static bool ring_buffer_full(RingBuffer_t *const ringBuffer)
+bool ring_buffer_full(RingBuffer_t *const ringBuffer)
 {
     if ((ringBuffer->head - ringBuffer->tail) == ringBuffer->n_elem)
     {
@@ -55,6 +55,12 @@ bool ring_buffer_empty(RingBuffer_t *const ringBuffer)
     {
         return false;
     }
+}
+
+uint16_t ring_buffer_length(RingBuffer_t *const ringBuffer)
+{
+    //Works even when head > tail
+    return (ringBuffer->head - ringBuffer->tail);
 }
 
 int ring_buffer_put(RingBuffer_t *const ringBuffer, uint8_t dataIn)

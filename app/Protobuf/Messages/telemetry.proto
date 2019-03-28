@@ -1,0 +1,19 @@
+syntax = "proto2";
+
+message BasicTelemetry {
+    required float speed = 1;
+    required float heading = 2;
+    required string longitude = 3;
+    required string latitude = 4;
+    
+}
+
+message ExpandedTelemetry {
+    required int32 tmp = 1;
+}
+
+
+
+message DebugStatus {
+    required int32 debugStatus = 1;
+}

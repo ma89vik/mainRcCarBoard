@@ -15,6 +15,7 @@
 #define DELIMITER 0x0A
 
 static enum MsgType { LOC = 1 };
+
 static enum MsgParseResult {
     OK,
     IN_PROGRESS,
@@ -73,8 +74,7 @@ static enum MsgParseResult parseMsg()
     // int16_t bytesToRead = strlen(test)+1;
 
     while (serial_read_byte(&deviceGps, &byte) == SERIAL_OK)
-    {
-        LOG_DEBUG(byte);
+    {       
     
         // Check if end of msg
         if (byte == DELIMITER)

@@ -1,0 +1,29 @@
+syntax = "proto2";
+
+message SteeringCmd {
+    required int32 steeringSetPoint = 1;
+}
+
+message SpeedCmd {
+    required int32 speedSetPoint = 1;
+}
+
+message WaypointCmd {
+    required string longitude = 1;
+    required string latitude = 2;
+    required int32 sequenceNumber = 3; 
+}
+
+message BasicCmd {
+
+    enum CmdType {
+        STOP = 0;
+        ARM = 1;
+    }
+
+    required CmdType cmdType = 1;
+}
+
+message DebugCmd {
+    required int32 debugCmd = 1;
+}
