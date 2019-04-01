@@ -96,7 +96,6 @@ int ring_buffer_get(RingBuffer_t *const ringBuffer, uint8_t *dataOut)
     return err;
 }
 
-int ring_buffer_length(RingBuffer_t *const buffer);
 
 /*
 

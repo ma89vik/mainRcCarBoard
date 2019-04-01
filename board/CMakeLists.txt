@@ -37,7 +37,6 @@ list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/stm32f4xx_hal_msp.c
   ${SOURCE_DIR}/stm32f4xx_hal_timebase_tim.c
   ${SOURCE_DIR}/gpio.c
-  ${SOURCE_DIR}/crc.c
   ${SOURCE_DIR}/dma.c
   ${SOURCE_DIR}/i2c.c
   ${SOURCE_DIR}/spi.c
