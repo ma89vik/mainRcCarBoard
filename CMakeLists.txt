@@ -68,17 +68,17 @@ include_directories(${INC_FILES})
 set_property(SOURCE ${CMAKE_SOURCE_DIR}/board/startup_stm32f407xx.s PROPERTY LANGUAGE C)
 
 set(EXECUTABLE_NAME ${PROJ})
-#add_executable(${EXECUTABLE_NAME}.elf ${SOURCE_FILES})
-add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
-set_target_properties(${EXECUTABLE_NAME} PROPERTIES SUFFIX ".out")
+add_executable(${EXECUTABLE_NAME}.elf ${SOURCE_FILES})
+#add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
+#set_target_properties(${EXECUTABLE_NAME} PROPERTIES SUFFIX ".out")
 
     # additional POST BUILD setps to create the .bin and .hex files
-    add_custom_command(TARGET ${EXECUTABLE_NAME}
-            POST_BUILD
-            COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-size ${EXECUTABLE_NAME}.out 
-            COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O binary ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.bin"
-            COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O ihex ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.hex"
-            COMMENT "post build steps for ${EXECUTABLE_NAME}")
+  #  add_custom_command(TARGET ${EXECUTABLE_NAME}
+   #         POST_BUILD
+    #        COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-size ${EXECUTABLE_NAME}.out 
+     #       COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O binary ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.bin"
+      #      COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O ihex ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.hex"
+       #     COMMENT "post build steps for ${EXECUTABLE_NAME}")
 
 
 if(${BUILD_TYPE} STREQUAL "UNIT_TEST")
@@ -88,10 +88,10 @@ endif()
 
 
 # Generate assembly listing.
-#add_custom_command(
-#  TARGET ${PROJ}.elf
-#  COMMAND "arm-none-eabi-objdump"
- # ARGS "-S" "${PROJ}.elf" ">>" "${PROJ}.lst")
+add_custom_command(
+  TARGET ${PROJ}.elf
+  COMMAND "arm-none-eabi-objdump"
+  ARGS "-S" "${PROJ}.elf" ">>" "${PROJ}.lst")
 
 # Flash firmware to target.
 add_custom_target(flash

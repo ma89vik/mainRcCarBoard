@@ -33,13 +33,12 @@ void v_ble_board_handler_task(void *vParameters)
 
     ble_board_init();
  
-   // ble_board_handler_set_steering(33);
+    ble_board_handler_set_steering(33);
     
     while(1)
     {
         xLastExecutionTime = xTaskGetTickCount();
         //handle_msg();
-        LOG_DEBUG("test\n");
         
         
         vTaskDelayUntil( &xLastExecutionTime, 5000 );
@@ -73,9 +72,10 @@ static bool handle_msg()
     if(parse_packet(&msgParser, &msgIn) == OK)
     {
         ble_board_handle_msg(&msgIn);
+
+    
     }
-
-
+    return 0;
 }
 
 void ble_board_handler_set_speed(int16_t speedCmd)

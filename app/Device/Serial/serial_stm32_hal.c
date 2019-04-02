@@ -60,6 +60,14 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
     serialData[idx]->txReady = true;
 }
 
+void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
+{
+    int a = 2;
+    //__HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_PEF);
+	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_FECF);
+	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_ORECF);
+}
+
 SerialResult_t stm32_hal_serial_write(Device_t *dev, uint8_t *bytes, uint16_t len)
 {
    SerialDriverData_t *serData = (SerialDriverData_t *)(dev->driverData);
@@ -67,7 +75,7 @@ SerialResult_t stm32_hal_serial_write(Device_t *dev, uint8_t *bytes, uint16_t le
     {
         serData->txReady = false;
         memcpy(serData->outbox, bytes, len);
-        HAL_UART_Transmit_DMA(serData->uartHandle, bytes, len);
+        HAL_UART_Transmit_DMA(serData->uartHandle, serData->outbox, len);
 
         return SERIAL_OK;
     }
