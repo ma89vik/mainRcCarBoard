@@ -5,6 +5,7 @@
 #include "usart.h"
 #include "ring_buffer.h"
 #include "log.h"
+#include "string.h"
 
 //Needed for converting from handle to device when we get HAL interrupt
 static int serialIndex = 0;
@@ -40,6 +41,7 @@ SerialResult_t stm32_hal_serial_init(Device_t *dev)
 
     //Init DMA
     HAL_UART_Receive_DMA(serData->uartHandle, &(serData->rxData), 1);
+    serData->txReady = true;
     
 
 }
@@ -54,15 +56,26 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 {
-    //set driver data txready
+    uint8_t idx = handleToIndex(huart);
+    serialData[idx]->txReady = true;
 }
 
-SerialResult_t stm32_hal_serial_write(Device_t *dev, uint8_t bytes, uint16_t len)
+SerialResult_t stm32_hal_serial_write(Device_t *dev, uint8_t *bytes, uint16_t len)
 {
-    // while (app_uart_put('a') != NRFX_SUCCESS);
-//Easee: if txreadu then HAL_Transmit and set rdy to false, else wait some time, if wait too long AbortTransmit()
+   SerialDriverData_t *serData = (SerialDriverData_t *)(dev->driverData);
+    if(serData->txReady)
+    {
+        serData->txReady = false;
+        memcpy(serData->outbox, bytes, len);
+        HAL_UART_Transmit_DMA(serData->uartHandle, bytes, len);
 
-    return 0;
+        return SERIAL_OK;
+    }
+    else
+    {
+        return SERIAL_WRITE_ERR;
+    }   
+
 }
 SerialResult_t stm32_hal_serial_read(Device_t *dev, uint8_t *result)
 {

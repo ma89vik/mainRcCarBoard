@@ -15,6 +15,19 @@ Device_t deviceGps = {
     .driverData = &serialDriverDataGps,
 };
 
+static SerialConfig_t serialConfigBleBoard = {
+    .init = stm32_hal_serial_init,
+};
+
+static SerialDriverData_t serialDriverDataBleBoard = {
+    .uartHandle = &huart2, 
+};
+
+Device_t deviceBleBoard = {
+    .driverConfig = &serialConfigBleBoard,
+    .driverData = &serialDriverDataBleBoard,
+};
+
 // I2C bus for IMU
 static I2cConfig_t i2cConfig = {
     .init = stm32_i2c_init,

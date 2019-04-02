@@ -1,5 +1,5 @@
-//#include "FreeRTOS.h"
-//#include "task.h"
+#include "FreeRTOS.h"
+#include "task.h"
 #include "ble_board_handler.h"
 #include "ble_board_message_handler.h"
 #include "message_parser.h"
@@ -7,8 +7,10 @@
 #include "pb_common.h"
 #include "pb_encode.h"
 #include "cmds.pb.h"
+#include "board.h"
+#include "serial_device.h"
+#include "log.h"
 
-#include "stdio.h"
 
 #define INBOX_SIZE 1024
 
@@ -26,17 +28,30 @@ uint8_t dummySerialNumB = 0;
 
 void v_ble_board_handler_task(void *vParameters)
 {
-    ble_board_init();
+    portTickType xLastExecutionTime;
+    xLastExecutionTime = xTaskGetTickCount();
 
-    ble_board_handler_set_speed(50);
-    handle_msg();
-    ble_board_handler_set_steering(20);
-    handle_msg();
+    ble_board_init();
+ 
+   // ble_board_handler_set_steering(33);
+    
+    while(1)
+    {
+        xLastExecutionTime = xTaskGetTickCount();
+        //handle_msg();
+        LOG_DEBUG("test\n");
+        
+        
+        vTaskDelayUntil( &xLastExecutionTime, 5000 );
+
+    }
 
 }
 
 static void ble_board_init()
 {
+    serial_init(&deviceBleBoard);
+
     ble_board_msg_handler_init();
     msg_parser_init(&msgParser, inboxBuf, INBOX_SIZE);
 }
@@ -95,20 +110,16 @@ static void ble_board_handler_send_msg(const void * protobufMsgStruct, const pb_
 
      if(!status)
      {
-         printf("PB encode failed: %s\n", PB_GET_ERROR(&outStream));
+         LOG_WARN("PB encode failed\n");
      }
 
     msgOut.length = outStream.bytes_written;
     
     if(compose_packet(&msgParser,&msgOut))
-    {
-        for(int i = 0; i<msgParser.outbox.length; i++)
-        {
-            dummySerial[i] = msgParser.outbox.data[i];
-        }
-        dummySerialNumB = msgParser.outbox.length;
+    {       
+        serial_write(&deviceBleBoard, msgParser.outbox.data, msgParser.outbox.length );
     }
-    //Send to serial
+   
 
     
 }

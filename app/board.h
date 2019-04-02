@@ -27,6 +27,7 @@
 #define NUM_SERIAL 2
 
 extern Device_t deviceGps;
+extern Device_t deviceBleBoard;
 extern Device_t deviceI2c;
 
 #endif

@@ -99,7 +99,7 @@ void emergency_stop()
 void vCarControlTask( void * pvParameters)
 {
     portTickType xLastExecutionTime;
-    volatile unsigned portBASE_TYPE uxLine = 0;
+    
 
      
     /// Initialise xLastExecutionTime so the first call to vTaskDelayUntil() works correctly

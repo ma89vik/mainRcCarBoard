@@ -37,6 +37,7 @@ list(APPEND APP_SOURCE_FILES
 
 list(APPEND APP_INC_FILES
   ${APP_DIR}
+  ${APP_DIR}/BleBoardHandler
   ${APP_DIR}/Control
   ${APP_DIR}/Cobs
   ${APP_DIR}/Crc
