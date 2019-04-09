@@ -2,8 +2,6 @@
 #include "pwm.h"
 #include "log.h"
 
-#include "FreeRTOS.h"
-#include "task.h"
 
 //Steering servo min and max pulse length
 static int16_t const STEERING_SERVO_PULSE_MIN = 1000;
@@ -21,8 +19,8 @@ static int16_t const MOTOR_ESC_PULSE_MAX = 2000;
  */
 void car_control_init()
 {
-    //No PWM signales generated until set_X are called
-    pwm_init();
+    
+  
 }
 
 /**
@@ -72,46 +70,7 @@ void emergency_stop()
     set_motor_setpoint_pct(0);
 }
 
-
-//void on_rccs_evt(ble_rccs_evt_t * p_evt)
-//{
-    /*
-    LOG_ERROR("Car control evt %d\n",p_evt->evt_type );
-    switch(p_evt->evt_type)
-    {      
-
-        case BLE_RCCS_EVT_DISCONNECTED:
-            emergency_stop();
-            break;
-
-       case BLE_RCCS_EVT_CONTROL_CMD:
-            set_steering_setpoint_pct(p_evt->params.cmd_data.steering_srv_cmd);
-            set_motor_setpoint_pct(p_evt->params.cmd_data.motorspeed_cmd);
-            LOG_INFO("Steering and speed cmd: %d %d\n",p_evt->params.cmd_data.steering_srv_cmd, p_evt->params.cmd_data.motorspeed_cmd);
-            break;
-
-        default:
-              // No implementation needed.
-              break;
-    }*/
-//}
-
-void vCarControlTask( void * pvParameters)
+void arm()
 {
-    portTickType xLastExecutionTime;
-    
-
-     
-    /// Initialise xLastExecutionTime so the first call to vTaskDelayUntil() works correctly
-    xLastExecutionTime = xTaskGetTickCount();
-    //car_control_init();
-   
-    
-    while(1)
-    {
-        xLastExecutionTime = xTaskGetTickCount();
-        LOG_DEBUG("Car task\r\n");
-       
-        vTaskDelayUntil( &xLastExecutionTime, 500 );
-    }
+  pwm_init();
 }

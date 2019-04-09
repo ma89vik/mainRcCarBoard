@@ -12,7 +12,10 @@ list(APPEND APP_SOURCE_FILES
   ${APP_DIR}/BleBoardHandler/message_parser.c
   ${APP_DIR}/Cobs/cobs.c
   ${APP_DIR}/Crc/crc.c
+  ${APP_DIR}/Control/car.c
   ${APP_DIR}/Control/car_control.c
+  ${APP_DIR}/Control/car_interface.c
+  ${APP_DIR}/Control/car_state.c
   ${APP_DIR}/Control/pwm.c
   ${APP_DIR}/Device/I2c/i2c_stm32_hal.c
   ${APP_DIR}/Device/Serial/serial_stm32_hal.c

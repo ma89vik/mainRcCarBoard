@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-void vCarControlTask( void * pvParameters);
+
 
 /**
  * @brief  Initialize the car control, including servo and motor to a safe sate
@@ -40,5 +40,6 @@ void emergency_stop();
  */
 //void on_rccs_evt(ble_rccs_evt_t * p_evt);
 
+void arm();
 
 #endif

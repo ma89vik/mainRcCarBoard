@@ -3,9 +3,9 @@
 #include "cobs.h"
 #include "ring_buffer.h"
 #include "linear_buffer.h"
-//#include "log.h"
+#include "log.h"
 
-#include "stdio.h"
+
 #include "string.h"
 
 #define PACKET_LEN_IDX 0
@@ -55,13 +55,13 @@ MsgParseResult_t parse_packet(MsgParser_t *msgParser, Msg_t * parsedMsg)
 
         if(payloadCrc != calculatedCrc)
         {
-            printf("CRC err\n");
+            LOG_WARN("CRC err\n");
             return CRC_ERR;
 
         }
         else
         {
-            printf("CRC OK\n");
+            LOG_DEBUG("CRC OK\n");
             parsedMsg->msgId = payloadId;
             parsedMsg->length = payloadLen;
             memcpy(parsedMsg->payload, &msgStream[PACKET_PAYLOAD_IDX], payloadLen);
@@ -96,7 +96,7 @@ static MsgParseResult_t find_delimiter(MsgParser_t *msgParser)
         {
             //No delimiter found before max message length
             linear_buf_clear(&msgParser->msgBuf);
-            printf("Corrupted message, no delim\n");
+            LOG_WARN("Corrupted message, no delim\n");
 
             return NO_DELIMITER;
         }  
@@ -128,7 +128,7 @@ bool compose_packet(MsgParser_t *msgParser, Msg_t *msg)
     msgStream[PACKET_ID_IDX] = msg->msgId;
 
     crc payloadCrc = crcFast(msg->payload, msg->length);
-    printf("Sendt CRC: %d\n", payloadCrc);
+    
     memcpy(&msgStream[PACKET_CRC_IDX], &payloadCrc, 2);
     
 

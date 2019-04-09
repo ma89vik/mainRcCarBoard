@@ -1,4 +1,5 @@
 syntax = "proto2";
+import "state.proto";
 
 message SteeringCmd {
     required int32 steeringSetPoint = 1;
@@ -14,14 +15,26 @@ message WaypointCmd {
     required int32 sequenceNumber = 3; 
 }
 
+
+enum CmdType {
+    STOP = 0;        
+}
+
 message BasicCmd {
 
-    enum CmdType {
-        STOP = 0;
-        ARM = 1;
-    }
+    required CmdType basicCmd = 1;
+}
 
-    required CmdType cmdType = 1;
+message ManualControlCmds {
+    required int32 steeringSetPoint = 1;
+    required int32 speedSetPoint = 2;
+    required CarState setCarState = 3;
+    required CmdType BasicCmd = 4;
+}
+
+
+message StateCmd {
+    required CarState setCarState = 1;
 }
 
 message DebugCmd {

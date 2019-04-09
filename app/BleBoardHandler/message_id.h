@@ -5,6 +5,8 @@ typedef enum MessageId
 {
     ID_ERROR,
     ID_SPEED_CMD,
+    ID_BASIC_TELEMETRY,
+    ID_MANUAL_CMDS,
 
     ID_MAX // Last ID
 } MessageId;

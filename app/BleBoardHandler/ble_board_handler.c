@@ -7,12 +7,15 @@
 #include "pb_common.h"
 #include "pb_encode.h"
 #include "cmds.pb.h"
+#include "telemetry.pb.h"
 #include "board.h"
 #include "serial_device.h"
 #include "log.h"
+#include "car_state.h"
 
 
 #define INBOX_SIZE 1024
+#define TELEMETRY_MSG_PERIOD_MS 500
 
 static MsgParser_t msgParser;
 char inboxBuf[INBOX_SIZE];
@@ -23,25 +26,30 @@ static bool handle_msg();
 static void ble_board_init();
 static void ble_board_handler_send_msg(const void * protobufMsgStruct, const pb_field_t msgFields[]);
 
-uint8_t dummySerial[1024];
-uint8_t dummySerialNumB = 0;
+static send_telemetry();
 
 void v_ble_board_handler_task(void *vParameters)
 {
-    portTickType xLastExecutionTime;
+    portTickType xLastExecutionTime, xLastTelemetryMsg, xTelemetryMsgPeriod;
+    
     xLastExecutionTime = xTaskGetTickCount();
+    xLastTelemetryMsg = 0;
+    xTelemetryMsgPeriod = TELEMETRY_MSG_PERIOD_MS/portTICK_PERIOD_MS;
 
-    ble_board_init();
- 
-    ble_board_handler_set_steering(33);
+    ble_board_init();  
     
     while(1)
     {
         xLastExecutionTime = xTaskGetTickCount();
-        //handle_msg();
+        handle_msg();
         
+        if((xLastExecutionTime - xLastTelemetryMsg) >= xTelemetryMsgPeriod)
+        {
+            xLastTelemetryMsg = xLastExecutionTime;
+            send_telemetry();
+        }
         
-        vTaskDelayUntil( &xLastExecutionTime, 5000 );
+        vTaskDelayUntil( &xLastExecutionTime, 100 );
 
     }
 
@@ -59,13 +67,14 @@ static void ble_board_init()
 
 static bool handle_msg()
 {
-    //Test messages
-
+  
 
     //Serial read
-    for(int i =0 ; i<dummySerialNumB; i++)
+    uint8_t byte;
+
+    while (serial_read_byte(&deviceBleBoard, &byte) == SERIAL_OK)
     {
-        msg_add_byte(&msgParser, dummySerial[i]);   
+        msg_add_byte(&msgParser, byte);   
     }
  
 
@@ -78,28 +87,16 @@ static bool handle_msg()
     return 0;
 }
 
-void ble_board_handler_set_speed(int16_t speedCmd)
+
+static send_telemetry()
 {
-    SpeedCmd speedCmdMsg = SpeedCmd_init_default;
+    BasicTelemetry basicTelemetryMsg = BasicTelemetry_init_default;
 
-    speedCmdMsg.speedSetPoint = speedCmd;
+    basicTelemetryMsg.carState = get_car_state();
 
-    msgOut.msgId = ID_SPEED_CMD;
+    msgOut.msgId = ID_BASIC_TELEMETRY;
 
-    ble_board_handler_send_msg(&speedCmdMsg, SpeedCmd_fields);
-   
-}
-
-void ble_board_handler_set_steering(int16_t steeringCmd)
-{
-    SteeringCmd steeringCmdMsg = SteeringCmd_init_default;
-
-    steeringCmdMsg.steeringSetPoint = steeringCmd;
-
-    msgOut.msgId = ID_SPEED_CMD;
-
-    ble_board_handler_send_msg(&steeringCmdMsg, SteeringCmd_fields);
-   
+    ble_board_handler_send_msg(&basicTelemetryMsg, BasicTelemetry_fields); 
 }
 
 static void ble_board_handler_send_msg(const void * protobufMsgStruct, const pb_field_t msgFields[])

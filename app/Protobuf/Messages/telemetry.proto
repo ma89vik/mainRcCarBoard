@@ -1,10 +1,12 @@
 syntax = "proto2";
+import "state.proto";
 
 message BasicTelemetry {
-    required float speed = 1;
-    required float heading = 2;
-    required string longitude = 3;
-    required string latitude = 4;
+    required CarState carState = 1;
+    required float speed = 2;
+    required float heading = 3;
+    required string longitude = 4;
+    required string latitude = 5;
     
 }
 
