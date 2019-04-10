@@ -99,6 +99,17 @@ static send_telemetry()
     ble_board_handler_send_msg(&basicTelemetryMsg, BasicTelemetry_fields); 
 }
 
+void send_log()
+{/*
+    Log logMsg = Log_init_default;
+
+    logMsg.logMsg = "Abcd\n";
+
+    msgOut.msgId = ID_BASIC_TELEMETRY;
+
+    ble_board_handler_send_msg(&basicTelemetryMsg, BasicTelemetry_fields); */
+}
+
 static void ble_board_handler_send_msg(const void * protobufMsgStruct, const pb_field_t msgFields[])
 {
      pb_ostream_t outStream = pb_ostream_from_buffer(msgOut.payload, PAYLOAD_MAX_LENGTH);

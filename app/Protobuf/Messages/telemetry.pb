@@ -1,5 +1,5 @@
 
-š
+¹
 telemetry.protostate.proto"¡
 BasicTelemetry%
 carState (2	.CarStateRcarState
@@ -8,6 +8,8 @@
 	longitude (	R	longitude
 latitude (	Rlatitude"%
 ExpandedTelemetry
-tmp (Rtmp"/
+tmp (Rtmp"
+Log
+logMsg (	RlogMsg"/
 DebugStatus 
 debugStatus (RdebugStatus

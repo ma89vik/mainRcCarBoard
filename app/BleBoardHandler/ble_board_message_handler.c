@@ -61,10 +61,8 @@ void ble_board_speed_cmd(Msg_t *msgIn)
 
     LOG_DEBUG("From BLE board: set speed \n");
 
-    mode++;
-
-    car_request_mode_change(mode);
-
+ 
+    car_request_speed(speedCmdMsg.speedSetPoint);
 
 }
 
@@ -77,6 +75,8 @@ void ble_board_steering_cmd(Msg_t *msgIn)
     bool status = pb_decode(&inStream, SteeringCmd_fields,&steeringCmdMsg);
 
     LOG_DEBUG("From BLE board: set steering \n");
+
+    car_request_steering(steeringCmdMsg.steeringSetPoint);
 }
 
 void ble_board_manual_cmds(Msg_t *msgIn)
@@ -89,5 +89,8 @@ void ble_board_manual_cmds(Msg_t *msgIn)
 
     LOG_DEBUG("From BLE board: set manual controls \n");
 
+    
+    car_request_speed((int16_t)manualControlCmdsMsg.speedSetPoint);
+    car_request_steering((int16_t)manualControlCmdsMsg.steeringSetPoint);
     car_request_mode_change(manualControlCmdsMsg.setCarState);
 }

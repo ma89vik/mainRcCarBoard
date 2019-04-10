@@ -19,7 +19,7 @@ static CarState_t do_state_auto(StateData_t *data);
 
 static state_func_t* const state_table[NUM_STATES] = 
 {
-    do_state_init, do_state_idle, do_state_arm, do_state_manual, do_state_auto
+    do_state_init, do_state_idle, do_state_arm,  do_state_auto, do_state_manual
 };
 
 static do_init_to_idle(StateData_t *data);
@@ -68,8 +68,7 @@ static CarState_t do_state_idle(StateData_t *data)
         if((CarState_t)data->data == ARM)
         {
           return ARM;   
-        }
-       
+        }       
     }    
  
   return IDLE;
@@ -106,9 +105,12 @@ static CarState_t do_state_arm(StateData_t *data)
 
 static CarState_t do_state_manual(StateData_t *data)
 {
-    if(data->event == SET_STATE_EVT)
+  CarState_t stateCmd;
+  int8_t setpoint;
+    switch(data->event)
     {
-        CarState_t stateCmd = (CarState_t)data->data; 
+      case SET_STATE_EVT:
+        stateCmd = (CarState_t)data->data; 
 
         if(stateCmd == AUTO)
         {
@@ -118,9 +120,19 @@ static CarState_t do_state_manual(StateData_t *data)
         {
           return IDLE;   
         }
+
+        break;
+
+      case SET_SPEED_EVT:
+        setpoint = (int8_t)data->data; 
+        set_motor_setpoint_pct(setpoint);
+        break;
+
+      case SET_STEERING_EVT:
+        setpoint = (int8_t)data->data; 
+        set_steering_setpoint_pct(setpoint);
+        break;
     }
-
-
     
     return MANUAL;
     

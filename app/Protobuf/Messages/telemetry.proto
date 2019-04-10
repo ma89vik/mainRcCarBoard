@@ -1,5 +1,6 @@
 syntax = "proto2";
 import "state.proto";
+import "nanopb.proto";
 
 message BasicTelemetry {
     required CarState carState = 1;
@@ -14,7 +15,10 @@ message ExpandedTelemetry {
     required int32 tmp = 1;
 }
 
-
+message Log {
+   required string name = 1 [(nanopb).max_size = 40];
+ 
+}
 
 message DebugStatus {
     required int32 debugStatus = 1;

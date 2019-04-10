@@ -49,7 +49,6 @@ list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/system_stm32f4xx.c
   ${CMAKE_SOURCE_DIR}/board/startup_stm32f407xx.s
   ${HAL_DIR}/Src/stm32f4xx_hal.c
-  ${HAL_DIR}/Src/stm32f4xx_hal_crc.c
   ${HAL_DIR}/Src/stm32f4xx_hal_exti.c
   ${HAL_DIR}/Src/stm32f4xx_hal_cortex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_dma.c
