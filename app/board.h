@@ -4,6 +4,8 @@
 #include "serial_device.h"
 #include "serial_stm32_hal.h"
 
+#include "main.h"
+
 
 
 #define SERVO_PWM_CH TIM_CHANNEL_1 //PC6
@@ -17,8 +19,11 @@
 #define UART_CTS_PIN 7
 #define UART_RTS_PIN 5
 
-#define DIST_SENS_IN_PIN 12
-#define DIST_SENS_OUT_PIN 11
+
+#define DIST_SENS_IN_PIN Dist_Sensor_In_Pin
+#define DIST_SENS_IN_PORT Dist_Sensor_In_GPIO_Port
+#define DIST_SENS_OUT_PIN Dist_Sensor_Trig_Pin
+#define DIST_SENS_OUT_PORT Dist_Sensor_Trig_GPIO_Port
 
 // Hardware timers
 #define DIST_SENS_TIMER_ID 0

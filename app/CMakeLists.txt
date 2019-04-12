@@ -17,6 +17,7 @@ list(APPEND APP_SOURCE_FILES
   ${APP_DIR}/Control/car_interface.c
   ${APP_DIR}/Control/car_state.c
   ${APP_DIR}/Control/pwm.c
+  ${APP_DIR}/DistanceSensor/distance_sensor.c
   ${APP_DIR}/Device/I2c/i2c_stm32_hal.c
   ${APP_DIR}/Device/Serial/serial_stm32_hal.c
   ${APP_DIR}/GPS/gps_handler.c
@@ -47,6 +48,7 @@ list(APPEND APP_INC_FILES
   ${APP_DIR}/Device
   ${APP_DIR}/Device/I2c
   ${APP_DIR}/Device/Serial
+  ${APP_DIR}/DistanceSensor/
   ${APP_DIR}/GPS
   ${APP_DIR}/IMU
   ${APP_DIR}/Log

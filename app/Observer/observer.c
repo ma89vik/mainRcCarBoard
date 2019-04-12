@@ -9,7 +9,7 @@
 
 bool observer_init()
 {
-    //imu_init();
+    imu_init();
     gps_init();
 }
 
@@ -35,7 +35,8 @@ void v_observer_task(void *pvParameters)
         
         gps_update();
 
-
+        heading = read_compass_heading();
+        
         vTaskDelayUntil( &xLastExecutionTime, 1000 );
     }
 

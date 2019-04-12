@@ -17,10 +17,7 @@
 #define LOG_TASK_PRIORITY     ( tskIDLE_PRIORITY + 1 )
 #define BLE_BOARD_TASK_PRIORITY     ( tskIDLE_PRIORITY + 4 )
 
-void vApplicationStackOverflowHook( TaskHandle_t xTask,      signed char *pcTaskName )
-{
-    LOG_ERROR("STACK OF");
-}
+
 
 void app_main()
 {
@@ -35,7 +32,7 @@ void app_main()
 
     xTaskCreate( v_car_task, (signed char*)"Car Control", 4*configMINIMAL_STACK_SIZE, NULL, CAR_CONTROL_TASK_PRIORITY , NULL );
 
-    //xTaskCreate( v_observer_task, (signed char*)"Observer", configMINIMAL_STACK_SIZE, NULL, OBSERVER_TASK_PRIORITY , NULL );
+    xTaskCreate( v_observer_task, (signed char*)"Observer", 8*configMINIMAL_STACK_SIZE, NULL, OBSERVER_TASK_PRIORITY , NULL );
 
     xTaskCreate( v_log_task, (signed char*)"Logger", 256, NULL, LOG_TASK_PRIORITY , NULL );
     

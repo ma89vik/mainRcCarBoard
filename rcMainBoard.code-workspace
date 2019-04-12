@@ -9,7 +9,8 @@
 			"board.h": "c",
 			"cmds.pb.h": "c",
 			"car.h": "c",
-			"telemetry.pb.h": "c"
+			"telemetry.pb.h": "c",
+			"distance_sensor.h": "c"
 		}
 	}
 }

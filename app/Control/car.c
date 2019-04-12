@@ -5,6 +5,8 @@
 
 #include "log.h"
 
+#include "distance_sensor.h"
+
 #include "FreeRTOS.h"
 #include "task.h"
 #include "message_buffer.h"
@@ -17,7 +19,7 @@ void car_init()
     car_interface_init();
     car_control_init();
    
-
+    dist_sens_init();
   
 }
 
