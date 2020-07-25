@@ -1,4 +1,10 @@
 # stm32f4
+
+
+# Building the project
+ * Set TOOLCHAIN_PATH to the path to your arm-none-eabi folder
+
+
 ToDO: App:
 
 uC: map from BT cmds to vehicle cmds safety functions: watchdog, bootloader, OTA logging, over BLE, to flash?

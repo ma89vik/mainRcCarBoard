@@ -1,49 +1,20 @@
-cmake_minimum_required (VERSION 3.6)
+cmake_minimum_required (VERSION 3.11)
 
 set(PROJ "rcMainBoard")
-project (${PROJ})
+project ("rc_car_control_board")
 
 set(APP_LIB_NAME "rcMainBoardLib")
-
-set(ARM_NONE_EABI_TOOLCHAIN_PATH "/usr")
 
 
 # For diagnostic tools like rtags.
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
+MESSAGE(STATUS "Building for MCU")
 
+add_definitions(-DSTM32F407xx -DUSE_HAL_DRIVER)
 
-
-# language standard/version settings
-set(CMAKE_C_STANDARD 99)
-set(CMAKE_CXX_STANDARD 98)
-
-if(${BUILD_TYPE} STREQUAL "MCU")
-  MESSAGE(STATUS "Building for MCU")
-  # configure cmake to use the arm-none-eabi-gcc
-  set(CMAKE_C_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc")
-  set(CMAKE_CXX_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-c++")
-  set(CMAKE_ASM_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-gcc")
-
-  set(CPU_FLAGS "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb -specs=nosys.specs")
-  add_definitions(-DSTM32F407xx -DUSE_HAL_DRIVER)
-
-  set(CMAKE_EXE_LINKER_FLAGS "-lc -lm -lnosys -T ${CMAKE_SOURCE_DIR}/board/STM32F407VGTx_FLASH.ld -Wl,--gc-section")
-elseif(${BUILD_TYPE} STREQUAL "UNIT_TEST")
-  MESSAGE(STATUS "Building for unit test")
-  set(CMAKE_C_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/gcc")
-  set(CMAKE_CXX_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/c++")
-  set(CMAKE_ASM_COMPILER "${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/gcc")
-
-  set(CPU_FLAGS "")
-  add_definitions(-DSTM32F407xx -DUSE_HAL_DRIVER)
-endif()
-
-set(COMMON_FLAGS "-O0 -g -Wall -ffunction-sections -fdata-sections ${CPU_FLAGS}")
-
-# compiler/assambler/linker flags
-set(CMAKE_C_FLAGS "${COMMON_FLAGS}")
-set(CMAKE_CXX_FLAGS "${COMMON_FLAGS}")
+set(LINKER_SCRIPT ${CMAKE_SOURCE_DIR}/board/STM32F407VGTx_FLASH.ld)
+set(CMAKE_EXE_LINKER_FLAGS -T ${LINKER_SCRIPT} )
 
 add_subdirectory(app)
 add_subdirectory(board)
@@ -71,14 +42,6 @@ set(EXECUTABLE_NAME ${PROJ})
 add_executable(${EXECUTABLE_NAME}.elf ${SOURCE_FILES})
 #add_executable(${EXECUTABLE_NAME} ${SOURCE_FILES})
 #set_target_properties(${EXECUTABLE_NAME} PROPERTIES SUFFIX ".out")
-
-    # additional POST BUILD setps to create the .bin and .hex files
-  #  add_custom_command(TARGET ${EXECUTABLE_NAME}
-   #         POST_BUILD
-    #        COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-size ${EXECUTABLE_NAME}.out 
-     #       COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O binary ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.bin"
-      #      COMMAND ${ARM_NONE_EABI_TOOLCHAIN_PATH}/bin/arm-none-eabi-objcopy -O ihex ${EXECUTABLE_NAME}.out "${EXECUTABLE_NAME}.hex"
-       #     COMMENT "post build steps for ${EXECUTABLE_NAME}")
 
 
 if(${BUILD_TYPE} STREQUAL "UNIT_TEST")
