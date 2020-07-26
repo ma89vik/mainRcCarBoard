@@ -3,6 +3,7 @@
 
 # Building the project
  * Set TOOLCHAIN_PATH to the path to your arm-none-eabi folder
+ * Install python requirements from requirements.txt
 
 
 ToDO: App:

@@ -1,10 +1,27 @@
 
-  Protobuf/pb_encode.c
-  Protobuf/pb_decode.c
-  Protobuf/pb_common.c
-  Protobuf/Messages/cmds.pb.c
-  Protobuf/Messages/telemetry.pb.c
 
-  
-  Protobuf/
-  Protobuf/Messages/
+
+set(MESSAGES cmds state telemetry)
+set(MESSAGE_FOLDER "${CMAKE_CURRENT_LIST_DIR}/Messages")
+
+set(MESSAGE_PROTOS ${MESSAGES})
+list(TRANSFORM MESSAGE_PROTOS APPEND ".proto")
+list(TRANSFORM MESSAGE_PROTOS PREPEND "${MESSAGE_FOLDER}/")
+
+set(MESSAGE_SOURCES ${MESSAGES})
+list(TRANSFORM MESSAGE_SOURCES PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
+list(TRANSFORM MESSAGE_SOURCES APPEND ".c")
+
+set(MESSAGE_HEADERS ${MESSAGES})
+list(TRANSFORM MESSAGE_HEADERS PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
+list(TRANSFORM MESSAGE_HEADERS APPEND ".h")
+
+
+add_custom_command(OUTPUT ${MESSAGE_SOURCES} ${MESSAGE_HEADERS}
+                   COMMAND python3 ${CMAKE_CURRENT_LIST_DIR}/nanopb/generator/nanopb_generator.py -D . -I ${MESSAGE_FOLDER} cmds.proto state.proto telemetry.proto
+                   DEPENDS ${MESSAGE_PROTOS})
+
+message(WARNING "${MESSAGE_SOURCES}")
+
+add_library(protobuf_messages STATIC ${MESSAGE_SOURCES} ${MESSAGE_HEADERS})
+target_include_directories(board PUBLIC .)
