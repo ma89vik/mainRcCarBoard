@@ -24,7 +24,7 @@
 #endif
 
 /* Includes ------------------------------------------------------------------*/
-#include "main.h"
+#include "stm_main.h"
 
 /* USER CODE BEGIN Includes */
 

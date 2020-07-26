@@ -4,7 +4,7 @@
 #include "serial_device.h"
 #include "serial_stm32_hal.h"
 
-#include "main.h"
+#include "stm_main.h"
 
 
 
