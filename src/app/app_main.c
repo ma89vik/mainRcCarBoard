@@ -4,6 +4,7 @@
 #include "task.h"
 
 #include "gpio.h"
+#include "app_uart.h"
 /*
 #include "serial_stm32_hal.h"
 #include "car.h"
@@ -22,6 +23,15 @@
 void app_main()
 {
 
+    app_uart_handle_t uart_handle;
+    uart_handle.uartHandle = &huart3;
+    app_uart_init(&uart_handle);
+
+
+    while(1) {
+
+        app_uart_write(&uart_handle, "hello world", 12);
+    }
    /*LogConfig_t logConfig = {
        .init = usb_log_init,
    };

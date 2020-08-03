@@ -2,13 +2,14 @@ cmake_minimum_required (VERSION 3.11)
 enable_language(C ASM)
 
 set(RC_CAR_CONTROL_BOARD_ELF "rc_car_control_board.elf")
+
 project ("rc_car_control_board")
 
 set(APP_LIB_NAME "rcMainBoardLib")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(src)
+add_subdirectory(src/app)
 
 # Flash firmware to target.
 add_custom_target(flash
@@ -24,3 +25,4 @@ add_custom_target(gdbhost
   -f target/stm32f4x.cfg -c "init" -c "reset halt"
   DEPENDS ${RC_CAR_CONTROL_BOARD_ELF}
   COMMENT "Running OpenOCD as a GDB host.")
+
