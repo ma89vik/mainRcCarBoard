@@ -2,6 +2,7 @@
 #include "usart.h"
 #include "ring_buffer.h"
 #include "string.h"
+#include "led.h"
 
 #define NUM_SERIAL 1
 
@@ -43,6 +44,7 @@ void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 {
+    led_set(LED_BLUE, 1);
     uint8_t idx = handleToIndex(huart);
     app_uart_handle[idx]->txReady = true;
 }

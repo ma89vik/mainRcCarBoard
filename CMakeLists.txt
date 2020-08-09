@@ -10,19 +10,19 @@ set(APP_LIB_NAME "rcMainBoardLib")
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 add_subdirectory(src/app)
+add_subdirectory(src/bootloader)
 
 # Flash firmware to target.
 add_custom_target(flash
   openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
   -f target/stm32f4x.cfg -c "init" -c "reset halt"
-  -c "flash write_image erase ${RC_CAR_CONTROL_BOARD_ELF}" -c "reset run" -c "shutdown"
+  -c "flash write_image erase src/app/${RC_CAR_CONTROL_BOARD_ELF}" -c "reset run" -c "shutdown"
   DEPENDS ${RC_CAR_CONTROL_BOARD_ELF}
   COMMENT "Flashing target hardware")
 
-# Run OpenOCD as a GDB host.
-add_custom_target(gdbhost
-  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd"
-  -f target/stm32f4x.cfg -c "init" -c "reset halt"
-  DEPENDS ${RC_CAR_CONTROL_BOARD_ELF}
+# Run OpenOCD
+add_custom_target(openocd
+  openocd -f interface/stlink-v2-1.cfg -c "transport select hla_swd" -f target/stm32f4x.cfg -c "init" -c "reset halt"
+  DEPENDS src/app/${RC_CAR_CONTROL_BOARD_ELF}
   COMMENT "Running OpenOCD as a GDB host.")
 

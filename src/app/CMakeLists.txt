@@ -8,6 +8,7 @@ add_subdirectory(board)
     main.c
     app_main.c
     app_drivers/uart/app_uart.c
+    app_drivers/led/led.c
 #   board.c
 #   BleBoardHandler/ble_board_handler.c
 #   BleBoardHandler/ble_board_message_handler.c
@@ -49,6 +50,8 @@ add_subdirectory(board)
 #   Observer
 #   LinearBuffer
    app_drivers/uart
+   app_drivers/led
+   error_def
    RingBuffer 
  )
 

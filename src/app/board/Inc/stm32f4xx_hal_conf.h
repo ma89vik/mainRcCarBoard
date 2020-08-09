@@ -49,6 +49,8 @@
   */
 #define HAL_MODULE_ENABLED  
 
+#define USE_HAL_UART_REGISTER_CALLBACKS 1
+
 /* #define HAL_ADC_MODULE_ENABLED   */
 /* #define HAL_CRYP_MODULE_ENABLED   */
 /* #define HAL_CAN_MODULE_ENABLED   */
