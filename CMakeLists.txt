@@ -9,8 +9,7 @@ set(APP_LIB_NAME "rcMainBoardLib")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
-add_subdirectory(src/app)
-add_subdirectory(src/bootloader)
+add_subdirectory(src)
 
 # Flash firmware to target.
 add_custom_target(flash

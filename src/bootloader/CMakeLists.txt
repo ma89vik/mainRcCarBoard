@@ -4,48 +4,28 @@ add_subdirectory(board)
 
 set(BOOTLOADER_NAME "rc_control_bootloader")
 
- list(APPEND APP_SOURCE_FILES
-    main.c
-    bootloader_uart.c
-    led.c
- )
+list(APPEND BOOTLOADER_SOURCE_FILES
+   "main.c"
+   "bootloader_main.c"
+   "bootloader_uart.c"
+   "led.c"
+)
 
+list(APPEND BOOTLOADER_INC_DIRS
+   "include"
+)
 
- list(APPEND APP_INC_FILES
-#   BleBoardHandler
-#   Control
-#   Cobs
-#   Crc
-#   Device
-#   Device/I2c
-#   Device/Serial
-#   DistanceSensor/
-#   GPS
-#   IMU
-#   Log
-#   Observer
-#   LinearBuffer
-   app_drivers/uart
-   app_drivers/led
-   error_def
-   RingBuffer 
- )
+set(BOOTLOADER_SOURCE_FILES ${BOOTLOADER_SOURCE_FILES})
+set(BOOTLOADER_INC_DIRS ${BOOTLOADER_INC_DIRS})
 
+set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/bootloader.ld")
+get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 
-set(APP_SOURCE_FILES ${APP_SOURCE_FILES})
-set(APP_INC_FILES ${APP_INC_FILES})
+add_executable(${BOOTLOADER_NAME}.elf ${BOOTLOADER_SOURCE_FILES})
 
-
-set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/STM32F407VGTx_FLASH.ld")
-set(CMAKE_EXE_LINKER_FLAGS "-T ${LINKER_SCRIPT}")
-
-
-
-
-add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
-add_executable(${BOOTLOADER_NAME}.elf ${APP_SOURCE_FILES})
-target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board)
-target_include_directories(${BOOTLOADER_NAME}.elf  PUBLIC ${APP_INC_FILES})
+target_compile_definitions(${BOOTLOADER_NAME}.elf PRIVATE STM32F407xx USE_HAL_DRIVER)
+target_include_directories(${BOOTLOADER_NAME}.elf PRIVATE ${BOOTLOADER_INC_DIRS})
+target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 
 
 add_custom_command(TARGET ${BOOTLOADER_NAME}.elf
