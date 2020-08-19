@@ -15,8 +15,6 @@ list(APPEND BOOTLOADER_INC_DIRS
    "include"
 )
 
-set(BOOTLOADER_SOURCE_FILES ${BOOTLOADER_SOURCE_FILES})
-set(BOOTLOADER_INC_DIRS ${BOOTLOADER_INC_DIRS})
 
 set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/bootloader.ld")
 get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
@@ -24,7 +22,7 @@ get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 add_executable(${BOOTLOADER_NAME}.elf ${BOOTLOADER_SOURCE_FILES})
 
 target_compile_definitions(${BOOTLOADER_NAME}.elf PRIVATE STM32F407xx USE_HAL_DRIVER)
-target_include_directories(${BOOTLOADER_NAME}.elf PRIVATE ${BOOTLOADER_INC_DIRS})
+target_include_directories(${BOOTLOADER_NAME}.elf PUBLIC ${BOOTLOADER_INC_DIRS})
 target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 
 

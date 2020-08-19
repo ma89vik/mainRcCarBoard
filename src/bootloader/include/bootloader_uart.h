@@ -10,6 +10,6 @@ typedef struct
 } uart_handle_t;
 
 
-err_def_t app_uart_init(uart_handle_t *dev);
+void bootloader_uart_init(uart_handle_t *dev,  UART_HandleTypeDef *uartHandle);
 err_def_t bootloader_uart_write(uart_handle_t *dev, uint8_t *bytes, uint16_t len);
 
