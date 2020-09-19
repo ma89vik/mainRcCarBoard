@@ -77,6 +77,7 @@ defined in linker script */
 Reset_Handler:  
   ldr   sp, =_estack     /* set stack pointer */
 
+
 /* Copy the data segment initializers from flash to SRAM */  
   movs  r1, #0
   b  LoopCopyDataInit
@@ -247,33 +248,7 @@ g_pfnVectors:
 * As they are weak aliases, any function with the same name will override 
 * this definition.
 * 
-*******************************************************************************/
-   .weak      NMI_Handler
-   .thumb_set NMI_Handler,Default_Handler
-  
-   .weak      HardFault_Handler
-   .thumb_set HardFault_Handler,Default_Handler
-  
-   .weak      MemManage_Handler
-   .thumb_set MemManage_Handler,Default_Handler
-  
-   .weak      BusFault_Handler
-   .thumb_set BusFault_Handler,Default_Handler
-
-   .weak      UsageFault_Handler
-   .thumb_set UsageFault_Handler,Default_Handler
-
-   .weak      SVC_Handler
-   .thumb_set SVC_Handler,Default_Handler
-
-   .weak      DebugMon_Handler
-   .thumb_set DebugMon_Handler,Default_Handler
-
-   .weak      PendSV_Handler
-   .thumb_set PendSV_Handler,Default_Handler
-
-   .weak      SysTick_Handler
-   .thumb_set SysTick_Handler,Default_Handler              
+*******************************************************************************/          
   
    .weak      WWDG_IRQHandler                   
    .thumb_set WWDG_IRQHandler,Default_Handler      
@@ -311,8 +286,6 @@ g_pfnVectors:
    .weak      DMA1_Stream0_IRQHandler               
    .thumb_set DMA1_Stream0_IRQHandler,Default_Handler
          
-   .weak      DMA1_Stream1_IRQHandler               
-   .thumb_set DMA1_Stream1_IRQHandler,Default_Handler
                   
    .weak      DMA1_Stream2_IRQHandler               
    .thumb_set DMA1_Stream2_IRQHandler,Default_Handler
@@ -323,11 +296,6 @@ g_pfnVectors:
    .weak      DMA1_Stream4_IRQHandler              
    .thumb_set DMA1_Stream4_IRQHandler,Default_Handler
                   
-   .weak      DMA1_Stream5_IRQHandler               
-   .thumb_set DMA1_Stream5_IRQHandler,Default_Handler
-                  
-   .weak      DMA1_Stream6_IRQHandler               
-   .thumb_set DMA1_Stream6_IRQHandler,Default_Handler
                   
    .weak      ADC_IRQHandler      
    .thumb_set ADC_IRQHandler,Default_Handler
@@ -350,8 +318,6 @@ g_pfnVectors:
    .weak      TIM1_BRK_TIM9_IRQHandler            
    .thumb_set TIM1_BRK_TIM9_IRQHandler,Default_Handler
             
-   .weak      TIM1_UP_TIM10_IRQHandler            
-   .thumb_set TIM1_UP_TIM10_IRQHandler,Default_Handler
       
    .weak      TIM1_TRG_COM_TIM11_IRQHandler      
    .thumb_set TIM1_TRG_COM_TIM11_IRQHandler,Default_Handler
@@ -364,9 +330,6 @@ g_pfnVectors:
                   
    .weak      TIM3_IRQHandler            
    .thumb_set TIM3_IRQHandler,Default_Handler
-                  
-   .weak      TIM4_IRQHandler            
-   .thumb_set TIM4_IRQHandler,Default_Handler
                   
    .weak      I2C1_EV_IRQHandler   
    .thumb_set I2C1_EV_IRQHandler,Default_Handler
@@ -389,8 +352,6 @@ g_pfnVectors:
    .weak      USART1_IRQHandler      
    .thumb_set USART1_IRQHandler,Default_Handler
                      
-   .weak      USART2_IRQHandler      
-   .thumb_set USART2_IRQHandler,Default_Handler
                      
    .weak      USART3_IRQHandler      
    .thumb_set USART3_IRQHandler,Default_Handler

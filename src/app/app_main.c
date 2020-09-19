@@ -29,7 +29,7 @@ void test(void *p)
 
     while(1) {
 
-        app_uart_write(&uart_handle, "hello world", 12);
+        app_uart_write(&uart_handle, "app hello world", 12);
     }
 
 }
@@ -46,7 +46,7 @@ void app_main()
    
    log_init(&logConfig);
  */
-    led_set(LED_ORANGE, 1);
+    led_set(LED_BLUE, 1);
 
     xTaskCreate( test, (signed char*)"Car Control", 4*configMINIMAL_STACK_SIZE, NULL, 10 , NULL );
 /*

@@ -60,18 +60,18 @@ set(APP_SOURCE_FILES ${APP_SOURCE_FILES})
 set(APP_INC_FILES ${APP_INC_FILES})
 
 
-set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/STM32F407VGTx_FLASH.ld")
-set(CMAKE_EXE_LINKER_FLAGS "-T ${LINKER_SCRIPT}")
-
+set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/app.ld")
+get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 
 
 
 add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
 add_executable(${RC_CAR_CONTROL_BOARD_ELF} ${APP_SOURCE_FILES})
-target_link_libraries(${RC_CAR_CONTROL_BOARD_ELF} board)
+target_link_libraries(${RC_CAR_CONTROL_BOARD_ELF} board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 target_include_directories(${RC_CAR_CONTROL_BOARD_ELF}  PUBLIC ${APP_INC_FILES})
 
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf
     POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} ARGS -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin)
+    COMMAND ${CMAKE_OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
+    DEPENDS ${PROJECT_NAME}.elf)

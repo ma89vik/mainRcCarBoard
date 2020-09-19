@@ -17,7 +17,6 @@
   ******************************************************************************
   */
 /* USER CODE END Header */
-#define ISR_ATTR __attribute__ ((section ("isr_handlers")))
 
 /* Includes ------------------------------------------------------------------*/
 #include "main.h"
@@ -68,7 +67,7 @@ extern UART_HandleTypeDef huart2;
 /**
   * @brief This function handles Non maskable interrupt.
   */
-void ISR_ATTR NMI_Handler(void)
+void  NMI_Handler(void)
 {
   /* USER CODE BEGIN NonMaskableInt_IRQn 0 */
 
@@ -81,7 +80,7 @@ void ISR_ATTR NMI_Handler(void)
 /**
   * @brief This function handles Hard fault interrupt.
   */
-void ISR_ATTR HardFault_Handler(void)
+void  HardFault_Handler(void)
 {
   /* USER CODE BEGIN HardFault_IRQn 0 */
 
@@ -96,7 +95,7 @@ void ISR_ATTR HardFault_Handler(void)
 /**
   * @brief This function handles Memory management fault.
   */
-void ISR_ATTR MemManage_Handler(void)
+void  MemManage_Handler(void)
 {
   /* USER CODE BEGIN MemoryManagement_IRQn 0 */
 
@@ -111,7 +110,7 @@ void ISR_ATTR MemManage_Handler(void)
 /**
   * @brief This function handles Pre-fetch fault, memory access fault.
   */
-void ISR_ATTR BusFault_Handler(void)
+void  BusFault_Handler(void)
 {
   /* USER CODE BEGIN BusFault_IRQn 0 */
 
@@ -126,7 +125,7 @@ void ISR_ATTR BusFault_Handler(void)
 /**
   * @brief This function handles Undefined instruction or illegal state.
   */
-void ISR_ATTR UsageFault_Handler(void)
+void  UsageFault_Handler(void)
 {
   /* USER CODE BEGIN UsageFault_IRQn 0 */
 
@@ -141,7 +140,7 @@ void ISR_ATTR UsageFault_Handler(void)
 /**
   * @brief This function handles System service call via SWI instruction.
   */
-void ISR_ATTR SVC_Handler(void)
+void  SVC_Handler(void)
 {
   /* USER CODE BEGIN SVCall_IRQn 0 */
 
@@ -154,7 +153,7 @@ void ISR_ATTR SVC_Handler(void)
 /**
   * @brief This function handles Debug monitor.
   */
-void ISR_ATTR DebugMon_Handler(void)
+void  DebugMon_Handler(void)
 {
   /* USER CODE BEGIN DebugMonitor_IRQn 0 */
 
@@ -167,7 +166,7 @@ void ISR_ATTR DebugMon_Handler(void)
 /**
   * @brief This function handles Pendable request for system service.
   */
-void ISR_ATTR PendSV_Handler(void)
+void  PendSV_Handler(void)
 {
   /* USER CODE BEGIN PendSV_IRQn 0 */
 
@@ -180,7 +179,7 @@ void ISR_ATTR PendSV_Handler(void)
 /**
   * @brief This function handles System tick timer.
   */
-void ISR_ATTR SysTick_Handler(void)
+void  SysTick_Handler(void)
 {
   /* USER CODE BEGIN SysTick_IRQn 0 */
 
@@ -201,7 +200,7 @@ void ISR_ATTR SysTick_Handler(void)
 /**
   * @brief This function handles USART2 global interrupt.
   */
-void ISR_ATTR USART2_IRQHandler(void)
+void  USART2_IRQHandler(void)
 {
   /* USER CODE BEGIN USART2_IRQn 0 */
 

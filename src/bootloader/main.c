@@ -23,7 +23,6 @@ int main(void)
     MX_USART2_UART_Init();
 
     bootloader_main();
-    //SysTick_Handler();
 }
 
 /**

@@ -4,7 +4,6 @@
 #include "led.h"
 
 
-
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 {
 }
@@ -18,11 +17,20 @@ void bootloader_uart_init(uart_handle_t *dev, UART_HandleTypeDef *uartHandle )
     dev->uartHandle = uartHandle;
 }
 
-err_def_t bootloader_uart_write(uart_handle_t *dev, uint8_t *bytes, uint16_t len)
+err_def_t bootloader_uart_write(uart_handle_t *dev, char *bytes, uint16_t len)
 {
-     led_set(LED_GREEN, 1);
-    int ret = HAL_UART_Transmit(dev->uartHandle, bytes, len, HAL_MAX_DELAY);
+    if (!dev) {
+        return ERR_INVALID_ARGS;
+    }
 
-     led_set(LED_BLUE, 1);
+    int bytes_to_transfer = 0;
+    if (len == 0) {
+        bytes_to_transfer = strlen(bytes);
+    } else {
+        bytes_to_transfer = len;
+    }
+
+    HAL_UART_Transmit(dev->uartHandle, bytes, bytes_to_transfer, HAL_MAX_DELAY);
+
     return ERR_OK;
 }
