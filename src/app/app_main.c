@@ -6,6 +6,8 @@
 #include "gpio.h"
 #include "app_uart.h"
 #include "led.h"
+#include "fw_header.h"
+
 /*
 #include "serial_stm32_hal.h"
 #include "car.h"
@@ -18,6 +20,20 @@
 #define OBSERVER_TASK_PRIORITY     ( tskIDLE_PRIORITY + 2 )
 #define LOG_TASK_PRIORITY     ( tskIDLE_PRIORITY + 1 )
 #define BLE_BOARD_TASK_PRIORITY     ( tskIDLE_PRIORITY + 4 )*/
+
+extern uint32_t _vector_table;
+
+static const fw_hdr_t  __attribute__((section(".fw_hdr"))) FW_HEADER = {
+    .fw_magic = FW_MAGIC_NUMBER,
+    .fw_hdr_version = FW_HEADER_VERSION,
+    .fw_type = FW_TYPE_APP,
+    .version_major = 0,
+    .version_minor = 1,
+    .version_patch = 0,
+    .vector_addr = (uint32_t)&_vector_table,
+    .git_sha = GIT_SHA, //defined by cmake
+};
+
 
 void test(void *p)
 {

@@ -63,12 +63,13 @@ set(APP_INC_FILES ${APP_INC_FILES})
 set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/app.ld")
 get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 
-
-
-add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
 add_executable(${RC_CAR_CONTROL_BOARD_ELF} ${APP_SOURCE_FILES})
 target_link_libraries(${RC_CAR_CONTROL_BOARD_ELF} board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 target_include_directories(${RC_CAR_CONTROL_BOARD_ELF}  PUBLIC ${APP_INC_FILES})
+
+
+execute_process(COMMAND git rev-parse --short HEAD OUTPUT_VARIABLE GIT_REV OUTPUT_STRIP_TRAILING_WHITESPACE)
+target_compile_definitions(${RC_CAR_CONTROL_BOARD_ELF} PRIVATE GIT_SHA="${GIT_REV}")
 
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf

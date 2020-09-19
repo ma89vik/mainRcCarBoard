@@ -63,6 +63,11 @@ _Min_Stack_Size = 0x400; /* required amount of stack */
 /* Define output sections */
 SECTIONS
 {
+  .fw_header :
+  {
+   KEEP(*(.fw_hdr))
+  } >APP_ROM
+
   /* The startup code goes first into APP_ROM */
   .isr_vector :
   {
@@ -73,6 +78,7 @@ SECTIONS
   } >APP_ROM
 
   /* The program code and other data goes into APP_ROM */
+  . = ALIGN(128);
   .text :
   {
     . = ALIGN(4);

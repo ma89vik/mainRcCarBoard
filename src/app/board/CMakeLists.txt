@@ -79,6 +79,9 @@ list(APPEND BOARD_SOURCE_FILES
 add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
 
 add_library(board STATIC ${BOARD_SOURCE_FILES})
+
+target_compile_definitions(board PUBLIC STM32F407xx=1 USE_HAL_DRIVER=1)
+
 target_include_directories(board PUBLIC ${BOARD_INC_FILES})
 
 
