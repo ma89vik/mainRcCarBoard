@@ -2,6 +2,7 @@
 #include "usart.h"
 #include "string.h"
 #include "led.h"
+#include "board.h"
 
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
@@ -33,4 +34,10 @@ err_def_t bootloader_uart_write(uart_handle_t *dev, char *bytes, uint16_t len)
     HAL_UART_Transmit(dev->uartHandle, bytes, bytes_to_transfer, HAL_MAX_DELAY);
 
     return ERR_OK;
+}
+
+void _putchar(char byte)
+{  
+    HAL_UART_Transmit(log_uart.uartHandle, &byte, 1, HAL_MAX_DELAY);
+
 }

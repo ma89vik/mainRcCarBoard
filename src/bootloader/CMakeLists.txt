@@ -10,6 +10,7 @@ list(APPEND BOOTLOADER_SOURCE_FILES
    "bootloader_uart.c"
    "led.c"
    "app_loader.c"
+   "printf.c"
 )
 
 list(APPEND BOOTLOADER_INC_DIRS
@@ -24,7 +25,7 @@ add_executable(${BOOTLOADER_NAME}.elf ${BOOTLOADER_SOURCE_FILES})
 
 target_compile_definitions(${BOOTLOADER_NAME}.elf PRIVATE STM32F407xx USE_HAL_DRIVER)
 target_include_directories(${BOOTLOADER_NAME}.elf PUBLIC ${BOOTLOADER_INC_DIRS})
-target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
+target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board common "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 
 
 add_custom_command(TARGET ${BOOTLOADER_NAME}.elf

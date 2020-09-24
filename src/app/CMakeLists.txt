@@ -64,7 +64,7 @@ set(LINKER_SCRIPT "${CMAKE_CURRENT_LIST_DIR}/app.ld")
 get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 
 add_executable(${RC_CAR_CONTROL_BOARD_ELF} ${APP_SOURCE_FILES})
-target_link_libraries(${RC_CAR_CONTROL_BOARD_ELF} board "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
+target_link_libraries(${RC_CAR_CONTROL_BOARD_ELF} board common "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 target_include_directories(${RC_CAR_CONTROL_BOARD_ELF}  PUBLIC ${APP_INC_FILES})
 
 
