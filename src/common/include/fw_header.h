@@ -14,6 +14,8 @@
 
 #pragma once
 
+#include <assert.h>
+
 #define FW_TYPE_APP         1
 #define FW_MAGIC_NUMBER     0xBEAD
 #define FW_HEADER_VERSION   1
@@ -21,7 +23,6 @@
 typedef struct __attribute__((packed)) {
     uint16_t fw_magic;
     uint16_t fw_hdr_version;
-    uint32_t crc;
     uint32_t data_size;
     uint8_t fw_type;
     uint8_t version_major;
@@ -30,5 +31,8 @@ typedef struct __attribute__((packed)) {
     uint32_t vector_addr;
     uint32_t reserved;
     char git_sha[8];
-    char fw_sha256[16];
+    char fw_ecdsa[64];
 } fw_hdr_t;
+
+/* This size is used by app_sign.py */
+_Static_assert (sizeof(fw_hdr_t) == 92, "Firmware header size incorrect");

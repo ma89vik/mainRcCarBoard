@@ -71,8 +71,14 @@ target_include_directories(${RC_CAR_CONTROL_BOARD_ELF}  PUBLIC ${APP_INC_FILES})
 execute_process(COMMAND git rev-parse --short HEAD OUTPUT_VARIABLE GIT_REV OUTPUT_STRIP_TRAILING_WHITESPACE)
 target_compile_definitions(${RC_CAR_CONTROL_BOARD_ELF} PRIVATE GIT_SHA="${GIT_REV}")
 
+set(CREATE_BIN_CMD ${CMAKE_OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin)
+
+set(PRIVATE_KEY_PATH ${PROJECT_SOURCE_DIR}/src/private.pem)
+set(PUBLIC_KEY_PATH ${PROJECT_SOURCE_DIR}/src/public.pem)
+set(SIGN_APP_CMD python ${PROJECT_SOURCE_DIR}/src/app_sign.py ${PROJECT_NAME}.bin ${PRIVATE_KEY_PATH} ${PUBLIC_KEY_PATH})
 
 add_custom_command(TARGET ${PROJECT_NAME}.elf
     POST_BUILD
-    COMMAND ${CMAKE_OBJCOPY} -O binary ${PROJECT_NAME}.elf ${PROJECT_NAME}.bin
+    COMMAND ${CREATE_BIN_CMD}
+    COMMAND ${SIGN_APP_CMD}
     DEPENDS ${PROJECT_NAME}.elf)
