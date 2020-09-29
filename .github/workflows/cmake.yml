@@ -21,7 +21,7 @@ jobs:
       uses: fiam/arm-none-eabi-gcc@v1
       with:
         # The arm-none-eabi-gcc release to use.
-        release: "9-2020-q2"
+        release: "9-2020-q1"
 
     - name: Create Build Environment
       # Some projects don't allow in-source building, so create a separate build directory
