@@ -68,7 +68,7 @@ def gen_ecdsa(image, private_key_path):
     hasher.update(image)
     digest = hasher.finalize()
 
-    print("SHA256 Image digest: {}".format(digest))
+    print("SHA256 Image digest: {}".format(digest.hex()))
     print("start of image {}, len {}".format(image_bin[0:10], len(image_bin)))
 
     signature = private_key.sign(digest, ec.ECDSA(utils.Prehashed(chosen_hash)))
