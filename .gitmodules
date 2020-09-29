@@ -2,5 +2,5 @@
 	path = src/app/Protobuf/nanopb
 	url = https://github.com/nanopb/nanopb.git
 [submodule "src/bootloader/tinycrypt"]
-	path = src/bootloader/tinycrypt
+	path = src/bootloader/tinycrypt/tinycrypt
 	url = https://github.com/intel/tinycrypt.git
