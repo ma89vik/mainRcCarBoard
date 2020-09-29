@@ -1,16 +1,15 @@
 cmake_minimum_required (VERSION 3.11)
 enable_language(C ASM)
+find_package (Python3 COMPONENTS Interpreter)
 
 set(RC_CAR_CONTROL_BOARD_ELF "rc_car_control_board.elf")
+set(BOOTLOADER_NAME "rc_control_bootloader")
 
 project ("rc_car_control_board")
-
-set(APP_LIB_NAME "rcMainBoardLib")
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 
-set(BOOTLOADER_NAME "rc_control_bootloader")
 
 add_custom_command(OUTPUT app_bootloader.bin
                    COMMAND cat src/bootloader/${BOOTLOADER_NAME}.bin src/app/${PROJECT_NAME}.bin > app_bootloader.bin
