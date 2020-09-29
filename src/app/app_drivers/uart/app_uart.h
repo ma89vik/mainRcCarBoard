@@ -6,9 +6,9 @@
 typedef struct
 {
     UART_HandleTypeDef *uartHandle;
-    volatile uint8_t buffer[512];
+    uint8_t buffer[512];
     RingBuffer_t inbox;
-    volatile uint8_t outbox[256];
+    uint8_t outbox[256];
     volatile bool txReady;
     uint8_t rxData;
 } app_uart_handle_t;

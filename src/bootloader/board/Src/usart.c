@@ -43,7 +43,6 @@ void MX_USART2_UART_Init(void)
   {
     Error_Handler();
   }
-  SysTick_Handler();
 
 }
 

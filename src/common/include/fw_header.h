@@ -31,7 +31,7 @@ typedef struct __attribute__((packed)) {
     uint32_t vector_addr;
     uint32_t reserved;
     char git_sha[8];
-    char fw_ecdsa[64];
+    uint8_t fw_ecdsa[64];
 } fw_hdr_t;
 
 /* This size is used by app_sign.py */

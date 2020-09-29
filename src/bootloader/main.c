@@ -2,10 +2,10 @@
 #include "usart.h"
 #include "gpio.h"
 #include <stdlib.h>
+#include "bootloader_main.h"
 
 void Error_Handler()
 {
-    abort();
 }
 
 void SystemClock_Config(void);

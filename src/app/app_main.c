@@ -23,7 +23,7 @@
 
 extern uint32_t _vector_table;
 
-static const fw_hdr_t  __attribute__((section(".fw_hdr"))) FW_HEADER = {
+static const fw_hdr_t  __attribute__((section(".fw_hdr"), unused)) FW_HEADER = {
     .fw_magic = FW_MAGIC_NUMBER,
     .fw_hdr_version = FW_HEADER_VERSION,
     .fw_type = FW_TYPE_APP,
@@ -38,14 +38,13 @@ static const fw_hdr_t  __attribute__((section(".fw_hdr"))) FW_HEADER = {
 void test(void *p)
 {
 
-       app_uart_handle_t uart_handle;
+    app_uart_handle_t uart_handle;
     uart_handle.uartHandle = &huart2;
     app_uart_init(&uart_handle);
 
 
     while(1) {
 
-        app_uart_write(&uart_handle, "app hello world", 12);
     }
 
 }
@@ -64,7 +63,6 @@ void app_main()
  */
     led_set(LED_BLUE, 1);
 
-    xTaskCreate( test, (signed char*)"Car Control", 4*configMINIMAL_STACK_SIZE, NULL, 10 , NULL );
 /*
     xTaskCreate( v_observer_task, (signed char*)"Observer", 8*configMINIMAL_STACK_SIZE, NULL, OBSERVER_TASK_PRIORITY , NULL );
 

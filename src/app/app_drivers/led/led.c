@@ -5,7 +5,7 @@
 
 typedef struct {
     const led_t led;
-    const GPIO_TypeDef* GPIOx;
+    GPIO_TypeDef* GPIOx;
     const uint16_t pin;
 } led_map_item_t;
 
@@ -26,4 +26,5 @@ err_def_t led_set(led_t led, int value)
 
     HAL_GPIO_WritePin(led_map[led].GPIOx, led_map[led].pin, value);
 
+    return ERR_OK;
 }

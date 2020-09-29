@@ -15,11 +15,9 @@ void bootloader_main()
 
     bootloader_uart_init(&log_uart, &huart2);
 
-    bootloader_uart_write(&log_uart, "bootloader started\n", NULL);
+    bootloader_uart_write(&log_uart, "bootloader started\n", 0);
 
 
     app_loader_start();
-
-    abort();
 }
 

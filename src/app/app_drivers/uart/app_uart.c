@@ -19,7 +19,7 @@ app_uart_err_t app_uart_init(app_uart_handle_t *dev)
     {
         return SERIAL_ERR_INSTANCE;
     }
-    uint32_t err_code;
+    uint32_t err_code = 0;
 
     uartHandle[serialIndex] = dev->uartHandle;
     app_uart_handle[serialIndex] = dev;
@@ -31,7 +31,7 @@ app_uart_err_t app_uart_init(app_uart_handle_t *dev)
     HAL_UART_Receive_DMA(dev->uartHandle, &(dev->rxData), 1);
     dev->txReady = true;
     
-
+    return err_code;
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
@@ -51,7 +51,6 @@ void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
-    int a = 2;
     //__HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_PEF);
 	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_FECF);
 	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_ORECF);
@@ -73,10 +72,11 @@ app_uart_err_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t l
         return SERIAL_WRITE_ERR;
     }   
 
+    return SERIAL_OK;
 }
 app_uart_err_t app_uart_read(app_uart_handle_t *dev, uint8_t *result)
 {
-    
+    return SERIAL_OK;
 }
 
 app_uart_err_t app_uart_read_byte(app_uart_handle_t *dev, uint8_t *result)
@@ -105,4 +105,5 @@ uint8_t handleToIndex(UART_HandleTypeDef* huart)
             return i;
         }
     }
+    return 0;
 }

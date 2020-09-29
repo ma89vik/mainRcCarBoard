@@ -20,13 +20,14 @@ static const uint8_t pub_key[] = {06,0xf8,0xad,0x6c,0x39,0x38,0xcd,0x7c,0xf0,0x8
 
 _Static_assert(sizeof(pub_key) == 64, "Pub key size");
 
-static void load_app(uint32_t pc, uint32_t sp) {
-    __asm("           \n\
-          cpsid if    /* disable interruprs */\n\
-          msr msp, r1 /* load r1 into MSP */\n\
-          bx r0       /* branch to the address at r0 */\n\
-    ");
-}
+
+// static void load_app(uint32_t pc, uint32_t sp) {
+//     __asm("           \n\
+//           cpsid if    /* disable interruprs */\n\
+//           msr msp, r1 /* load r1 into MSP */\n\
+//           bx r0       /* branch to the address at r0 */\n\
+//     ");
+// }
 
 static void app_header_print(fw_hdr_t *app_header)
 {
@@ -51,7 +52,7 @@ static bootloader_err_t app_image_calc_sha256(const uint32_t app_image_start, ui
         return BOOTLOADER_FAIL;
     } 
 
-    if (tc_sha256_update(image_sha256_state, app_image_start, image_size) != TC_CRYPTO_SUCCESS) {
+    if (tc_sha256_update(image_sha256_state, (uint8_t*)app_image_start, image_size) != TC_CRYPTO_SUCCESS) {
         printf("Failed to update SHA256\n");
         return BOOTLOADER_FAIL;
     }
@@ -60,12 +61,15 @@ static bootloader_err_t app_image_calc_sha256(const uint32_t app_image_start, ui
         printf("Failed to finish SHA256\n");
         return BOOTLOADER_FAIL;
     }  
-    ;
+    
+    return BOOTLOADER_OK;
 }
 
-static bootloader_err_t app_image_verify_sig(const uint32_t *signature, const uint8_t *digest)
+static bootloader_err_t app_image_verify_sig(const uint8_t *signature, const uint8_t *digest)
 {
-    printf("verify %d\n", uECC_verify(pub_key , digest, TC_SHA256_DIGEST_SIZE, signature, uECC_secp256r1()));
+    printf("verify %d\n", uECC_verify(pub_key , digest, TC_SHA256_DIGEST_SIZE, (uint8_t*)signature, uECC_secp256r1()));
+
+    return BOOTLOADER_OK;
 }
 
 static bool app_verify(fw_hdr_t *app_header)
@@ -74,7 +78,7 @@ static bool app_verify(fw_hdr_t *app_header)
 
     if (app_header->fw_magic != FW_MAGIC_NUMBER) {
         printf("App verify failed: expected header magic number %d, got %d\n", FW_MAGIC_NUMBER, app_header->fw_magic);
-        abort();
+
     }
 
     uint8_t digest[32];
@@ -82,10 +86,7 @@ static bool app_verify(fw_hdr_t *app_header)
 
     ret = app_image_verify_sig(app_header->fw_ecdsa, digest);
 
-
-
-
-
+    return ret;
 }
 
 void app_loader_start()
@@ -98,12 +99,10 @@ void app_loader_start()
     app_header_print(app_header);
     app_verify(app_header);
 
-    char buf[100];
     printf("Loading app from 0x%p\n",app_code );
 
     /* De-init all HW */
     //load_app(app_start, app_sp);
 
     /* Should never get here */
-    abort();
 }

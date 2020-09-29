@@ -391,10 +391,6 @@
  #include "stm32f4xx_hal_wwdg.h"
 #endif /* HAL_WWDG_MODULE_ENABLED */
 
-#ifdef HAL_PCD_MODULE_ENABLED
- #include "stm32f4xx_hal_pcd.h"
-#endif /* HAL_PCD_MODULE_ENABLED */
-
 #ifdef HAL_HCD_MODULE_ENABLED
  #include "stm32f4xx_hal_hcd.h"
 #endif /* HAL_HCD_MODULE_ENABLED */
