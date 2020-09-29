@@ -20,7 +20,7 @@ def image_sanity_check(header_bin):
     header_magic, header_version = struct.unpack("<HH" , header_bin[0:4])
     fw_type, ver_major, ver_minor, ver_patch = struct.unpack("<BBBB", header_bin[8:12])
     vector_addr = header_bin[12:16].hex()
-    git_sha = header_bin[20:28].decode('ascii')
+    git_sha = header_bin[20:28].hex()
 
     if header_magic != FW_MAGIC_BYTES:
         raise ValueError("Unexpected firmware magic bytes = {}, expected {}".format(header_magic, FW_MAGIC_BYTES))
