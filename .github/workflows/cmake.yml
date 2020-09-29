@@ -49,11 +49,11 @@ jobs:
       # Execute the build.  You can specify a specific target with "--target <NAME>"
       run: cmake --build . --config $BUILD_TYPE
 
-jobs:
   deploy:
     runs-on: ubuntu-20.04
     
     steps:
     - name: Copy to server
-      run: touch test.txt
-      run: scp touch.txt ${{ secrets.DEPLOY_SERVER }}:./
+      run: |
+        touch test.txt
+        scp touch.txt ${{ secrets.DEPLOY_SERVER }}:./
