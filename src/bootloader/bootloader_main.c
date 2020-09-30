@@ -6,6 +6,8 @@
 #include "gpio.h"
 #include "app_loader.h"
 #include "board.h"
+#include "reset.h"
+#include "printf.h"
 
 void bootloader_main()
 {
@@ -15,9 +17,10 @@ void bootloader_main()
 
     bootloader_uart_init(&log_uart, &huart2);
 
-    bootloader_uart_write(&log_uart, "bootloader started\n", 0);
+    reset_print_and_clear_reason();
+    printf("Bootloader started\n");
 
-
+    reset();
     app_loader_start();
 }
 

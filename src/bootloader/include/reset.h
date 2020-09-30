@@ -17,4 +17,4 @@
 void reset(void);
 
 /* Prints the last reset reason */
-void reset_print_reason(void);
+void reset_print_and_clear_reason(void);
