@@ -11,6 +11,7 @@ list(APPEND BOOTLOADER_SOURCE_FILES
    "led.c"
    "app_loader.c"
    "printf.c"
+   "reset.c"
 )
 
 list(APPEND BOOTLOADER_INC_DIRS

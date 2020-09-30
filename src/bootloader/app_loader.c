@@ -10,13 +10,15 @@
 #include <tinycrypt/constants.h>
 #include <tinycrypt/utils.h>
 #include "bootloader_err.h"
+#include "reset.h"
 
 
-static const uint8_t pub_key[] = {06,0xf8,0xad,0x6c,0x39,0x38,0xcd,0x7c,0xf0,0x8c,0xf1,0x4e,0xad,0x6a,
-0xf4,0xb0,0xb8,0xa2,0x2f,0x4c,0xe8,0x58,0xf8,0xf6,0x5b,0x08,0x8f,0x3e,0x96,
-0x44,0x28,0x25,0x8a,0xd9,0x35,0x1e,0xe4,0x47,0xa8,0x03,0xd6,0x55,0x58,0xda,
-    0x02,0x5b,0x6e,0xb7,0x35,0x0d,0xda,0x67,0x0d,0x91,0x47,0xfa,0x8e,0x1e,0x75,
-    0x37,0x2b,0xbc,0x96,0x56};
+static const uint8_t pub_key[] = {0x67 ,0x0e ,0x17 ,0x78 ,0x54 ,0x21 ,0x5b ,0x00 ,0xf8 ,0xfd ,0x0f ,0x98 ,0x51 ,0xdf 
+,0x6c ,0xbe ,0x60 ,0xb3 ,0x44 ,0xf6 ,0xdf ,0xf7 ,0x9e ,0x8d ,0x87 ,0xb1 ,0xad ,0x30 ,0x64 ,0xa4 
+,0x2f ,0x25 ,0x37 ,0x4a ,0x77 ,0x6c ,0x71 ,0xcb ,0x89 ,0xe8 ,0xb9 ,0xaa ,0x48 ,0x4d ,0x26 
+,0x23 ,0x3c ,0x91 ,0x65 ,0x82 ,0xe5 ,0x21 ,0x95 ,0x10 ,0xea ,0x7e ,0x82 ,0x0d ,0xda ,0x0a 
+,0x1a ,0x05 ,0xf4 ,0x1a
+};
 
 _Static_assert(sizeof(pub_key) == 64, "Pub key size");
 
@@ -67,26 +69,34 @@ static bootloader_err_t app_image_calc_sha256(const uint32_t app_image_start, ui
 
 static bootloader_err_t app_image_verify_sig(const uint8_t *signature, const uint8_t *digest)
 {
-    printf("verify %d\n", uECC_verify(pub_key , digest, TC_SHA256_DIGEST_SIZE, (uint8_t*)signature, uECC_secp256r1()));
-
+    if (uECC_verify(pub_key , digest, TC_SHA256_DIGEST_SIZE, (uint8_t*)signature, uECC_secp256r1()) != 1) {
+        printf("Failed to verify app image signature\n");
+        return BOOTLOADER_FAIL;
+    }
+    printf("Successfully verified the app signature, image is OK to boot\n");
     return BOOTLOADER_OK;
 }
 
-static bool app_verify(fw_hdr_t *app_header)
+/* Aborts if fails to verify */
+static void app_verify(fw_hdr_t *app_header)
 {
-    bootloader_err_t ret = BOOTLOADER_FAIL;
-
     if (app_header->fw_magic != FW_MAGIC_NUMBER) {
         printf("App verify failed: expected header magic number %d, got %d\n", FW_MAGIC_NUMBER, app_header->fw_magic);
-
+        goto fail;
     }
 
     uint8_t digest[32];
-    app_image_calc_sha256((uint32_t)app_header + sizeof(fw_hdr_t), app_header->data_size, digest);
+    if (app_image_calc_sha256((uint32_t)app_header + sizeof(fw_hdr_t), app_header->data_size, digest) != BOOTLOADER_OK){
+        goto fail;
+    }
 
-    ret = app_image_verify_sig(app_header->fw_ecdsa, digest);
-
-    return ret;
+    if (app_image_verify_sig(app_header->fw_ecdsa, digest) != BOOTLOADER_OK) {
+        goto fail;
+    }
+    return;
+fail: 
+    printf("App verify failed\n");
+    reset();
 }
 
 void app_loader_start()

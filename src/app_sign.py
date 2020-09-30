@@ -16,7 +16,6 @@ HDR_TYPE = 0x1
 FW_MAGIC_BYTES = 0xBEAD
 
 def image_sanity_check(header_bin):
-    print(header_bin)
     header_magic, header_version = struct.unpack("<HH" , header_bin[0:4])
     fw_type, ver_major, ver_minor, ver_patch = struct.unpack("<BBBB", header_bin[8:12])
     vector_addr = header_bin[12:16].hex()
@@ -44,14 +43,12 @@ def verify_image(image, public_key_path):
     with open(image, "rb") as f:
         header_bin = f.read(HEADER_SIZE)
         image_bin = f.read()
-        
-    print("start of image {}, len {}".format(image_bin[0:10], len(image_bin)))
 
     image_sanity_check(header_bin)
-    r = int.from_bytes(header_bin[28:60], byteorder='little')
-    s = int.from_bytes(header_bin[60:92], byteorder='little')
+    r = int.from_bytes(header_bin[28:60], byteorder='big')
+    s = int.from_bytes(header_bin[60:92], byteorder='big')
     sig = utils.encode_dss_signature( r, s )
-    print(sig)
+
     # Verify signature
     with open(public_key_path, 'rb') as f:
         public_key = serialization.load_pem_public_key(f.read())
@@ -69,25 +66,23 @@ def gen_ecdsa(image, private_key_path):
     digest = hasher.finalize()
 
     print("SHA256 Image digest: {}".format(digest.hex()))
-    print("start of image {}, len {}".format(image_bin[0:10], len(image_bin)))
 
     signature = private_key.sign(digest, ec.ECDSA(utils.Prehashed(chosen_hash)))
     print("ECDSA signature: {}, len = {}".format(signature, len(signature)))
 
     (r,s) = utils.decode_dss_signature(signature)
 
-    return r.to_bytes(32, byteorder='little') + s.to_bytes(32, byteorder='little')
+    return r.to_bytes(32, byteorder='big') + s.to_bytes(32, byteorder='big')
 
 
 # Updates the binary header with ECDSA and data size
 def update_image_header(image_path, sig, size):
     with open(image_path, 'r+b') as f:
         f.seek(HEADER_SEEK_OFFSETS['data_size'])
-
-        print(f.write(struct.pack("<L", size)))
+        f.write(struct.pack("<L", size))
 
         f.seek(HEADER_SEEK_OFFSETS['ecdsa'])
-        print(f.write(sig))
+        f.write(sig)
 
 
 if __name__ == "__main__":
