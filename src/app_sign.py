@@ -1,6 +1,7 @@
 #!/bin/python3
 import struct
 import argparse
+import os
 
 from cryptography.hazmat.primitives import hashes
 from cryptography.hazmat.primitives.asymmetric import ec
@@ -56,9 +57,8 @@ def verify_image(image, public_key_path):
 
     print("Image signature verified")
 
-def gen_ecdsa(image, private_key_path):
-    with open(private_key_path, 'rb') as f:
-        private_key = serialization.load_pem_private_key(f.read(), password=None)
+def gen_ecdsa(image, private_key):
+    private_key = serialization.load_pem_private_key(private_key, password=None)
 
     chosen_hash = hashes.SHA256()
     hasher = hashes.Hash(chosen_hash)
@@ -89,17 +89,18 @@ if __name__ == "__main__":
 
     parser = argparse.ArgumentParser(description='Sign app image with ECDSA')
     parser.add_argument('image', help='Application image to be signed')
-    parser.add_argument('private_key_path', help='256-bit key for ECDSA')
     parser.add_argument('public_key_path', help='256-bit key for ECDSA')
 
     args = parser.parse_args()
+
+    private_key = os.environ['APP_SIGN_PRIVATE_KEY']
 
     with open(args.image, "rb") as f:
         header_bin = f.read(HEADER_SIZE)
         image_bin = f.read()
     
     image_sanity_check(header_bin)
-    signature = gen_ecdsa(image_bin, args.private_key_path)
+    signature = gen_ecdsa(image_bin,  bytes(private_key, 'utf-8'))
     update_image_header(args.image, signature, len(image_bin))
 
     # Check the updated images
