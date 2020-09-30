@@ -23,7 +23,7 @@
 
 extern uint32_t _vector_table;
 
-static const fw_hdr_t  __attribute__((section(".fw_hdr"), unused)) FW_HEADER = {
+static const fw_hdr_t  __attribute__((section(".fw_hdr"), used)) FW_HEADER = {
     .fw_magic = FW_MAGIC_NUMBER,
     .fw_hdr_version = FW_HEADER_VERSION,
     .fw_type = FW_TYPE_APP,
