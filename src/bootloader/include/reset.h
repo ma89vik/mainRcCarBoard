@@ -16,5 +16,8 @@
 
 void reset(void);
 
+/* Read and store the last reset reason, should be done early, before peripherals are inited */
+void reset_save_reason();
+
 /* Prints the last reset reason */
 void reset_print_and_clear_reason(void);

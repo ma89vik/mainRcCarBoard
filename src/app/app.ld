@@ -69,12 +69,13 @@ SECTIONS
   } >APP_ROM
 
   /* The startup code goes first into APP_ROM */
+  
   .isr_vector :
   {
-    . = ALIGN(4);
+    . = ALIGN(128);
     _vector_table = .;
     KEEP(*(.isr_vector)) /* Startup code */
-    . = ALIGN(4);
+    
   } >APP_ROM
 
   /* The program code and other data goes into APP_ROM */

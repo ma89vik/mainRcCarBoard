@@ -3,6 +3,7 @@
 #include "gpio.h"
 #include <stdlib.h>
 #include "bootloader_main.h"
+#include "reset.h"
 
 void Error_Handler()
 {
@@ -12,6 +13,8 @@ void SystemClock_Config(void);
 
 int main(void)
 {
+    reset_save_reason();
+
     /* Reset of all peripherals, Initializes the Flash interface and the Systick. */
     HAL_Init();
 

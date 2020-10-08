@@ -93,7 +93,11 @@ if __name__ == "__main__":
 
     args = parser.parse_args()
 
-    private_key = os.environ['APP_SIGN_PRIVATE_KEY']
+    try:
+        private_key = os.environ['APP_SIGN_PRIVATE_KEY']
+    except:
+        with open('private.pem', 'rb') as f:
+            private_key = f.read()
 
     with open(args.image, "rb") as f:
         header_bin = f.read(HEADER_SIZE)

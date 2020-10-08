@@ -16,11 +16,8 @@ void bootloader_main()
      */
 
     bootloader_uart_init(&log_uart, &huart2);
-
     reset_print_and_clear_reason();
     printf("Bootloader started\n");
-
-    reset();
     app_loader_start();
 }
 

@@ -13,23 +13,36 @@
 #include "reset.h"
 
 
-static const uint8_t pub_key[] = {0x67 ,0x0e ,0x17 ,0x78 ,0x54 ,0x21 ,0x5b ,0x00 ,0xf8 ,0xfd ,0x0f ,0x98 ,0x51 ,0xdf 
-,0x6c ,0xbe ,0x60 ,0xb3 ,0x44 ,0xf6 ,0xdf ,0xf7 ,0x9e ,0x8d ,0x87 ,0xb1 ,0xad ,0x30 ,0x64 ,0xa4 
-,0x2f ,0x25 ,0x37 ,0x4a ,0x77 ,0x6c ,0x71 ,0xcb ,0x89 ,0xe8 ,0xb9 ,0xaa ,0x48 ,0x4d ,0x26 
-,0x23 ,0x3c ,0x91 ,0x65 ,0x82 ,0xe5 ,0x21 ,0x95 ,0x10 ,0xea ,0x7e ,0x82 ,0x0d ,0xda ,0x0a 
-,0x1a ,0x05 ,0xf4 ,0x1a
+static const uint8_t pub_key[] = {
+    0x67 ,0x0e ,0x17 ,0x78 ,0x54 ,0x21 ,0x5b ,0x00 
+    ,0xf8 ,0xfd ,0x0f ,0x98 ,0x51 ,0xdf ,0x6c ,0xbe 
+    ,0x60 ,0xb3 ,0x44 ,0xf6 ,0xdf ,0xf7 ,0x9e ,0x8d 
+    ,0x87 ,0xb1 ,0xad ,0x30 ,0x64 ,0xa4 ,0x2f ,0x25 
+    ,0x37 ,0x4a ,0x77 ,0x6c ,0x71 ,0xcb ,0x89 ,0xe8 
+    ,0xb9 ,0xaa ,0x48 ,0x4d ,0x26 ,0x23 ,0x3c ,0x91 
+    ,0x65 ,0x82 ,0xe5 ,0x21 ,0x95 ,0x10 ,0xea ,0x7e 
+    ,0x82 ,0x0d ,0xda ,0x0a ,0x1a ,0x05 ,0xf4 ,0x1a
 };
 
 _Static_assert(sizeof(pub_key) == 64, "Pub key size");
 
 
-// static void load_app(uint32_t pc, uint32_t sp) {
-//     __asm("           \n\
-//           cpsid if    /* disable interruprs */\n\
-//           msr msp, r1 /* load r1 into MSP */\n\
-//           bx r0       /* branch to the address at r0 */\n\
-//     ");
-// }
+static void load_app(uint32_t pc, uint32_t sp, uint32_t vtor_offset) {
+    __disable_irq();
+
+    /* Set VTOR offset */
+    volatile uint32_t *vtor_offset_reg = (uint32_t *)0xE000ED08;
+    *vtor_offset_reg = vtor_offset;
+
+    __asm("           \n\
+          msr msp, %[sp] /* load r1 into MSP */\n\
+          bx %[reset_handler]       /* branch to the address at r0 */\n\
+    "    
+           :  /* No result. */
+           : [reset_handler]"r"   (pc),  [sp]"r"   (sp)
+           : /* No clobbers */
+    );
+}
 
 static void app_header_print(fw_hdr_t *app_header)
 {
@@ -103,16 +116,24 @@ void app_loader_start()
 {
     /* Verify app */   
     
-    void *app_code = (void *)&__approm_start__;
-    fw_hdr_t *app_header = (fw_hdr_t*)app_code;
+    void *app_start = (void *)&__approm_start__;
+    fw_hdr_t *app_header = (fw_hdr_t*)app_start;
 
     app_header_print(app_header);
     app_verify(app_header);
 
-    printf("Loading app from 0x%p\n",app_code );
+    uint32_t *vector_table = (uint32_t*)app_header->vector_addr;
+    uint32_t app_sp = vector_table[0];
+    uint32_t app_pc = vector_table[1];
+    printf("Loading app from VTOR offset 0x%p, sp = 0x%p, reset_handler = 0x%p\n", vector_table, app_sp, app_pc);
+
 
     /* De-init all HW */
-    //load_app(app_start, app_sp);
+    HAL_DeInit();
+
+    load_app(app_pc, app_sp, (uint32_t)vector_table);
 
     /* Should never get here */
+    printf("App not loaded, something terrible went wrong...\n");
+    reset();
 }

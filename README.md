@@ -6,5 +6,8 @@
  * Install python requirements from requirements.txt
 
 # Features
- * Bootloader with ECDSA signature
+ * Bootloader with ECDSA signature verification
 
+# TODO
+ * SHA hardware acceleration
+ * Define and implement control board <-> nav board protocol (protobuf)
