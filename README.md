@@ -1,4 +1,4 @@
-[![Build Actions Status](https://github.com/ma89vik/rc_car_control_board/workflows/build/badge.svg)](https://github.com/ma89vik/rc_car_control_board/actions)
+[![Build Actions Status](https://github.com/ma89vik/rc_car_control_board/workflows/Build/badge.svg)](https://github.com/ma89vik/rc_car_control_board/actions)
 # Main Control Board for Radio Controlled Car
 
 # Building the project
