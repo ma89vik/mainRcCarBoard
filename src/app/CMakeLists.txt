@@ -5,6 +5,7 @@ add_subdirectory(board)
 #add_subdirectory(Protobuf)
 
  list(APPEND APP_SOURCE_FILES
+  startup_stm32f407xx.S
     main.c
     app_main.c
     app_drivers/uart/app_uart.c
@@ -28,10 +29,12 @@ add_subdirectory(board)
 #   IMU/imu_handler.c
 #   IMU/mpu9250.c
 #   LinearBuffer/linear_buffer.c
-#   Log/log.c
+    Log/log.c
+    Log/printf.c
 #   Log/usb_log.c
 #   Observer/observer.c
     RingBuffer/ring_buffer.c
+
  )
 
 
@@ -46,13 +49,14 @@ add_subdirectory(board)
 #   DistanceSensor/
 #   GPS
 #   IMU
-#   Log
+   Log
 #   Observer
 #   LinearBuffer
    app_drivers/uart
    app_drivers/led
    error_def
    RingBuffer 
+   .
  )
 
 
