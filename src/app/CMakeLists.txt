@@ -29,9 +29,9 @@ add_subdirectory(board)
 #   IMU/imu_handler.c
 #   IMU/mpu9250.c
 #   LinearBuffer/linear_buffer.c
-    Log/log.c
-    Log/printf.c
-#   Log/usb_log.c
+    log/log.c
+    log/printf.c
+#   log/usb_log.c
 #   Observer/observer.c
     RingBuffer/ring_buffer.c
 
@@ -49,7 +49,7 @@ add_subdirectory(board)
 #   DistanceSensor/
 #   GPS
 #   IMU
-   Log
+   log
 #   Observer
 #   LinearBuffer
    app_drivers/uart

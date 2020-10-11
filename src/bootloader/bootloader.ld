@@ -53,6 +53,7 @@ INCLUDE memory_map.ld
 /* Entry Point */
 ENTRY(Reset_Handler)
 
+
 /* Highest address of the user mode stack */
 _estack = 0x20020000;    /* end of RAM */
 /* Generate a link error if heap and stack don't fit into RAM */

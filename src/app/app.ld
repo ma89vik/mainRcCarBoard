@@ -51,7 +51,7 @@
 INCLUDE memory_map.ld
 
 /* Entry Point */
-ENTRY(Reset_Handler)
+/*ENTRY(Reset_Handler)*/
 
 /* Highest address of the user mode stack */
 _estack = 0x20020000;    /* end of RAM */
@@ -72,7 +72,7 @@ SECTIONS
   
   .isr_vector :
   {
-    . = ALIGN(128);
+    . = ALIGN(512);
     _vector_table = .;
     KEEP(*(.isr_vector)) /* Startup code */
     

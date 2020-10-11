@@ -39,5 +39,4 @@ err_def_t bootloader_uart_write(uart_handle_t *dev, char *bytes, uint16_t len)
 void _putchar(char byte)
 {  
     HAL_UART_Transmit(log_uart.uartHandle,  (uint8_t*)&byte, 1, HAL_MAX_DELAY);
-
 }

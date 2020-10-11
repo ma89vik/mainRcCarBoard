@@ -31,8 +31,9 @@ static void load_app(uint32_t pc, uint32_t sp, uint32_t vtor_offset) {
     __disable_irq();
 
     /* Set VTOR offset */
-    volatile uint32_t *vtor_offset_reg = (uint32_t *)0xE000ED08;
-    *vtor_offset_reg = vtor_offset;
+    SCB->VTOR = vtor_offset;
+
+    __DSB();
 
     __asm("           \n\
           msr msp, %[sp] /* load r1 into MSP */\n\
@@ -125,7 +126,8 @@ void app_loader_start()
     uint32_t *vector_table = (uint32_t*)app_header->vector_addr;
     uint32_t app_sp = vector_table[0];
     uint32_t app_pc = vector_table[1];
-    printf("Loading app from VTOR offset 0x%p, sp = 0x%p, reset_handler = 0x%p\n", vector_table, app_sp, app_pc);
+    uint32_t tick = vector_table[15];
+    printf("Loading app from VTOR offset 0x%p, sp = 0x%p, reset_handler = 0x%p, systick = 0x%p\n", vector_table, app_sp, app_pc, tick);
 
 
     /* De-init all HW */
