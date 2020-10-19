@@ -62,7 +62,7 @@ void log_init(log_config_t *log_config);
 #endif
 
 #if LOG_LEVEL >= LOG_LEVEL_CRIT_LEVEL
-#define LOG_CRIT(...) log_string(CRIT_LEVEL, __VA_ARGS__)
+#define LOG_CRIT(...) log_string(LOG_LEVEL_CRIT_LEVEL, __VA_ARGS__)
 #else
 #define LOG_CRIT(...)
 #endif

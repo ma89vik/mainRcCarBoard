@@ -38,7 +38,7 @@ static app_uart_handle_t s_uart_handle;
 
 void log_init(log_config_t *log_config)
 {
-    app_uart_init(&s_uart_handle, log_config->uart_handle);    
+    app_uart_init(&s_uart_handle, log_config->uart_handle, false, true);    
 
 }
 

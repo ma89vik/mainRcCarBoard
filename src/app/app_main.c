@@ -35,7 +35,6 @@ void test(void *p)
 
 }
 
-
 void app_main()
 {
 
@@ -48,19 +47,20 @@ void app_main()
     };
 
     log_init(&log_cfg);
-    LOG_ERROR("HELLO WORLD\n");
-    HAL_Delay(1000);
-    LOG_ERROR("Test eee  %d eee\n", 1);
-    //printf("App started\n");
-   // printf("HAL TICK %d\n", HAL_GetTick());
+
+    app_uart_handle_t gps_uart_handle;
+    app_uart_init(&gps_uart_handle, &huart3, true, false);  
+
+    LOG_INFO("App started\n");
 
     int i = 0;
+    char buf;
     while(1)
     {
         i++;
         HAL_Delay(1000);
         LOG_ERROR("HELLO WORLD %d\n", i);
-
+        LOG_ERROR("GPS uart %c\n", gps_uart_handle.inbox[0]);
 
     }
 }

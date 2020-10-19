@@ -284,10 +284,7 @@ g_pfnVectors:
    .thumb_set EXTI4_IRQHandler,Default_Handler
                   
    .weak      DMA1_Stream0_IRQHandler               
-   .thumb_set DMA1_Stream0_IRQHandler,Default_Handler
-
-   .weak      DMA1_Stream1_IRQHandler               
-   .thumb_set DMA1_Stream1_IRQHandler,Default_Handler      
+   .thumb_set DMA1_Stream0_IRQHandler,Default_Handler   
                   
    .weak      DMA1_Stream2_IRQHandler               
    .thumb_set DMA1_Stream2_IRQHandler,Default_Handler
@@ -361,9 +358,7 @@ g_pfnVectors:
    .weak      USART1_IRQHandler      
    .thumb_set USART1_IRQHandler,Default_Handler
                      
-                     
-   .weak      USART3_IRQHandler      
-   .thumb_set USART3_IRQHandler,Default_Handler
+                    
                   
    .weak      EXTI15_10_IRQHandler               
    .thumb_set EXTI15_10_IRQHandler,Default_Handler

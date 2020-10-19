@@ -1,6 +1,6 @@
-#ifndef BOARD_H__
-#define BOARD_H__
+#pragma once
 
-#include "app_uart.h"
+#include "usart.h"
 
-#endif
+extern UART_HandleTypeDef *log_uart_hal_handle;
+extern UART_HandleTypeDef *gps_uart_hal_handle;

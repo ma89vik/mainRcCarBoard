@@ -1,44 +1,24 @@
+/**
+ * Copyright 2020 Marius
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ * 
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
+
+
+
 #include "board.h"
-#include "serial_stm32_hal.h"
-#include "i2c_stm32_hal.h"
 
-static SerialConfig_t serialConfigGps = {
-    .init = stm32_hal_serial_init,
-};
+#include "usart.h"
 
-static SerialDriverData_t serialDriverDataGps = {
-    .uartHandle = &huart3, 
-};
-
-Device_t deviceGps = {
-    .driverConfig = &serialConfigGps,
-    .driverData = &serialDriverDataGps,
-};
-
-static SerialConfig_t serialConfigBleBoard = {
-    .init = stm32_hal_serial_init,
-};
-
-static SerialDriverData_t serialDriverDataBleBoard = {
-    .uartHandle = &huart2, 
-};
-
-Device_t deviceBleBoard = {
-    .driverConfig = &serialConfigBleBoard,
-    .driverData = &serialDriverDataBleBoard,
-};
-
-// I2C bus for IMU
-static I2cConfig_t i2cConfig = {
-    .init = stm32_i2c_init,
-};
-
-static I2cDriverData_t i2cDriverData = {
-    .i2cHandle = &hi2c1,
-    .timeoutMs = 100,
-};
-
-Device_t deviceI2c = {
-    .driverConfig = &i2cConfig,
-    .driverData = &i2cDriverData,
-};
+UART_HandleTypeDef *log_uart_hal_handle = &huart2;
+UART_HandleTypeDef *gps_uart_hal_handle = &huart3;

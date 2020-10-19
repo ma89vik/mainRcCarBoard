@@ -18,13 +18,13 @@
 
 #include "app_uart.h"
 #include "usart.h"
-#include "ring_buffer.h"
 #include "string.h"
-#include "led.h"
 #include "board.h"
 #include "error_def.h"
+#include "log.h"
+#include "led.h"
 
-#define NUM_SERIAL 1
+#define NUM_SERIAL 2
 
 //Needed for converting from handle to device when we get HAL interrupt
 static int serialIndex = 0;
@@ -32,50 +32,56 @@ static UART_HandleTypeDef* s_uartHandles[NUM_SERIAL] = {NULL};
 static app_uart_handle_t* s_app_uart_handles[NUM_SERIAL] = {NULL};
 static uint8_t handleToIndex(UART_HandleTypeDef* huart);
 
+static app_uart_line_intr_enable()
+{
+    
+}
 
-err_def_t app_uart_init(app_uart_handle_t *dev, UART_HandleTypeDef *uartHandle)
+err_def_t app_uart_init(app_uart_handle_t *dev, UART_HandleTypeDef *uartHandle, bool rx, bool tx)
 {
     if (!dev)
     {
         return ERR_INVALID_ARGS;
     }
 
-    uint32_t err_code = 0;
 
     dev->uartHandle = uartHandle;
     s_uartHandles[serialIndex] = uartHandle;
     s_app_uart_handles[serialIndex] = dev;
     serialIndex++;
 
-    //ring_buffer_init(&(dev->inbox), dev->buffer, 512);
+    if (rx) {
+        memset(dev->inbox, 'a', sizeof(dev->inbox));
+        HAL_UART_Receive_DMA(dev->uartHandle, dev->inbox, sizeof(dev->inbox));
+    }
 
-    //Init DMA
-    //HAL_UART_Receive_DMA(dev->uartHandle, &(dev->rxData), 1);
     dev->txReady = true;
     
-    return err_code;
+    return ERR_OK;
 }
 
 void HAL_UART_RxCpltCallback(UART_HandleTypeDef *huart)
 {
-    uint8_t idx = handleToIndex(huart);
-
-    //ring_buffer_put( &(app_uart_handle[idx]->inbox), app_uart_handle[idx]->rxData );
-
+   // uint8_t idx = handleToIndex(huart);
 }
+
+
+void HAL_UART_RxHalfCpltCallback(UART_HandleTypeDef *huart)
+{
+    //uint8_t idx = handleToIndex(huart);
+}
+
 
 void HAL_UART_TxCpltCallback(UART_HandleTypeDef* huart)
 {
-    led_set(LED_RED, 1);
     uint8_t idx = handleToIndex(huart);
     s_app_uart_handles[idx]->txReady = true;
 }
 
 void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
 {
-    //__HAL_UART_CLEAR_FLAG(huart, UART_CLEAR_PEF);
-	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_FECF);
-	//__HAL_UART_CLEAR_FLAG(huart, USART_ICR_ORECF);
+    uint8_t idx = handleToIndex(huart);
+    LOG_ERROR("Error in uart idx %d, code %d\n", handleToIndex(huart), huart->ErrorCode);
 }
 
 err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len)
@@ -107,17 +113,11 @@ err_def_t app_uart_read(app_uart_handle_t *dev, uint8_t *result)
 err_def_t app_uart_read_byte(app_uart_handle_t *dev, uint8_t *result)
 {
     
-    int8_t err = ring_buffer_get(&dev->inbox, result);
+    //int8_t err = ring_buffer_get(&dev->inbox, result);
     
     
-    if (err == 0)
-    {
         return ERR_OK;
-    }
-    else
-    {
-        return ERR_FAIL;
-    }
+    
 }
 
 
