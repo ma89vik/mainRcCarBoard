@@ -1,5 +1,7 @@
 build/
 cubemx/
+hardware/gerber/
+hardware/assembly/
 .vscode/ipch/
 src/private.pem
 # export files for BOM

@@ -2,4 +2,5 @@
   (lib (name kicad_libs)(type Legacy)(uri C:/Users/Marius/Documents/Project/kicad_libs.lib)(options "")(descr ""))
   (lib (name lm3940)(type Legacy)(uri ${KIPRJMOD}/lm3940.lib)(options "")(descr ""))
   (lib (name rc_car_control)(type Legacy)(uri ${KIPRJMOD}/rc_car_control.lib)(options "")(descr ""))
+  (lib (name FXOS8700CQ)(type Legacy)(uri ${KIPRJMOD}/FXOS8700CQ.lib)(options "")(descr ""))
 )
