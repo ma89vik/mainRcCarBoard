@@ -50,6 +50,8 @@ err_def_t app_uart_init(app_uart_handle_t *dev, UART_HandleTypeDef *uartHandle, 
     s_app_uart_handles[serialIndex] = dev;
     serialIndex++;
 
+    dev->lock = xSemaphoreCreateMutexStatic(&dev->lock_buffer);
+
     if (rx) {
         memset(dev->inbox, 'a', sizeof(dev->inbox));
         HAL_UART_Receive_DMA(dev->uartHandle, dev->inbox, sizeof(dev->inbox));
@@ -84,8 +86,10 @@ void HAL_UART_ErrorCallback(UART_HandleTypeDef *huart)
     LOG_ERROR("Error in uart idx %d, code %d\n", handleToIndex(huart), huart->ErrorCode);
 }
 
-err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len)
+err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len, uint32_t timeout)
 {
+
+    xSemaphoreTake(dev->lock, timeout);
 
     while(!dev->txReady) 
     {}
@@ -103,6 +107,16 @@ err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len)
     } else {
         return ERR_FAIL;
     }
+}
+
+void app_uart_write_force(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len)
+{
+    size_t bytes_to_send = len > sizeof(dev->outbox) ? sizeof(dev->outbox) : len;
+
+    dev->txReady = false;
+    memcpy(dev->outbox, bytes, bytes_to_send);
+        
+    HAL_StatusTypeDef ret = HAL_UART_Transmit_DMA(dev->uartHandle, dev->outbox, len);
 }
 
 err_def_t app_uart_read(app_uart_handle_t *dev, uint8_t *result)

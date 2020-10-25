@@ -19,7 +19,6 @@ list(APPEND BOARD_SOURCE_FILES
   ${SOURCE_DIR}/gpio.c
   ${SOURCE_DIR}/usart.c
   ${SOURCE_DIR}/system_stm32f4xx.c
-  startup_stm32f407xx.S
   ${HAL_DIR}/Src/stm32f4xx_hal.c
   ${HAL_DIR}/Src/stm32f4xx_hal_exti.c
   ${HAL_DIR}/Src/stm32f4xx_hal_cortex.c

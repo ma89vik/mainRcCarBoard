@@ -18,5 +18,5 @@
 #define _APP_MAIN_H_
 
 
-void app_main();
+void app_main_task();
 #endif

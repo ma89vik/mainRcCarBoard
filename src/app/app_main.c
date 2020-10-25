@@ -35,7 +35,9 @@ void test(void *p)
 
 }
 
-void app_main()
+int *a = 0;
+
+void app_main_task()
 {
 
 
@@ -55,12 +57,11 @@ void app_main()
 
     int i = 0;
     char buf;
+    *a = 1;
     while(1)
     {
-        i++;
-        HAL_Delay(1000);
-        LOG_ERROR("HELLO WORLD %d\n", i);
-        LOG_ERROR("GPS uart %c\n", gps_uart_handle.inbox[0]);
+        vTaskDelay(10000 / portTICK_PERIOD_MS);
+        LOG_INFO("App tick\n");
 
     }
 }

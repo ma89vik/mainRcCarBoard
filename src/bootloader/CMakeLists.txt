@@ -6,6 +6,7 @@ add_subdirectory(tinycrypt)
 
 list(APPEND BOOTLOADER_SOURCE_FILES
    "main.c"
+   "startup_stm32f407xx.S"
    "bootloader_main.c"
    "bootloader_uart.c"
    "led.c"

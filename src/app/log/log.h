@@ -68,3 +68,6 @@ void log_init(log_config_t *log_config);
 #endif
 
 void log_string(log_level_t level, const char *format, ...);
+
+/* Non thread-safe log function, only used in fault handler for crash data */
+void log_panic(const char *format, ...);

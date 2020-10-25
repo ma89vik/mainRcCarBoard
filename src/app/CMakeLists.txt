@@ -24,6 +24,8 @@ add_subdirectory(board)
 #   DistanceSensor/distance_sensor.c
 #   Device/I2c/i2c_stm32_hal.c
 #   Device/Serial/serial_stm32_hal.c
+    fault/hard_fault.s
+    fault/fault.c
 #   GPS/gps_handler.c
 #   IMU/ak8963.c
 #   IMU/imu_handler.c

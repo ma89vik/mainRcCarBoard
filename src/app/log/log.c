@@ -44,6 +44,10 @@ void log_init(log_config_t *log_config)
 
 void log_string(uint8_t level, const char *format, ...)
 {
+    if (s_uart_handle.uartHandle == NULL) {
+        return;
+    }
+
     char buf[100] = {'\0'};
 
     size_t level_string_len = strlen(s_log_level_strings[level]);
@@ -55,5 +59,17 @@ void log_string(uint8_t level, const char *format, ...)
     vsnprintf_(buf + level_string_len + 2, sizeof(buf) - 1, format, args);
     va_end (args);
     
-    app_uart_write(&s_uart_handle, buf, strlen(buf));
+    app_uart_write(&s_uart_handle, buf, strlen(buf), portMAX_DELAY);
+}
+
+void log_panic(const char *format, ...)
+{
+    char buf[100] = {'\0'};
+
+    va_list args;
+    va_start(args, format);
+    vsnprintf_(buf, sizeof(buf) - 1, format, args);
+    va_end (args);
+    
+    app_uart_write_force(&s_uart_handle, buf, strlen(buf));
 }

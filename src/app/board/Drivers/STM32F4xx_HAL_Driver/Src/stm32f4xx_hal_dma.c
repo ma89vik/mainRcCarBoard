@@ -744,8 +744,6 @@ HAL_StatusTypeDef HAL_DMA_PollForTransfer(DMA_HandleTypeDef *hdma, HAL_DMA_Level
   *               the configuration information for the specified DMA Stream.  
   * @retval None
   */
-
- 
 void HAL_DMA_IRQHandler(DMA_HandleTypeDef *hdma)
 {
   uint32_t tmpisr;

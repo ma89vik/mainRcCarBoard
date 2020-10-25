@@ -30,10 +30,18 @@ _Static_assert(sizeof(pub_key) == 64, "Pub key size");
 static void load_app(uint32_t pc, uint32_t sp, uint32_t vtor_offset) {
     __disable_irq();
 
-    /* Set VTOR offset */
-    SCB->VTOR = vtor_offset;
+    for (int i = 0; i < 8; i ++) NVIC->ICER[i] = 0xFFFFFFFF;
+    // Clear pending IRQs
+    for (int i = 0; i < 8; i ++) NVIC->ICPR[i] = 0xFFFFFFFF;
 
     __DSB();
+    __ISB();
+
+    /* Set VTOR offset */
+    SCB->VTOR = vtor_offset & SCB_VTOR_TBLOFF_Msk;
+
+    __DSB();
+    __ISB();
 
     __asm("           \n\
           msr msp, %[sp] /* load r1 into MSP */\n\
@@ -126,8 +134,18 @@ void app_loader_start()
     uint32_t *vector_table = (uint32_t*)app_header->vector_addr;
     uint32_t app_sp = vector_table[0];
     uint32_t app_pc = vector_table[1];
-    uint32_t tick = vector_table[15];
-    printf("Loading app from VTOR offset 0x%p, sp = 0x%p, reset_handler = 0x%p, systick = 0x%p\n", vector_table, app_sp, app_pc, tick);
+    printf("Loading app from VTOR offset 0x%p, sp = 0x%p,"
+           "Reset Handler = %X\n" 
+           "NMI Handler = %X\n" 
+           "Hardfault Handler = %X\n" 
+           "Memory Management Handler = %X\n" 
+           "Bus Fault Handler = %X\n" 
+           "Usage Fault Handler = %X\n" 
+           "SVC Handler = %X\n" 
+           "Debug Monitor Handler = %X\n" 
+           "PendSV Handler = %X\n" 
+           "SysTick Handler = %X\n", vector_table, app_sp, vector_table[1], vector_table[2], vector_table[3], 
+           vector_table[4], vector_table[5], vector_table[6], vector_table[11], vector_table[12], vector_table[14], vector_table[15] );
 
 
     /* De-init all HW */
