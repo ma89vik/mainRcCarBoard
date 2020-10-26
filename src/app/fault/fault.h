@@ -12,22 +12,4 @@
 // See the License for the specific language governing permissions and
 // limitations under the License.
 
-// Hardfault wrapper, extracts the stack pointer
-
-
-.text
-.syntax unified
-.thumb
-.type HardFault_Handler, %function
-.global HardFault_Handler
-.global HardFault_Handler_c
-
-HardFault_Handler:
-    tst     lr, #4
-    ite     eq
-    mrseq     r0, msp /* Stack was using MSP */
-    mrsne     r0, psp /* Stack was using MSP */
-    mov     r1, lr /* second param */
-    ldr     r2,=fault_hardfault_handler_c
-    bx      r2
-    .end
+void fault_init(void);

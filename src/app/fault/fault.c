@@ -16,13 +16,41 @@
 
 #include "stm32f407xx.h"
 #include "app_uart.h"
-#include "printf.h"
+#include "log.h"
 
 #define fault_log LOG_ERROR
 
 
-void fault_shutdown()
+void fault_init(void)
 {
+    HAL_MPU_Enable(MPU_PRIVILEGED_DEFAULT);
+
+
+    /* Cover are around 0x0 */
+    MPU_Region_InitTypeDef mpu_init = {
+        .Enable = MPU_REGION_ENABLE,
+        .Number = MPU_REGION_NUMBER0,
+        .BaseAddress = 0x0,
+        .Size = MPU_REGION_SIZE_128B,
+
+        .DisableExec = MPU_INSTRUCTION_ACCESS_DISABLE,
+        .AccessPermission =  MPU_REGION_NO_ACCESS,
+        .TypeExtField = MPU_TEX_LEVEL0,
+        .IsBufferable = MPU_ACCESS_NOT_BUFFERABLE,
+        .IsCacheable = MPU_ACCESS_CACHEABLE,
+        .IsShareable = MPU_ACCESS_NOT_SHAREABLE,
+        .SubRegionDisable = 0,
+    };
+
+    HAL_MPU_ConfigRegion(&mpu_init);
+
+
+}
+
+static void fault_shutdown(void)
+{
+    /* Abort any pending UART transaction to prepare for logging */
+    log_abort();
     /* Shutdown critical systems, e.g. PWM */
 }
 
@@ -56,15 +84,15 @@ void fault_hardfault_handler_c(unsigned long *hardfault_args, unsigned int lr_va
     stacked_psr = ((unsigned long) hardfault_args[7]);
 
     log_panic("Hardfault!\n");
-    log_panic("PC = %X, PSR = %X, LR/EXC_RETURN = %X\n", stacked_pc, stacked_psr, stacked_lr);
-    log_panic("R0 = %X, R1 = %X, R2 = %X, R3 = %X, R12 = %X\n", stacked_r0, stacked_r1, stacked_r2, stacked_r3, stacked_r12);
+    log_panic("PC = 0x%X, PSR = 0x%X, LR/EXC_RETURN = 0x%X\n", stacked_pc, stacked_psr, stacked_lr);
+    log_panic("R0 = 0x%X, R1 = 0x%X, R2 = 0x%X, R3 = 0x%X, R12 = 0x%X\n", stacked_r0, stacked_r1, stacked_r2, stacked_r3, stacked_r12);
     
     if (cfsr & 0x0080) {
-        log_panic("MMFAR = %X\n", memmanage_fault_address);
+        log_panic("MMFAR = 0x%X\n", memmanage_fault_address);
     }
 
     if (cfsr & 0x8000) {
-        log_panic("BFAR = %X\n", bus_fault_address);
+        log_panic("BFAR = 0x%X\n", bus_fault_address);
     }
 
     while(1) {

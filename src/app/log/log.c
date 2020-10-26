@@ -59,7 +59,7 @@ void log_string(uint8_t level, const char *format, ...)
     vsnprintf_(buf + level_string_len + 2, sizeof(buf) - 1, format, args);
     va_end (args);
     
-    app_uart_write(&s_uart_handle, buf, strlen(buf), portMAX_DELAY);
+    app_uart_write(&s_uart_handle, (uint8_t*)buf, strlen(buf), portMAX_DELAY);
 }
 
 void log_panic(const char *format, ...)
@@ -71,5 +71,10 @@ void log_panic(const char *format, ...)
     vsnprintf_(buf, sizeof(buf) - 1, format, args);
     va_end (args);
     
-    app_uart_write_force(&s_uart_handle, buf, strlen(buf));
+    app_uart_write_panic(&s_uart_handle, (uint8_t*)buf, strlen(buf));
+}
+
+void log_abort(void)
+{
+    HAL_UART_Abort(s_uart_handle.uartHandle);
 }

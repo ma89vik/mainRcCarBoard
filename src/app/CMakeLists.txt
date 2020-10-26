@@ -51,7 +51,8 @@ add_subdirectory(board)
 #   DistanceSensor/
 #   GPS
 #   IMU
-   log
+    log
+    fault
 #   Observer
 #   LinearBuffer
    app_drivers/uart

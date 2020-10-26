@@ -7,7 +7,7 @@
 #include "fw_header.h"
 #include "usart.h"
 #include "board.h"
-#include "printf.h"
+#include "fault.h"
 #include "log.h"
 
 extern uint32_t _vector_table;
@@ -49,15 +49,13 @@ void app_main_task()
     };
 
     log_init(&log_cfg);
-
     app_uart_handle_t gps_uart_handle;
     app_uart_init(&gps_uart_handle, &huart3, true, false);  
 
     LOG_INFO("App started\n");
 
-    int i = 0;
-    char buf;
-    *a = 1;
+    fault_init();
+
     while(1)
     {
         vTaskDelay(10000 / portTICK_PERIOD_MS);

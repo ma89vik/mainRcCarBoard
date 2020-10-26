@@ -15,6 +15,7 @@ endif()
 set(CPU_FLAGS "-mcpu=cortex-m4 -mfloat-abi=hard -mfpu=fpv4-sp-d16 -mno-thumb-interwork -mthumb -specs=nosys.specs")
 set(COMMON_FLAGS "-Wall -ffunction-sections -fdata-sections  -Wl,-Map=output.map ${CPU_FLAGS}")
 
+set(CMAKE_ASM_FLAGS ${COMMON_FLAGS})
 set(CMAKE_C_FLAGS_INIT ${COMMON_FLAGS})
 set(CMAKE_CXX_FLAGS_INIT ${COMMON_FLAGS})
 set(CMAKE_EXE_LINKER_FLAGS_INIT " -lc -lm -lnosys -Wl,--gc-section")

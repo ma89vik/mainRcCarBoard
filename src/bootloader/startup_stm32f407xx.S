@@ -310,6 +310,8 @@ g_pfnVectors:
    .weak      TIM1_BRK_TIM9_IRQHandler            
    .thumb_set TIM1_BRK_TIM9_IRQHandler,Default_Handler
             
+   .weak      TIM1_UP_TIM10_IRQHandler            
+   .thumb_set TIM1_UP_TIM10_IRQHandler,Default_Handler
       
    .weak      TIM1_TRG_COM_TIM11_IRQHandler      
    .thumb_set TIM1_TRG_COM_TIM11_IRQHandler,Default_Handler
