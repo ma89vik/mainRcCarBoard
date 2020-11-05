@@ -1,8 +1,11 @@
 [![Build Actions Status](https://github.com/ma89vik/rc_car_control_board/workflows/Build/badge.svg)](https://github.com/ma89vik/rc_car_control_board/actions)
 # Main Control Board for Radio Controlled Car
 
+# Pre-Requirements
+ * CMake installed
+
 # Building the project
- * Set TOOLCHAIN_PATH to the path to your arm-none-eabi folder
+ * Set TOOLCHAIN_PATH to the path to your arm-none-eabi folder if toolchain not in path
  * Install python requirements from requirements.txt
 
 # Features
