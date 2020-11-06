@@ -6,7 +6,7 @@ add_subdirectory(tinycrypt)
 
 list(APPEND BOOTLOADER_SOURCE_FILES
    "main.c"
-   "startup_stm32f407xx.S"
+   "startup_stm32f405xx.S"
    "bootloader_main.c"
    "bootloader_uart.c"
    "led.c"
@@ -25,7 +25,7 @@ get_filename_component(MEM_MAP_DIR ../ ABSOLUTE)
 
 add_executable(${BOOTLOADER_NAME}.elf ${BOOTLOADER_SOURCE_FILES})
 
-target_compile_definitions(${BOOTLOADER_NAME}.elf PRIVATE STM32F407xx USE_HAL_DRIVER)
+target_compile_definitions(${BOOTLOADER_NAME}.elf PRIVATE STM32F405xx USE_HAL_DRIVER)
 target_include_directories(${BOOTLOADER_NAME}.elf PUBLIC ${BOOTLOADER_INC_DIRS})
 target_link_libraries(${BOOTLOADER_NAME}.elf bootloader_board common "-T ${LINKER_SCRIPT}" "-L ${MEM_MAP_DIR}")
 target_link_libraries(${BOOTLOADER_NAME}.elf tinycrypt)

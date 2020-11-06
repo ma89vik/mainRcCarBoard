@@ -11,10 +11,9 @@ typedef struct {
 
 /* Order must match led_t */
 static const led_map_item_t led_map[] = {
-  {LED_GREEN,   GPIOD,  GPIO_PIN_12},   
-  {LED_ORANGE,  GPIOD,  GPIO_PIN_13},  
-  {LED_RED,     GPIOD,  GPIO_PIN_14},   
-  {LED_BLUE,    GPIOD,  GPIO_PIN_15}, 
+  {LED_GREEN,   LED_GREEN_GPIO_Port,  LED_GREEN_Pin},
+  {LED_ORANGE,  LED_YELLOW_GPIO_Port,  LED_YELLOW_Pin},
+  {LED_BLUE,    LED_BLUE_GPIO_Port,  LED_BLUE_Pin},
 };
 
 

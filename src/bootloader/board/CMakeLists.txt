@@ -36,7 +36,7 @@ list(APPEND BOARD_SOURCE_FILES
   ${HAL_DIR}/Src/stm32f4xx_hal_tim_ex.c
   )
 
-add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
+add_compile_definitions(STM32F405xx USE_HAL_DRIVER)
 
 add_library(bootloader_board STATIC ${BOARD_SOURCE_FILES})
 target_include_directories(bootloader_board PUBLIC ${BOARD_INC_FILES})
