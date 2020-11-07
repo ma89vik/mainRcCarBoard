@@ -98,6 +98,8 @@ err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len, u
         
     HAL_StatusTypeDef ret = HAL_UART_Transmit_DMA(dev->uartHandle, dev->outbox, len);
 
+    xSemaphoreGive(dev->lock);
+
     if (ret == HAL_OK) {
         return ERR_OK;
     } else {

@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-#include "stm32f407xx.h"
+#include "stm32f405xx.h"
 #include "app_uart.h"
 #include "log.h"
 

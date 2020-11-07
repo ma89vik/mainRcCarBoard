@@ -67,10 +67,24 @@ void Error_Handler(void);
 #define GPS_TX_GPIO_Port GPIOB
 #define GPS_RX_Pin GPIO_PIN_11
 #define GPS_RX_GPIO_Port GPIOB
+#define LED_YELLOW_Pin GPIO_PIN_12
+#define LED_YELLOW_GPIO_Port GPIOB
+#define LED_GREEN_Pin GPIO_PIN_13
+#define LED_GREEN_GPIO_Port GPIOB
+#define LED_BLUE_Pin GPIO_PIN_14
+#define LED_BLUE_GPIO_Port GPIOB
+#define MOTOR_PWM_Pin GPIO_PIN_6
+#define MOTOR_PWM_GPIO_Port GPIOC
+#define SERVO_PWM_Pin GPIO_PIN_7
+#define SERVO_PWM_GPIO_Port GPIOC
 #define NAV_TX_Pin GPIO_PIN_9
 #define NAV_TX_GPIO_Port GPIOA
 #define NAV_RX_Pin GPIO_PIN_10
 #define NAV_RX_GPIO_Port GPIOA
+#define IMU_INT1_Pin GPIO_PIN_10
+#define IMU_INT1_GPIO_Port GPIOC
+#define IMU_INT2_Pin GPIO_PIN_11
+#define IMU_INT2_GPIO_Port GPIOC
 /* USER CODE BEGIN Private defines */
 
 /* USER CODE END Private defines */

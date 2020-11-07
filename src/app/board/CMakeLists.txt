@@ -18,17 +18,20 @@ list(APPEND BOARD_INC_FILES
 
 
 list(APPEND BOARD_SOURCE_FILES
+  ${SOURCE_DIR}/crc.c
   ${SOURCE_DIR}/dma.c
   ${SOURCE_DIR}/freertos.c
   ${SOURCE_DIR}/gpio.c
   ${SOURCE_DIR}/i2c.c
   ${SOURCE_DIR}/spi.c
+  ${SOURCE_DIR}/tim.c
   ${SOURCE_DIR}/stm32f4xx_hal_msp.c
   ${SOURCE_DIR}/stm32f4xx_hal_timebase_tim.c
   ${SOURCE_DIR}/stm32f4xx_it.c
   ${SOURCE_DIR}/system_stm32f4xx.c
   ${SOURCE_DIR}/usart.c
   ${HAL_DIR}/Src/stm32f4xx_hal_cortex.c
+  ${HAL_DIR}/Src/stm32f4xx_hal_crc.c
   ${HAL_DIR}/Src/stm32f4xx_hal_dma_ex.c
   ${HAL_DIR}/Src/stm32f4xx_hal_dma.c
   ${HAL_DIR}/Src/stm32f4xx_hal_exti.c
@@ -57,11 +60,11 @@ list(APPEND BOARD_SOURCE_FILES
   ${RTOS_DIR}/portable/GCC/ARM_CM4F/port.c  
   )
 
-add_compile_definitions(STM32F407xx USE_HAL_DRIVER)
+add_compile_definitions(STM32F405xx USE_HAL_DRIVER)
 
 add_library(board STATIC ${BOARD_SOURCE_FILES})
 
-target_compile_definitions(board PUBLIC STM32F407xx=1 USE_HAL_DRIVER=1)
+target_compile_definitions(board PUBLIC STM32F405xx=1 USE_HAL_DRIVER=1)
 
 target_include_directories(board PUBLIC ${BOARD_INC_FILES})
 

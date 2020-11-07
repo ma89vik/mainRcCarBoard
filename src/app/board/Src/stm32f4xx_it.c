@@ -88,8 +88,6 @@ void NMI_Handler(void)
   /* USER CODE END NonMaskableInt_IRQn 1 */
 }
 
-
-
 /**
   * @brief This function handles Memory management fault.
   */

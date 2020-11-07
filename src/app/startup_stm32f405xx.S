@@ -1,8 +1,8 @@
 /**
   ******************************************************************************
-  * @file      startup_stm32f407xx.s
+  * @file      startup_stm32f405xx.s
   * @author    MCD Application Team
-  * @brief     STM32F407xx Devices vector table for GCC based toolchains. 
+  * @brief     STM32F405xx Devices vector table for GCC based toolchains. 
   *            This module performs:
   *                - Set the initial SP
   *                - Set the initial PC == Reset_Handler,
@@ -219,8 +219,8 @@ g_pfnVectors:
   .word     DMA2_Stream2_IRQHandler           /* DMA2 Stream 2                */                   
   .word     DMA2_Stream3_IRQHandler           /* DMA2 Stream 3                */                   
   .word     DMA2_Stream4_IRQHandler           /* DMA2 Stream 4                */                   
-  .word     ETH_IRQHandler                    /* Ethernet                     */                   
-  .word     ETH_WKUP_IRQHandler               /* Ethernet Wakeup through EXTI line */                     
+  .word     0                                 /* Reserved                     */                   
+  .word     0                                 /* Reserved                     */                     
   .word     CAN2_TX_IRQHandler                /* CAN2 TX                      */                          
   .word     CAN2_RX0_IRQHandler               /* CAN2 RX0                     */                          
   .word     CAN2_RX1_IRQHandler               /* CAN2 RX1                     */                          
@@ -236,8 +236,8 @@ g_pfnVectors:
   .word     OTG_HS_EP1_IN_IRQHandler          /* USB OTG HS End Point 1 In    */                   
   .word     OTG_HS_WKUP_IRQHandler            /* USB OTG HS Wakeup through EXTI */                         
   .word     OTG_HS_IRQHandler                 /* USB OTG HS                   */                   
-  .word     DCMI_IRQHandler                   /* DCMI                         */                   
-  .word     0                                 /* CRYP crypto                  */                   
+  .word     0                                 /* Reserved                         */                   
+  .word     0                                 /* Reserved                  */                   
   .word     HASH_RNG_IRQHandler               /* Hash and Rng                 */
   .word     FPU_IRQHandler                    /* FPU                          */
                          
@@ -284,7 +284,10 @@ g_pfnVectors:
    .thumb_set EXTI4_IRQHandler,Default_Handler
                   
    .weak      DMA1_Stream0_IRQHandler               
-   .thumb_set DMA1_Stream0_IRQHandler,Default_Handler   
+   .thumb_set DMA1_Stream0_IRQHandler,Default_Handler
+         
+   .weak      DMA1_Stream1_IRQHandler               
+   .thumb_set DMA1_Stream1_IRQHandler,Default_Handler
                   
    .weak      DMA1_Stream2_IRQHandler               
    .thumb_set DMA1_Stream2_IRQHandler,Default_Handler
@@ -294,9 +297,12 @@ g_pfnVectors:
                  
    .weak      DMA1_Stream4_IRQHandler              
    .thumb_set DMA1_Stream4_IRQHandler,Default_Handler
-
-    .weak      DMA1_Stream5_IRQHandler               
-   .thumb_set DMA1_Stream5_IRQHandler,Default_Handler             
+                  
+   .weak      DMA1_Stream5_IRQHandler               
+   .thumb_set DMA1_Stream5_IRQHandler,Default_Handler
+                  
+   .weak      DMA1_Stream6_IRQHandler               
+   .thumb_set DMA1_Stream6_IRQHandler,Default_Handler
                   
    .weak      ADC_IRQHandler      
    .thumb_set ADC_IRQHandler,Default_Handler
@@ -317,7 +323,10 @@ g_pfnVectors:
    .thumb_set EXTI9_5_IRQHandler,Default_Handler
             
    .weak      TIM1_BRK_TIM9_IRQHandler            
-   .thumb_set TIM1_BRK_TIM9_IRQHandler,Default_Handler        
+   .thumb_set TIM1_BRK_TIM9_IRQHandler,Default_Handler
+            
+   .weak      TIM1_UP_TIM10_IRQHandler            
+   .thumb_set TIM1_UP_TIM10_IRQHandler,Default_Handler
       
    .weak      TIM1_TRG_COM_TIM11_IRQHandler      
    .thumb_set TIM1_TRG_COM_TIM11_IRQHandler,Default_Handler
@@ -331,9 +340,9 @@ g_pfnVectors:
    .weak      TIM3_IRQHandler            
    .thumb_set TIM3_IRQHandler,Default_Handler
                   
-     .weak      TIM4_IRQHandler            
+   .weak      TIM4_IRQHandler            
    .thumb_set TIM4_IRQHandler,Default_Handler
-
+                  
    .weak      I2C1_EV_IRQHandler   
    .thumb_set I2C1_EV_IRQHandler,Default_Handler
                      
@@ -355,7 +364,11 @@ g_pfnVectors:
    .weak      USART1_IRQHandler      
    .thumb_set USART1_IRQHandler,Default_Handler
                      
-                    
+   .weak      USART2_IRQHandler      
+   .thumb_set USART2_IRQHandler,Default_Handler
+                     
+   .weak      USART3_IRQHandler      
+   .thumb_set USART3_IRQHandler,Default_Handler
                   
    .weak      EXTI15_10_IRQHandler               
    .thumb_set EXTI15_10_IRQHandler,Default_Handler
@@ -419,12 +432,7 @@ g_pfnVectors:
             
    .weak      DMA2_Stream4_IRQHandler               
    .thumb_set DMA2_Stream4_IRQHandler,Default_Handler
-            
-   .weak      ETH_IRQHandler      
-   .thumb_set ETH_IRQHandler,Default_Handler
-                  
-   .weak      ETH_WKUP_IRQHandler                  
-   .thumb_set ETH_WKUP_IRQHandler,Default_Handler
+
             
    .weak      CAN2_TX_IRQHandler   
    .thumb_set CAN2_TX_IRQHandler,Default_Handler
@@ -470,10 +478,7 @@ g_pfnVectors:
             
    .weak      OTG_HS_IRQHandler      
    .thumb_set OTG_HS_IRQHandler,Default_Handler
-                  
-   .weak      DCMI_IRQHandler            
-   .thumb_set DCMI_IRQHandler,Default_Handler
-                                   
+                               
    .weak      HASH_RNG_IRQHandler                  
    .thumb_set HASH_RNG_IRQHandler,Default_Handler   
 

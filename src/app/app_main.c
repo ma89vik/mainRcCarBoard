@@ -58,7 +58,7 @@ void app_main_task()
 
     while(1)
     {
-        vTaskDelay(10000 / portTICK_PERIOD_MS);
+        vTaskDelay(1000 / portTICK_PERIOD_MS);
         LOG_INFO("App tick\n");
 
     }
