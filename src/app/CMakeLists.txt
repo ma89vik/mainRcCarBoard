@@ -9,6 +9,7 @@ add_subdirectory(board)
     main.c
     app_main.c
     app_drivers/uart/app_uart.c
+    app_drivers/i2c/app_i2c.c
     app_drivers/led/led.c
 #   board.c
 #   BleBoardHandler/ble_board_handler.c
@@ -29,7 +30,7 @@ add_subdirectory(board)
 #   GPS/gps_handler.c
 #   IMU/ak8963.c
 #   IMU/imu_handler.c
-#   IMU/mpu9250.c
+    IMU/fxos8700.c
 #   LinearBuffer/linear_buffer.c
     log/log.c
     log/printf.c
@@ -50,13 +51,14 @@ add_subdirectory(board)
 #   Device/Serial
 #   DistanceSensor/
 #   GPS
-#   IMU
+    IMU
     log
     fault
 #   Observer
 #   LinearBuffer
    app_drivers/uart
    app_drivers/led
+   app_drivers/i2c
    error_def
    RingBuffer 
    .

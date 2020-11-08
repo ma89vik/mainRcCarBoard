@@ -3,9 +3,12 @@
 
 #include "gpio.h"
 #include "app_uart.h"
+#include "app_i2c.h"
+#include "fxos8700.h"
 #include "led.h"
 #include "fw_header.h"
 #include "usart.h"
+#include "i2c.h"
 #include "board.h"
 #include "fault.h"
 #include "log.h"
@@ -56,10 +59,19 @@ void app_main_task()
 
     fault_init();
 
+    app_i2c_handle_t imu_handle;
+    app_i2c_init(&imu_handle, &hi2c1);
+    fxos8700_init(&imu_handle);
+
+    xyz_data_t accel_data = {};
+    xyz_data_t mag_data = {};
+
     while(1)
     {
         vTaskDelay(1000 / portTICK_PERIOD_MS);
         LOG_INFO("App tick\n");
+        fxso8700_read_data(&accel_data, &mag_data);
+
 
     }
 }
