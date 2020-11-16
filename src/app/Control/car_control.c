@@ -1,7 +1,6 @@
 #include "car_control.h"
 #include "pwm.h"
 #include "log.h"
-#include "distance_sensor.h"
 
 //Steering servo min and max pulse length
 static int16_t const STEERING_SERVO_PULSE_MIN = 1000;
@@ -19,8 +18,6 @@ static int16_t const MOTOR_ESC_PULSE_MAX = 2000;
  */
 void car_control_init()
 {
-    
-  
 }
 
 /**
@@ -72,5 +69,5 @@ void emergency_stop()
 
 void arm()
 {
-  pwm_init();
+    pwm_init();
 }

@@ -16,24 +16,20 @@ add_subdirectory(Protobuf)
     nav_board_handler/message_parser.c
     cobs/cobs.c
     crc/crc.c
-#   Control/car.c
-#   Control/car_control.c
-#   Control/car_interface.c
-#   Control/car_state.c
-#   Control/pwm.c
+    Control/car.c
+    Control/car_control.c
+    Control/car_interface.c
+    Control/car_state.c
+    Control/pwm.c
 #   DistanceSensor/distance_sensor.c
-#   Device/I2c/i2c_stm32_hal.c
-#   Device/Serial/serial_stm32_hal.c
     fault/hard_fault.s
     fault/fault.c
 #   GPS/gps_handler.c
-#   IMU/ak8963.c
 #   IMU/imu_handler.c
     IMU/fxos8700.c
     linear_buffer/linear_buffer.c
     log/log.c
     log/printf.c
-#   log/usb_log.c
 #   Observer/observer.c
     RingBuffer/ring_buffer.c
 
@@ -42,21 +38,21 @@ add_subdirectory(Protobuf)
 
  list(APPEND APP_INC_FILES
     nav_board_handler
-#   Control
+    Control
     cobs
     crc
-#   DistanceSensor/
-#   GPS
+    #   DistanceSensor/
+    #   GPS
     IMU
     log
     fault
-#   Observer
-   linear_buffer
-   app_drivers/uart
-   app_drivers/led
-   app_drivers/i2c
-   error_def
-   RingBuffer 
+    #   Observer
+    linear_buffer
+    app_drivers/uart
+    app_drivers/led
+    app_drivers/i2c
+    error_def
+    RingBuffer 
    .
  )
 

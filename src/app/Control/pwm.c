@@ -6,6 +6,9 @@
 
 #define PWM_TOP_50Hz 20000
 
+#define MOTOR_PWM_CH   TIM_CHANNEL_1
+#define SERVO_PWM_CH   TIM_CHANNEL_2
+
 static TIM_HandleTypeDef * controlPwm = &htim3;
 
 

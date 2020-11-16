@@ -13,6 +13,7 @@
 #include "fault.h"
 #include "log.h"
 #include "nav_board_handler.h"
+#include "car.h"
 
 extern uint32_t _vector_table;
 
@@ -64,6 +65,8 @@ void app_main_task()
 
     xTaskCreateStatic(nav_board_handler_task, "nav_board", NAV_BOARD_TASK_STACK_SIZE, NULL, NAV_BOARD_TASK_PRIORITY, nav_board_stack_buf, &nav_board_task_buf);
 
+    car_init();
+    
     while(1)
     {
         vTaskDelay(10000 / portTICK_PERIOD_MS);

@@ -3,13 +3,15 @@
 #include "message_buffer.h"
 #include "car_state.h"
 
+static StaticMessageBuffer_t car_interface_msg_buf_storage;
+static MessageBufferHandle_t car_interface_msg_buf_handle;
 
-static MessageBufferHandle_t xBleBoardCmdMsgBuf;
-static const size_t xBleBoardCmdMsgBufSizeBytes = 40;
+#define CAR_INTERFACE_MSG_BUF_SIZE 40
+static uint8_t car_interface_msg_buf[CAR_INTERFACE_MSG_BUF_SIZE];
 
 void car_interface_init()
 {
-    xBleBoardCmdMsgBuf = xMessageBufferCreate(xBleBoardCmdMsgBufSizeBytes);
+    car_interface_msg_buf_handle = xMessageBufferCreateStatic(sizeof(car_interface_msg_buf), car_interface_msg_buf, &car_interface_msg_buf_storage);
 }
 
 void car_request_speed(int16_t speed)
@@ -18,7 +20,7 @@ void car_request_speed(int16_t speed)
     stateData.event = SET_SPEED_EVT;
     stateData.data = speed;
 
-    xMessageBufferSend(xBleBoardCmdMsgBuf, &stateData, sizeof(stateData), 0);
+    xMessageBufferSend(car_interface_msg_buf_handle, &stateData, sizeof(stateData), 0);
 }
 
 void car_request_steering(int16_t steering)
@@ -27,7 +29,7 @@ void car_request_steering(int16_t steering)
     stateData.event = SET_STEERING_EVT;
     stateData.data = (int16_t)steering;
 
-    xMessageBufferSend(xBleBoardCmdMsgBuf, &stateData, sizeof(stateData), 0);
+    xMessageBufferSend(car_interface_msg_buf_handle, &stateData, sizeof(stateData), 0);
 
 }
  
@@ -37,14 +39,14 @@ void car_request_mode_change(CarState_t carState)
     stateData.event = SET_STATE_EVT;
     stateData.data = (int16_t)carState;
 
-    xMessageBufferSend(xBleBoardCmdMsgBuf, &stateData, sizeof(stateData), 0);
+    xMessageBufferSend(car_interface_msg_buf_handle, &stateData, sizeof(stateData), 0);
     
 }
 
 StateData_t pop_state_data()
 {
     StateData_t newStateData;
-    xMessageBufferReceive(xBleBoardCmdMsgBuf, &newStateData, sizeof(newStateData), portMAX_DELAY);
+    xMessageBufferReceive(car_interface_msg_buf_handle, &newStateData, sizeof(newStateData), portMAX_DELAY);
 
     return newStateData;
 }
