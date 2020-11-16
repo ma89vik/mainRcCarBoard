@@ -71,7 +71,7 @@ int main(void)
   MX_USART1_UART_Init();
   MX_USART2_UART_Init();
   MX_USART3_UART_Init();
-  MX_CRC_Init();
+  //MX_CRC_Init();
   MX_TIM3_Init();
   /* Start scheduler */
   xTaskCreateStatic(app_main_task, "app_main", APP_MAIN_TASK_STACK_SIZE, NULL, 5, app_main_stack, &app_main_tcb);

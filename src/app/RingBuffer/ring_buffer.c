@@ -47,20 +47,12 @@ bool ring_buffer_full(RingBuffer_t *const ringBuffer)
 
 bool ring_buffer_empty(RingBuffer_t *const ringBuffer)
 {
-    if ((ringBuffer->head - ringBuffer->tail) == 0)
-    {
-        return true;
-    }
-    else
-    {
-        return false;
-    }
+    return (((ringBuffer->head - ringBuffer->tail)  & (ringBuffer->n_elem - 1)) == 0);
 }
 
 uint16_t ring_buffer_length(RingBuffer_t *const ringBuffer)
 {
-    //Works even when head > tail
-    return (ringBuffer->head - ringBuffer->tail);
+    return (ringBuffer->head - ringBuffer->tail) & (ringBuffer->n_elem - 1);
 }
 
 int ring_buffer_put(RingBuffer_t *const ringBuffer, uint8_t dataIn)
@@ -77,6 +69,21 @@ int ring_buffer_put(RingBuffer_t *const ringBuffer, uint8_t dataIn)
         err = 0;
     }
 
+    return err;
+}
+
+int ring_buffer_set_head(RingBuffer_t *const ringBuffer, size_t index)
+{
+    int err = -1;
+
+    if(index > (ringBuffer->n_elem - 1))
+    {
+        return err;
+    }
+
+    ringBuffer->head = index;
+    err = 0;
+    
     return err;
 }
 

@@ -12,9 +12,9 @@ list(APPEND MESSAGES_SRCS
     "telemetry.pb.c")
 
 list(APPEND MESSAGES_HEADERS
-    "cmds.pb.c"
-    "state.pb.c"
-    "telemetry.pb.c")
+    "cmds.pb.h"
+    "state.pb.h"
+    "telemetry.pb.h")
 
 list(APPEND PB_SRCS
     "pb_common.c"
@@ -22,19 +22,19 @@ list(APPEND PB_SRCS
     "pb_encode.c")
 
 #set(MESSAGE_SOURCES ${MESSAGES})
-#list(TRANSFORM MESSAGE_SOURCES PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
-#list(TRANSFORM MESSAGE_SOURCES APPEND ".c")
+list(TRANSFORM MESSAGES_SRCS PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
+
 
 #set(MESSAGE_HEADERS ${MESSAGES})
-#list(TRANSFORM MESSAGE_HEADERS PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
-#list(TRANSFORM MESSAGE_HEADERS APPEND ".h")
+#list(TRANSFORM MESSAGES_HEADERS PREPEND "${CMAKE_CURRENT_BINARY_DIR}/")
 
 
-add_custom_command(OUTPUT ${MESSAGES_SRCS} ${MESSAGE_HEADERS}
-                   COMMAND nanopb_generator -D . -I ${MESSAGE_FOLDER} ${PROTO_FILES}
-                   DEPENDS ${PROTO_FILES})
+
+add_custom_command(OUTPUT ${MESSAGES_SRCS} ${MESSAGES_HEADERS}
+                   COMMAND nanopb_generator -D . -I ${MESSAGE_FOLDER} ${PROTO_FILES})
 
 message(WARNING "${MESSAGE_SOURCES}")
 
-add_library(protobuf STATIC ${MESSAGES_SRCS} ${MESSAGE_HEADERS} ${PB_SRCS})
+add_library(protobuf STATIC ${MESSAGES_SRCS} ${PB_SRCS})
 target_include_directories(protobuf PUBLIC .)
+target_include_directories(protobuf PUBLIC ${CMAKE_CURRENT_BINARY_DIR}/)

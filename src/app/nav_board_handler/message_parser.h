@@ -43,7 +43,7 @@ typedef struct Message {
 } Msg_t;
 
 void msg_parser_init(MsgParser_t *msgParser, char* inboxBuf, uint16_t inbox_n_elem);
-bool msg_add_byte(MsgParser_t *msgParser, uint8_t byte);
+bool msg_add_bytes(MsgParser_t *msgParser, uint8_t *bytes, size_t len);
 MsgParseResult_t parse_packet(MsgParser_t *msgParser, Msg_t * parsedMsg);
 bool compose_packet(MsgParser_t *msgParser, Msg_t *msg);
 

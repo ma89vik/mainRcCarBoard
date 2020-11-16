@@ -10,7 +10,8 @@
 typedef struct
 {
     UART_HandleTypeDef *uartHandle;
-    uint8_t inbox[8];
+    RingBuffer_t inbox;
+    uint8_t inbox_buf[256];
     uint8_t outbox[256];
     volatile bool txReady;
     uint8_t rxData;
@@ -25,6 +26,6 @@ err_def_t app_uart_write(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len, u
 /* Write without checking mutex or ready status, only for use in fault handler to print crash data */
 void app_uart_write_panic(app_uart_handle_t *dev, uint8_t *bytes, uint16_t len);
 
-err_def_t app_uart_read(app_uart_handle_t *dev, uint8_t *result);
-err_def_t app_uart_byte(app_uart_handle_t *dev, uint8_t *result);
+int app_uart_read(app_uart_handle_t *dev, uint8_t *result, size_t len);
+err_def_t app_uart_read_byte(app_uart_handle_t *dev, uint8_t *result);
 

@@ -18,7 +18,7 @@ list(APPEND BOARD_INC_FILES
 
 
 list(APPEND BOARD_SOURCE_FILES
-  ${SOURCE_DIR}/crc.c
+  #${SOURCE_DIR}/crc.c
   ${SOURCE_DIR}/dma.c
   ${SOURCE_DIR}/freertos.c
   ${SOURCE_DIR}/gpio.c

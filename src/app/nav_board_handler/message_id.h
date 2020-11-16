@@ -5,6 +5,7 @@ typedef enum MessageId
 {
     ID_ERROR,
     ID_SPEED_CMD,
+    ID_STEERING_CMD,
     ID_BASIC_TELEMETRY,
     ID_MANUAL_CMDS,
     ID_LOG,

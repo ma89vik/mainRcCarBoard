@@ -25,9 +25,11 @@ void msg_parser_init(MsgParser_t *msgParser, char* inboxBuf, uint16_t inbox_n_el
     crcInit();
 }
 
-bool msg_add_byte(MsgParser_t *msgParser, uint8_t byte)
+bool msg_add_bytes(MsgParser_t *msgParser, uint8_t *bytes, size_t len)
 {
-    ring_buffer_put(&msgParser->inbox, byte);
+    for (int i = 0; i < len; i++) {
+        ring_buffer_put(&msgParser->inbox, bytes[i]);
+    }
 }
 
 MsgParseResult_t parse_packet(MsgParser_t *msgParser, Msg_t * parsedMsg)
@@ -47,17 +49,16 @@ MsgParseResult_t parse_packet(MsgParser_t *msgParser, Msg_t * parsedMsg)
         uint8_t payloadLen = msgStream[PACKET_LEN_IDX];
         uint8_t payloadId = msgStream[PACKET_ID_IDX];
         
+
         crc payloadCrc; 
         memcpy(&payloadCrc, &msgStream[PACKET_CRC_IDX] , 2);
 
-        crc calculatedCrc = crcFast(&msgStream[PACKET_PAYLOAD_IDX],payloadLen);
-
+        crc calculatedCrc = crcFast(&msgStream[PACKET_PAYLOAD_IDX], payloadLen);
 
         if(payloadCrc != calculatedCrc)
         {
-            LOG_WARN("CRC err\n");
+            LOG_WARN("Nav board CRC error, expected %d, was %d\n", payloadCrc, calculatedCrc);            
             return CRC_ERR;
-
         }
         else
         {
