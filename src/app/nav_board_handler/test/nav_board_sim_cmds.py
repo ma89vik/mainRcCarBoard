@@ -16,12 +16,23 @@ PROTO_FILES = [str(file_path) for file_path in  list(PROTO_FILES_DIR.glob("*.pro
 # (crcmod applies xorOut to initCrc, so initCrc is in reality 0xffff, not 0)
 _CRC_FUNC = crcmod.mkCrcFun(0x11021, initCrc=0xFFFF, xorOut=0, rev=False)
 
+SPEED_MSG_ID = 1
+STEERING_MSG_ID = 2
+
 def generate_proto(protoc_path):
     print("Generate python files for: {}".format(PROTO_FILES))
-    subprocess.run([str(PROTOC_PATH), "-I={}".format(str(PROTO_FILES_DIR)), "--python_out=.", *PROTO_FILES])
+    #subprocess.run([str(PROTOC_PATH), "-I={}".format(str(PROTO_FILES_DIR)), "--python_out=.", *PROTO_FILES])
     return
 
-def create_cmd_msg(steering_setpoint):
+
+def create_steering_cmd_msg(steering_setpoint):
+    steering_cmd = car_cmd.SteeringCmd()
+    steering_cmd.steeringSetPoint = steering_setpoint
+
+    return steering_cmd
+
+
+def create_speed_cmd_msg(steering_setpoint):
     steering_cmd = car_cmd.SteeringCmd()
     steering_cmd.steeringSetPoint = steering_setpoint
 
@@ -37,18 +48,37 @@ def encode_message(protobuf_msg, msg_id):
     msg += (protobuf_bytes)
 
     print("Sending message: {} with crc = {}".format(protobuf_msg, crc_res))
-    
+
     encoded_msg = bytearray(cobs.encode(msg))
     encoded_msg.append(0x0)
 
     return encoded_msg
 
 
+class ControlBoard():
+
+    def __init__(self):
+        print("Init")
+        generate_proto(PROTOC_PATH)
+
+    def connect(self, port):
+        self.serial = serial.Serial(port, baudrate=115200)
+
+
+    def set_steering(self, steering_cmd):
+        msg = create_steering_cmd_msg(steering_cmd)
+        print(msg)
+        self.serial.write(encode_message(msg, STEERING_MSG_ID))
+
+
+    def set_speed(self, speed_cmd):
+        msg = create_speed_cmd_msg(speed_cmd)
+        print(msg)
+        self.serial.write(encode_message(msg, SPEED_MSG_ID))
+
 
 
 def main():
-    print(PROTOC_PATH)
-    generate_proto(PROTOC_PATH)
 
     with serial.Serial('COM4', baudrate=115200) as ser:
         while(1):
