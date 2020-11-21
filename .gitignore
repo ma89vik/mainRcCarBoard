@@ -10,3 +10,4 @@ src/private.pem
 *.xml
 # backup files
  *.*-bak
+ *.pyc

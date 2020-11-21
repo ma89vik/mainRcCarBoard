@@ -12,12 +12,13 @@ static int16_t const MOTOR_ESC_PULSE_MAX = 2000;
 
 
 /**
- * @brief  Initialize the car control, including servo and motor to a safe sate
+ * @brief  Initialize the car control
  * @note   
  * @retval None
  */
 void car_control_init()
 {
+
 }
 
 /**
@@ -69,5 +70,6 @@ void emergency_stop()
 
 void arm()
 {
-    pwm_init();
+    set_steering_setpoint_pct(0);
+    set_motor_setpoint_pct(0);
 }

@@ -32,8 +32,14 @@ static const fw_hdr_t  __attribute__((section(".fw_hdr"), used)) FW_HEADER = {
 #define NAV_BOARD_TASK_STACK_SIZE 8096
 #define NAV_BOARD_TASK_PRIORITY 6
 
+#define CAR_TASK_STACK_SIZE 8096
+#define CAR_TASK_PRIORITY 6
+
 static StaticTask_t nav_board_task_buf;
 static StackType_t nav_board_stack_buf[NAV_BOARD_TASK_STACK_SIZE];
+
+static StaticTask_t car_task_buf;
+static StackType_t car_stack_buf[CAR_TASK_STACK_SIZE];
 
 void app_main_task()
 {
@@ -64,14 +70,14 @@ void app_main_task()
     xyz_data_t mag_data = {};
 
     xTaskCreateStatic(nav_board_handler_task, "nav_board", NAV_BOARD_TASK_STACK_SIZE, NULL, NAV_BOARD_TASK_PRIORITY, nav_board_stack_buf, &nav_board_task_buf);
-
-    car_init();
+    xTaskCreateStatic(car_task, "car", CAR_TASK_STACK_SIZE, NULL, CAR_TASK_PRIORITY, car_stack_buf, &car_task_buf);
+    
     
     while(1)
     {
         vTaskDelay(10000 / portTICK_PERIOD_MS);
         LOG_INFO("App tick\n");
-        fxso8700_read_data(&accel_data, &mag_data);
+        //fxso8700_read_data(&accel_data, &mag_data);
 
 
     }

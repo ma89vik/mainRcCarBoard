@@ -5,7 +5,7 @@
 #include "pb_encode.h"
 #include "message_id.h"
 #include "log.h"
-//#include "car_interface.h"
+#include "car_interface.h"
 
 
 
@@ -14,6 +14,7 @@ typedef void (*MsgHandler_t)(Msg_t *msgIn);
 void nav_board_speed_cmd(Msg_t *msgIn);
 void nav_board_steering_cmd(Msg_t *msgIn);
 void nav_board_manual_cmds(Msg_t *msgIn);
+void nav_board_state_cmd(Msg_t *msgIn);
 
 static MsgHandler_t msgHandlers[ID_MAX] ; 
 
@@ -27,6 +28,7 @@ void nav_board_msg_handler_init()
     msgHandlers[ID_SPEED_CMD] = nav_board_speed_cmd;
     msgHandlers[ID_STEERING_CMD] = nav_board_steering_cmd;
     msgHandlers[ID_MANUAL_CMDS] = nav_board_manual_cmds;
+    msgHandlers[ID_STATE_CMD] = nav_board_state_cmd;
 }
 
 
@@ -61,9 +63,8 @@ void nav_board_speed_cmd(Msg_t *msgIn)
     bool status = pb_decode(&inStream, SpeedCmd_fields,&speedCmdMsg);
 
     LOG_DEBUG("From BLE board: set speed \n");
-
  
-    //car_request_speed(speedCmdMsg.speedSetPoint);
+    car_request_speed(speedCmdMsg.speedSetPoint);
 
 }
 
@@ -76,12 +77,23 @@ void nav_board_steering_cmd(Msg_t *msgIn)
     bool status = pb_decode(&inStream, SteeringCmd_fields, &steering_cmd_msg);
 
     LOG_DEBUG("From BLE board: set steering = %d \n", steering_cmd_msg.steeringSetPoint);
-
  
-    //car_request_speed(speedCmdMsg.speedSetPoint);
-
+    car_request_steering(steering_cmd_msg.steeringSetPoint);
 }
 
+void nav_board_state_cmd(Msg_t *msgIn)
+{
+    StateCmd state_cmd_msg = StateCmd_init_zero;
+
+    pb_istream_t inStream = pb_istream_from_buffer(msgIn->payload, PAYLOAD_MAX_LENGTH);
+    
+    bool status = pb_decode(&inStream, StateCmd_fields, &state_cmd_msg);
+
+    LOG_DEBUG("From BLE board: set mode = %d \n", state_cmd_msg.setCarState);
+ 
+    car_request_mode_change(state_cmd_msg.setCarState);    
+
+}
 
 void nav_board_manual_cmds(Msg_t *msgIn)
 {

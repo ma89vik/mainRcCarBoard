@@ -19,32 +19,20 @@ void car_init()
 }
 
 
-void v_car_task( void * pvParameters)
+void car_task( void * pvParameters)
 {
-    portTickType xLastExecutionTime;
-    
-
-     
-    /// Initialise xLastExecutionTime so the first call to vTaskDelayUntil() works correctly
-    xLastExecutionTime = xTaskGetTickCount();
-    
     car_init();
    
-    StateData_t stateData;
+    StateData_t stateData;  
     
-    
-   
     
 
     while(1)
     {
-        xLastExecutionTime = xTaskGetTickCount();
-        LOG_DEBUG("Car task\r\n");
-
-       
+        LOG_DEBUG("Car task\r\n");       
         stateData = pop_state_data();        
+        LOG_DEBUG("New car state data: event = %d, data = %d\n", stateData.event, stateData.data);
         run_state(&stateData);
 
-        //vTaskDelayUntil( &xLastExecutionTime, 500 );
     }
 }

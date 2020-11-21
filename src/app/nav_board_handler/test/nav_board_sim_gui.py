@@ -8,6 +8,7 @@ from PyQt5.QtWidgets import (QApplication, QCheckBox, QComboBox, QDateTimeEdit,
 
 
 import nav_board_sim_cmds
+import state_pb2 as car_state
 
 
 class ControlWidget(QDialog):
@@ -59,8 +60,8 @@ class ControlWidget(QDialog):
         self.speed_stop_button.released.connect(self.speed_stop)
 
         layout = QGridLayout()
-        layout.addWidget(self.speed_dial, 1, 1,)
-        layout.addWidget(self.speed_stop_button, 3, 1,)
+        layout.addWidget(self.speed_dial, 1, 1)
+        layout.addWidget(self.speed_stop_button, 3, 1)
 
         control_group_box.setLayout(layout)
 
@@ -79,12 +80,23 @@ class ControlWidget(QDialog):
         self.steering_stop_button.released.connect(self.steering_stop)
 
         layout = QGridLayout()
-        layout.addWidget(self.steering_dial, 1, 1,)
-        layout.addWidget(self.steering_stop_button, 3, 1,)
+        layout.addWidget(self.steering_dial, 1, 1)
+        layout.addWidget(self.steering_stop_button, 3, 1)
 
         control_group_box.setLayout(layout)
 
         self.cmd_layout.addWidget(control_group_box, 1, 2)
+
+        self.arm_button = QPushButton("Arm")
+        self.arm_button.released.connect(self.set_arm_mode)
+
+        self.manual_button = QPushButton("Manual")
+        self.manual_button.released.connect(self.set_manual_mode)
+
+        self.cmd_layout.addWidget(self.arm_button, 1, 3)
+        self.cmd_layout.addWidget(self.manual_button, 2, 3)
+
+
 
 
     def steering_changed(self):
@@ -99,6 +111,11 @@ class ControlWidget(QDialog):
     def speed_stop(self):
         control_board.set_speed(0)
 
+    def set_arm_mode(self):
+        control_board.set_mode(car_state.ARM)
+
+    def set_manual_mode(self):
+        control_board.set_mode(car_state.MANUAL)
 
     def createCarCmdWidget(self):
         self.cmdGroupBox = QGroupBox("Cmd group")
@@ -115,7 +132,7 @@ if __name__ == '__main__':
     import sys
 
     control_board = nav_board_sim_cmds.ControlBoard()
-    control_board.connect("/dev/ttyUSB3")
+    control_board.connect("COM4")
 
     app = QApplication(sys.argv)
     gallery = ControlWidget(control_board)

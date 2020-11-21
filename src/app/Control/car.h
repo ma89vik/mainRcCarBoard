@@ -5,7 +5,7 @@
 
 #include <stdint.h>
 
-void v_car_task( void * pvParameters);
+void car_task( void * pvParameters);
 
 /**
  * @brief  Initialize the car control, including servo and motor to a safe sate
